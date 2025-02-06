@@ -1,10 +1,12 @@
+import Footer from "./components/Footer/Footer";
+
 function App() {
 
   return (
-    <div className="bg-dark-primary">
-      bonjour tailwind
+    <div>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
