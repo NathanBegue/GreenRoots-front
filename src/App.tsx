@@ -1,10 +1,11 @@
-function App() {
+import Header from "./component/Header/Header"
 
+function App() {
   return (
-    <div className="bg-dark-primary">
-      bonjour tailwind
+    <div className="w-full max-w-screen overflow-hidden">
+      <Header />
     </div>
   )
 }
 
-export default App
+export default App;
