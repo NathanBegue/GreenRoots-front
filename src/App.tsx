@@ -1,11 +1,8 @@
-import Footer from "./components/Layout /Footer";
+import Index from "./component/pages/Index";
 
 function App() {
-
   return (
-    <div>
-      <Footer />
-    </div>
+    <Index />
   );
 }
 
