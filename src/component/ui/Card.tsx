@@ -4,11 +4,13 @@ export default function Card() {
             <div>
                 <img className="object-cover rounded-t-lg" src="/images/arbres/chene_pedoncule.webp" alt="" />
             </div>
-            <div className="flex">
+            <div className="flex gap-4">
                 <p className="text-xl font-bold p-4 font-title">
                     Chène pédonculé
                 </p>
-                <img src="images/icons/shop-card.svg" alt="Logo panier" className="w-8 bg-cta" />
+                <div className="flex flex-row items-center bg-cta p-2 rounded-lg">
+                    <img src="images/icons/shop-card.svg" alt="Logo panier" className="w-6 h-6 invert" />
+                </div>
             </div>
         </article>
     )
