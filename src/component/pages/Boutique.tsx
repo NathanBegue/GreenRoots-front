@@ -1,13 +1,13 @@
 import Header from "../layout/Header";
 import Card from "../ui/Card";
 import Footer from "../layout/Footer";
-// import BurgerMenu from "../layout/Burger-menu";
+import BurgerMenu from "../layout/Burger-menu";
 
 export default function Boutique() {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             <Header />
-            {/* <BurgerMenu /> */}
+            <BurgerMenu />
             <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">
 
                 <section className="flex flex-col gap-6">
