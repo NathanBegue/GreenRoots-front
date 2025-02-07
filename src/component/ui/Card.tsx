@@ -8,7 +8,7 @@ export default function Card() {
                 <p className="text-xl font-bold p-4 font-title">
                     Chène pédonculé
                 </p>
-                <img src="images/icons/shop-card.svg" alt="" className="w-8 " />
+                <img src="images/icons/shop-card.svg" alt="Logo panier" className="w-8 bg-cta" />
             </div>
         </article>
     )
