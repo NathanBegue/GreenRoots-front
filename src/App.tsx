@@ -1,10 +1,8 @@
-import Header from "./component/Header/Header"
+import Index from "./component/pages/Index";
 
 function App() {
   return (
-    <div className="w-full max-w-screen overflow-hidden">
-      <Header />
-    </div>
+    <Index />
   )
 }
 
