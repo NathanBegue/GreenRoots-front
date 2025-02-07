@@ -1,6 +1,6 @@
 export default function Header() {
     return (
-        <header className="bg-dark-secondary w-full h-16 px-6 flex items-center overflow-hidden fixed">
+        <header className="bg-dark-secondary w-full h-16 px-6 flex items-center overflow-hidden fixed z-30">
 
             <div className="flex items-center gap-4 flex-nowrap justify-between w-full">
                 <img className="h-8" src="/images/icons/logo-.svg" alt="Logo" />
