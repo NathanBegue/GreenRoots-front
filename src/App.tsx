@@ -1,9 +1,10 @@
-import Boutique from "./component/pages/Boutique";
+
+import Page404 from "./component/pages/Page404";
 
 
 function App() {
   return (
-    <Boutique />
+    <Page404 />
   );
 }
 
