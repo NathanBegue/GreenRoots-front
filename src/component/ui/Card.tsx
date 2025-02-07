@@ -4,9 +4,12 @@ export default function Card() {
             <div>
                 <img className="object-cover rounded-t-lg" src="/images/arbres/chene_pedoncule.webp" alt="" />
             </div>
-            <p className="text-xl font-bold p-4 font-title">
-                Chène pédonculé
-            </p>
+            <div className="flex">
+                <p className="text-xl font-bold p-4 font-title">
+                    Chène pédonculé
+                </p>
+                <img src="images/icons/shop-card.svg" alt="Logo panier" className="w-8 bg-cta" />
+            </div>
         </article>
     )
 }
