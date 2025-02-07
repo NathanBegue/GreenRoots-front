@@ -1,8 +1,9 @@
-import Index from "./component/pages/Index";
+import Boutique from "./component/pages/Boutique";
+
 
 function App() {
   return (
-    <Index />
+    <Boutique />
   );
 }
 
