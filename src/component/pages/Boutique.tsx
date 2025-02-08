@@ -3,6 +3,9 @@ import Card from "../ui/Card";
 
 
 export default function Boutique() {
+
+    // const { isOpenedEditModal, setIsOpenedEditModal } = useState<boolean>(false);
+
     return (
         <div className="w-full max-w-screen overflow-hidden">
             <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">

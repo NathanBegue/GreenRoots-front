@@ -1,4 +1,4 @@
-export default function Card({ isAdmin = true }) {
+export default function Card({ isAdmin = true },) {
     return (
         <article className="bg-dark-secondary text-white flex flex-col items-center rounded-lg border shadow-black shadow-lg">
             {/* Image du produit */}
