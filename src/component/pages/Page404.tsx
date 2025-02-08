@@ -1,4 +1,3 @@
-import Footer from "../layout/Footer";
 import bgImage from "../../assets/images/404.jpg";
 import { Link } from "react-router";
 
@@ -20,7 +19,6 @@ export default function Page404() {
                 </div>
 
             </main >
-            <Footer />
         </div >
     )
 }
