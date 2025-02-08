@@ -1,5 +1,5 @@
 import Card from "../ui/Card";
-import Footer from "../layout/Footer";
+
 
 
 export default function Boutique() {
@@ -31,7 +31,6 @@ export default function Boutique() {
                     </div>
                 </section>
             </main>
-            <Footer />
         </div>
     )
 }

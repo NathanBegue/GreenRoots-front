@@ -1,5 +1,4 @@
 import Card from "../ui/Card";
-import Footer from "../layout/Footer";
 // import ConnexionModal from "../ui/Connexion-modal";
 
 export default function Index() {
@@ -34,7 +33,6 @@ export default function Index() {
                     </div>
                 </section>
             </main>
-            <Footer />
         </div>
     )
 }
