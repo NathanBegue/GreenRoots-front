@@ -2,19 +2,43 @@ import { Link } from "react-router";
 
 export default function Panier() {
     return (
-        <div className="bg-dark-primary text-white px-6 py-10 w-full h-dvh flex flex-col gap-6">
+        <div className="bg-dark-primary text-white px-6 py-10 w-full min-h-screen flex flex-col gap-6 pt-20">
             <h1 className="text-center">Votre panier</h1>
 
-            {/* block article */}
-            <div>
+            {/* Block article */}
+            <div className="bg-dark-accent p-4 flex flex-col items-center gap-4 shadow-xl w-full border">
+                {/* Bouton de suppression */}
+                <img className="w-6 h-6 invert cursor-pointer" src="/images/icons/trash.svg" alt="Supprimer un article" />
 
+                {/* Image de l'article */}
+                <img className="size-16 object-cover" src="/images/arbres/chene_pedoncule.webp" alt="Chêne pédonculé" />
+
+                {/* Nom et prix */}
+                <div className="text-center flex flex-col">
+                    <p className="text-sm font-bold">Chêne pédonculé</p>
+                    <p className="text-lg font-semibold">110 €</p>
+                </div>
+
+                {/* Sélecteur de quantité */}
+                <div className="flex flex-row items-center gap-2">
+                    <button className="size-6 flex items-center justify-center bg-dark-secondary border rounded">
+                        <img className="size-6 invert" src="/images/icons/chevron-up.svg" alt="Augmenter" />
+                    </button>
+                    <p className="w-6 text-center">2</p>
+                    <button className="size-6 flex items-center justify-center bg-dark-secondary border rounded">
+                        <img className="size-6 invert" src="/images/icons/chevron-down.svg" alt="Diminuer" />
+                    </button>
+                </div>
+
+                {/* Prix total */}
+                <p className="text-lg font-semibold">220 €</p>
             </div>
 
-            {/* block tota (facture) */}
-            <div className="bg-dark-accent p-6  mt-6 flex flex-col gap-6 shadow-lg">
+            {/* Block total (facture) */}
+            <div className="bg-dark-accent p-6 flex flex-col gap-6 shadow-xl w-full border">
                 <div className="flex justify-between">
                     <h2>Total</h2>
-                    <p>105.92</p>
+                    <p>105.92 €</p>
                 </div>
                 <form action="">
                     <div className="flex items-center gap-2">
@@ -27,6 +51,8 @@ export default function Panier() {
                     </div>
                 </form>
             </div>
+
+            <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg">Retour à la boutique</Link>
         </div>
     );
 }
