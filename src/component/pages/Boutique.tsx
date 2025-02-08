@@ -11,16 +11,18 @@ export default function Boutique() {
                     <h2 className="text-2xl font-bold font-title text-left ">
                         Nos arbres
                     </h2>
-                    <div className="flex justify-end">
-                        <select name="categories" id="categ-id" className="bg-cta font-title text-right box-border max-w-42 rounded-md">
-                            <option className="text-left" value="">catégories</option>
-                            <option className="text-left" value="dog">Arbres fruitiers</option>
-                            <option className="text-left" value="cat">Arbres d’ornement</option>
-                            <option className="text-left" value="hamster">Arbres forestiers
-                            </option>
-                            <option className="text-left" value="parrot">Conifères</option>
-                            <option className="text-left" value="spider">Arbres à croissance rapide</option>
-                            <option className="text-left" value="goldfish">Arbres médicinaux</option>
+                    <div className="flex justify-center">
+                        <select
+                            name="categories"
+                            id="categ-id"
+                            className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition">
+                            <option className="bg-dark-primary text-white text-lg p-2" value="">Catégories</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="fruitiers">Arbres fruitiers</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="ornement">Arbres d’ornement</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="forestiers">Arbres forestiers</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="coniferes">Conifères</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="croissance-rapide">Arbres à croissance rapide</option>
+                            <option className="bg-dark-primary text-white text-lg p-2" value="medicinaux">Arbres médicinaux</option>
                         </select>
                     </div>
 
