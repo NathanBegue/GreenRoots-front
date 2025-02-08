@@ -8,18 +8,26 @@ import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Connexion from "./component/pages/Connexion";
 import Inscription from "./component/pages/Insciption";
 import Footer from "./component/layout/Footer";
+import ConnexionModal from "./component/ui/Connexion-modal";
+
 
 function App() {
+  // State du burger-menu
   const [isOpened, setIsOpened] = useState<boolean>(false);
+  // State de la modale de connexion
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
   return (
     <Router>
       <>
-        {/* j'ai mis le header ici car il est générique */}
-        <Header setIsOpened={setIsOpened} />
+        {/* Header générique */}
+        <Header setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} />
 
-        {/* Si isOpened est vrai alors on affiche le BurgerMenu */}
+        {/* Affichage du BurgerMenu */}
         {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} />}
+
+        {/* Affichage de la modale de connexion */}
+        {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} />}
 
         <Routes>
           <Route path="/" element={<Index />} />
@@ -28,6 +36,8 @@ function App() {
           <Route path="/inscription" element={<Inscription />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
+
+        {/* Footer générique */}
         <Footer />
       </>
     </Router>
