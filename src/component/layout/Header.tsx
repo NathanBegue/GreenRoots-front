@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 
-export default function Header() {
+
+export default function Header({ setIsOpened }: { setIsOpened: React.Dispatch<React.SetStateAction<boolean>> }) {
+
     return (
         <header className="bg-dark-secondary w-full h-16 px-6 flex items-center overflow-hidden fixed z-30">
 
@@ -9,8 +11,11 @@ export default function Header() {
                 <img className="w-6 h-6 invert" src="/images/icons/moon.svg" alt="Mode sombre" />
                 <Link to="/panier"><img className="w-6 h-6 invert" src="/images/icons/shop-card.svg" alt="Panier" /> </Link>
                 <img className="w-6 h-6 invert" src="/images/icons/user.svg" alt="Profil" />
-                <img className="w-6 h-6 invert" src="/images/icons/burger-menu.svg" alt="Menu" />
+
+                {/* BurgerMenu au click on met l'inverse de isopened*/}
+                <img onClick={() => setIsOpened(prev => !prev)} className="w-6 h-6 invert" src="/images/icons/burger-menu.svg" alt="Menu" />
             </div>
+            {/* Si isOpened est vrai alors on affiche le BurgerMenu */}
         </header>
     )
 }

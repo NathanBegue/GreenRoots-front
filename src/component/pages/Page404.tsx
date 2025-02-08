@@ -1,4 +1,3 @@
-import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 import bgImage from "../../assets/images/404.jpg";
 import { Link } from "react-router";
@@ -8,7 +7,6 @@ import { Link } from "react-router";
 export default function Page404() {
     return (
         <div className="w-full max-w-screen overflow-hidden">
-            <Header />
             <main className="text-white flex flex-col gap-6 text-center ">
                 <div className="w-screen h-screen bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>*
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center flex-col gap-4 p-4">
