@@ -6,7 +6,7 @@ import BurgerMenu from "./component/layout/Burger-menu";
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Connexion from "./component/pages/Connexion";
-import Inscription from "./component/pages/Insciption";
+import Inscription from "./component/pages/Inscription";
 import Footer from "./component/layout/Footer";
 import ConnexionModal from "./component/ui/Connexion-modal";
 import Panier from "./component/pages/Panier";
