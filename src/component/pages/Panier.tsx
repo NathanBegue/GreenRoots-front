@@ -11,7 +11,7 @@ export default function Panier() {
                 <img className="w-6 h-6 invert cursor-pointer" src="/images/icons/trash.svg" alt="Supprimer un article" />
 
                 {/* Image de l'article */}
-                <img className="size-16 object-cover" src="/images/arbres/chene_pedoncule.webp" alt="Chêne pédonculé" />
+                <img className="size-16 object-cover" src="/images/arbres/ChenePedoncule.webp" alt="Chêne pédonculé" />
 
                 {/* Nom et prix */}
                 <div className="text-center flex flex-col">
