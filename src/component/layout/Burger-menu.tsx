@@ -11,7 +11,8 @@ export default function BurgerMenu({ isOpened, setIsOpened }: { isOpened: boolea
                 />
             )}
 
-            <nav className="bg-dark-accent text-white w-50 h-dvh z-10 absolute  right-0 flex flex-col justify-between items-center gap-6 pb-6 pt-16">
+            <nav className="bg-dark-accent text-white w-50 h-dvh z-20 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-16">
+
 
                 {/* Passage du state a false pour fermé le burger menu une fois cliqué */}
 
