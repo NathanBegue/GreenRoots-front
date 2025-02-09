@@ -6,7 +6,7 @@ export default function Connexion() {
 
             <h1 className="text-2xl font-bold text-center mb-20">Rebonjour</h1>
 
-            <form action="" className="flex flex-col gap-6 pt-20">
+            <form action="" className="flex flex-col gap-6 mt-20">
                 {/* Email */}
                 <div className="flex flex-col">
                     <label htmlFor="mail" className="font-semibold mb-1">Adresse e-mail</label>

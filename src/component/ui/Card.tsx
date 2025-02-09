@@ -14,10 +14,15 @@ export default function Card({ isAdmin = true, setIsOpenedEditModal, setIsOpened
 
                 {isAdmin ? (
                     <div className="flex gap-2">
-                        <button onClick={() => setIsOpenedEditModal(true)} className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
+                        <button onClick={() => setIsOpenedEditModal(true)}
+                            className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
+
                             <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                         </button>
-                        <button onClick={() => setIsOpenedDeleteModal(true)} className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
+
+                        <button onClick={() => setIsOpenedDeleteModal(true)}
+                            className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
+
                             <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert" />
                         </button>
                     </div>

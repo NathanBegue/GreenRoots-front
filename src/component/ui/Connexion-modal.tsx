@@ -13,16 +13,18 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: { is
 
             {/* Modale centrée avec `e.stopPropagation()` pour empêcher la fermeture au clic */}
             <div
-                className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary bg-opacity-90 w-64 h-auto p-6 rounded-lg text-center shadow-lg text-white flex flex-col justify-between items-center gap-4 z-20"
+                className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary bg-opacity-90 w-64 h-auto p-6 rounded-lg text-center shadow-lg text-white flex flex-col justify-between items-center gap-4 z-30"
                 onClick={(e) => e.stopPropagation()} // Empêche l'overlay de capter le clic
             >
+
                 {/* Logo de fermeture X */}
                 <img
                     onClick={() => setIsModalOpened(false)}
-                    className="w-8 h-8 invert absolute right-4 cursor-pointer"
+                    className="w-8 h-8 invert absolute top-4 right-4 cursor-pointer"
                     src="/images/icons/close.svg"
                     alt="Fermer"
                 />
+
 
                 <div className="flex flex-col gap-2 min-w-34">
                     <p className="font-content">Déjà un compte ?</p>
