@@ -1,4 +1,4 @@
-export default function Card({ isAdmin = true, setIsOpenedEditModal }: { isAdmin: boolean, setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function Card({ isAdmin = true, setIsOpenedEditModal, setIsOpenedDeleteModal }: { isAdmin: boolean, setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>>, setIsOpenedDeleteModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     return (
         <article className="bg-dark-secondary text-white flex flex-col items-center rounded-lg border shadow-black shadow-lg">
             {/* Image du produit */}
@@ -17,7 +17,7 @@ export default function Card({ isAdmin = true, setIsOpenedEditModal }: { isAdmin
                         <button onClick={() => setIsOpenedEditModal(true)} className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
                             <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                         </button>
-                        <button className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
+                        <button onClick={() => setIsOpenedDeleteModal(true)} className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
                             <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert" />
                         </button>
                     </div>

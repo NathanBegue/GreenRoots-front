@@ -1,18 +1,25 @@
 import { useState } from "react";
 import Card from "../ui/Card";
 import EditModal from "../ui/Edit-modal";
+import DeleteModal from "../ui/Delete-modal";
 
 
 
 export default function Boutique() {
 
+    // state de la modale d'edition
     const [isOpenedEditModal, setIsOpenedEditModal] = useState<boolean>(false);
+
+    // state de la modale de suppression
+    const [isOpenedDeleteModal, setIsOpenedDeleteModal] = useState<boolean>(false);
 
 
 
     return (
         <>
             {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal} />}
+
+            {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} />}
 
             <div className="w-full max-w-screen overflow-hidden">
                 <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">
@@ -37,9 +44,12 @@ export default function Boutique() {
                         </div>
 
                         <div className="flex flex-col gap-6">
-                            <Card setIsOpenedEditModal={setIsOpenedEditModal} />
-                            <Card setIsOpenedEditModal={setIsOpenedEditModal} />
-                            <Card setIsOpenedEditModal={setIsOpenedEditModal} />
+                            <Card setIsOpenedEditModal={setIsOpenedEditModal}
+                                setIsOpenedDeleteModal={setIsOpenedDeleteModal} />
+                            <Card setIsOpenedEditModal={setIsOpenedEditModal}
+                                setIsOpenedDeleteModal={setIsOpenedDeleteModal} />
+                            <Card setIsOpenedEditModal={setIsOpenedEditModal}
+                                setIsOpenedDeleteModal={setIsOpenedDeleteModal} />
                         </div>
                     </section>
                 </main>
