@@ -1,4 +1,4 @@
-export default function Card({ isAdmin = true },) {
+export default function Card({ isAdmin = true, setIsOpenedEditModal }: { isAdmin: boolean, setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>> }) {
     return (
         <article className="bg-dark-secondary text-white flex flex-col items-center rounded-lg border shadow-black shadow-lg">
             {/* Image du produit */}
@@ -14,7 +14,7 @@ export default function Card({ isAdmin = true },) {
 
                 {isAdmin ? (
                     <div className="flex gap-2">
-                        <button className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
+                        <button onClick={() => setIsOpenedEditModal(true)} className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
                             <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                         </button>
                         <button className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
