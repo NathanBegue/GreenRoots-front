@@ -3,7 +3,7 @@ export default function Card({ isAdmin = true, setIsOpenedEditModal, setIsOpened
         <article className="bg-dark-secondary text-white flex flex-col items-center rounded-lg border shadow-black shadow-lg">
             {/* Image du produit */}
             <div>
-                <img className="object-cover rounded-t-lg" src="/images/arbres/chene_pedoncule.webp" alt="Chêne pédonculé" />
+                <img className="object-cover rounded-t-lg" src="/images/arbres/ChenePedoncule.webp" alt="Chêne pédonculé" />
             </div>
 
             {/* Contenu de la carte */}
