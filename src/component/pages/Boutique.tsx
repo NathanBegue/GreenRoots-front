@@ -21,7 +21,7 @@ export default function Boutique() {
 
             {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} />}
 
-            <div className="w-full max-w-screen overflow-hidden">
+            <div className="w-full max-w-screen overflow-hidden ">
                 <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">
 
                     <section className="flex flex-col gap-6">
