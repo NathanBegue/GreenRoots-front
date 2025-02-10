@@ -16,7 +16,7 @@ export default function Index() {
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
                     </h1>
                     <div className="w-screen h-screen bg-cover bg-center pt-30" style={{ backgroundImage: `url(${bgAccueil})` }}>
-                        <div className="flex flex-col gap-6 inset-0 bg-black/50  items-center justify-center ">
+                        <div className="flex flex-col gap-6 inset-0 bg-black/60  items-center justify-center ">
                             <h2 className="text-xl font-bold font-title">
                                 La déforestation, un enjeu majeur pour la planète
                             </h2>
