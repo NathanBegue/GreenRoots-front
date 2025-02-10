@@ -7,10 +7,19 @@ export default function UserSpace() {
             <div>
                 <h1 className="text-2xl font-bold text-center mb-6">Espace personnel</h1>
 
-                <p className="text-lg font-semibold mb-4">Mes informations</p>
+                <div className=" flex flex-row justify-between items-center">
+                    <p className="text-lg font-semibold">Mes informations</p>
+
+                    {/* Bouton de suppression du compte (plus discret) */}
+                    <button
+                        className="bg-dark-accent text-red-400 text-sm flex items-center gap-2 rounded-lg border p-2"
+                    >
+                        Supprimer mon compte
+                    </button>
+                </div>
 
                 {/* Formulaire utilisateur */}
-                <form action="" className="flex flex-col gap-4">
+                <form action="" className="flex flex-col gap-4 mt-6">
                     {/* Prénom */}
                     <div className="flex flex-col">
                         <label htmlFor="firstname" className="font-semibold mb-1">Prénom</label>
