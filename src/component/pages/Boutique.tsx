@@ -25,14 +25,14 @@ export default function Boutique() {
                 <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">
 
                     <section className="flex flex-col gap-6">
-                        <h2 className="text-2xl font-bold font-title text-left ">
+                        <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
                             Nos arbres
                         </h2>
                         <div className="flex justify-center">
                             <select
                                 name="categories"
                                 id="categ-id"
-                                className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition">
+                                className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition md:py-6 md:px-4 md:text-2xl">
                                 <option className="bg-dark-primary text-white text-lg p-2" value="">Catégories</option>
                                 <option className="bg-dark-primary text-white text-lg p-2" value="fruitiers">Arbres fruitiers</option>
                                 <option className="bg-dark-primary text-white text-lg p-2" value="ornement">Arbres d’ornement</option>
