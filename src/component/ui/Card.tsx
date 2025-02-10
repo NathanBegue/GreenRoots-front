@@ -22,6 +22,7 @@ export default function Card({
             {/* Contenu de la carte */}
             <div className={`flex ${isSmall ? "items-center gap-2" : "gap-4"} justify-between items-center w-full p-4`}>
                 <p className={`font-title ${isSmall ? "text-sm" : "text-xl font-bold"}`}>Chêne pédonculé</p>
+                <p className="font-semibold text-cta">Prix: 25€</p>
 
                 {/* Supprime tous les boutons si isSmall est activé */}
                 {!isSmall &&
