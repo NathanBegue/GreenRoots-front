@@ -12,6 +12,7 @@ import ConnexionModal from "./component/ui/Connexion-modal";
 import Panier from "./component/pages/Panier";
 import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
+import Cgu from "./component/pages/Cgu";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/compte" element={<UserSpace />} />
+          <Route path="/cgu" element={<Cgu />} />
           <Route path="/interdit" element={<Page403 />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

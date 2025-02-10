@@ -22,7 +22,7 @@ export default function BurgerMenu({ isOpened, setIsOpened }: { isOpened: boolea
                     <Link to="/historique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Historique</li></Link>
                 </ul>
                 <div className="flex flex-col gap-6">
-                    <p className="text-center font-title font-bold"><a href="">CGU</a></p>
+                    <Link to="/cgu" onClick={() => setIsOpened(false)}><p className="text-center font-title font-bold">CGU</p> </Link>
                     <ul className="flex flex-row gap-6">
                         <li><a><img className="w-6 h-6 invert" src="/images/icons/facebook.svg" alt="" /></a></li>
                         <li><a><img className="w-6 h-6 invert" src="/images/icons/instagram.svg" alt="" /></a></li>
