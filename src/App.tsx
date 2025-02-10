@@ -10,6 +10,7 @@ import Inscription from "./component/pages/Inscription";
 import Footer from "./component/layout/Footer";
 import ConnexionModal from "./component/ui/Connexion-modal";
 import Panier from "./component/pages/Panier";
+import UserSpace from "./component/pages/User-space";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
+          <Route path="/compte" element={<UserSpace />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
 

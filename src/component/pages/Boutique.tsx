@@ -45,17 +45,17 @@ export default function Boutique() {
 
                         <div className="flex flex-col gap-6">
                             <Card
-                                isAdmin={true}
+                                isAdmin={false}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />
                             <Card
-                                isAdmin={true}
+                                isAdmin={false}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />
                             <Card
-                                isAdmin={true}
+                                isAdmin={false}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />
