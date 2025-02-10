@@ -34,7 +34,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/boutique" element={<> <Boutique /> <SuivisArbre /></>} />
+          <Route path="/boutique" element={<> <Boutique /> <SuivisArbre /> </>} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
