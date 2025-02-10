@@ -1,12 +1,11 @@
 import bgImage from "../../assets/images/404.webp";
 import { Link } from "react-router";
 
-
-
 export default function Page404() {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             <main className="text-white flex flex-col gap-6 text-center ">
+
                 <div className="w-screen h-screen bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>*
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center flex-col gap-4 p-4">
 
@@ -14,8 +13,7 @@ export default function Page404() {
                         <p className="text-white text-4xl font-bold font-content"> Oups, vous vous êtes perdu(e) </p>
                     </div>
                     <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-dark-secondary p-4 text-center rounded-lg">
-                        <Link to="/" className="font-title">Retour à l'accueil</Link>
-                    </div>
+                        <Link to="/" className="font-title">Retour à l'accueil</Link>                    </div>
                 </div>
 
             </main >

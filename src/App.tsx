@@ -19,6 +19,7 @@ function App() {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
   return (
+
     <Router>
       <>
         {/* Header générique */}
@@ -43,6 +44,7 @@ function App() {
         <Footer />
       </>
     </Router>
+
   );
 }
 
