@@ -12,6 +12,7 @@ import ConnexionModal from "./component/ui/Connexion-modal";
 import Panier from "./component/pages/Panier";
 import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
+import SuivisArbre from "./component/layout/SuivisArbre";
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/boutique" element={<Boutique />} />
+          <Route path="/boutique" element={<> <Boutique /> <SuivisArbre /> </>} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
