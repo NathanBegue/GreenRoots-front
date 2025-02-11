@@ -12,7 +12,7 @@ export default function Card({
     return (
         <article
             className={`bg-dark-secondary text-white flex ${isSmall ? "flex-row items-center p-2 gap-2 w-full max-w-sm" : "flex-col"} 
-            rounded-lg border shadow-black shadow-lg`}
+            rounded-lg border shadow-black shadow-lg md:max-w-4xl`}
         >
             {/* Image du produit */}
             <div>
