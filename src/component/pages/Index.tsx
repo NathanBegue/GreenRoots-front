@@ -7,9 +7,11 @@ export default function Index() {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             {/* <ConnexionModal /> */}
+
             <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center ">
                 <section className="flex flex-col gap-6 ">
                     <h1 className="text-2xl font-bold font-title pt-20 lg:text-3xl">
+
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
                     </h1>
                     <div className="w-screen h-screen bg-cover bg-center pt-30" style={{ backgroundImage: `url(${bgAccueil})` }}>

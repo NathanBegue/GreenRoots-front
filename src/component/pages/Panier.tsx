@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Panier() {
     return (
-        <div className="bg-dark-primary text-white px-6 py-10 w-full min-h-screen flex flex-col gap-6 pt-20">
+        <div className="bg-dark-primary text-white px-6 py-10 w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-32">
             <h1 className="text-center">Votre panier</h1>
 
             {/* Block article */}
