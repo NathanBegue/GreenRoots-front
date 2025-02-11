@@ -4,8 +4,6 @@ import Card from "../ui/Card";
 import fetchmethod from "../../fetch/method-fetch";
 import { Itrees } from "../../../type/type";
 
-// import ConnexionModal from "../ui/Connexion-modal";
-
 export default function Index() {
 
     const [newarticle, setnewarticle] = useState<Itrees[]>([]);
@@ -16,7 +14,6 @@ export default function Index() {
 
     return (
         <div className="w-full max-w-screen overflow-hidden">
-            {/* <ConnexionModal /> */}
 
             <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center ">
                 <section className="flex flex-col gap-6 ">
