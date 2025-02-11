@@ -22,8 +22,8 @@ export default function Card({
             <div>
                 <img
                     className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
-                    src={article.picture?.url ? `/images/arbres/${article.picture.url}.webp` : "/images/default.jpg"}
-                    alt={article.picture?.description || "Image par défaut"}
+                    src={article.Picture ? `/images/arbres/${article.Picture.url}.webp` : "/images/default.jpg"}
+                    alt={article.name}
                 />
 
             </div>
