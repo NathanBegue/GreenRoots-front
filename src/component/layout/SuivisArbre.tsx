@@ -3,7 +3,7 @@ import Map from "../ui/Map";
 
 export default function SuivisArbre() {
     return (
-        <div className="bg-dark-primary flex-col h-full pb-2 lg:pt-20">
+        <div className="bg-dark-primary flex-col h-full pb-2 lg:pt-20 w-fit md:flex-row">
 
             <h2 className="font-title font-bold text-2xl text-center mb-6 text-white ">Suivi d'arbre</h2>
             <div className="bg-dark-secondary w-auto h-full flex flex-col border-2 border-zinc-200 p-2 shadow-xl mr-4 ml-4 text-white justify-center rounded-lg border shadow-black shadow-lg">

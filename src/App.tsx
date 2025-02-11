@@ -3,7 +3,7 @@ import Page404 from "./component/pages/Page404";
 import Boutique from "./component/pages/Boutique";
 import Header from "./component/layout/Header";
 import BurgerMenu from "./component/layout/Burger-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Connexion from "./component/pages/Connexion";
 import Inscription from "./component/pages/Inscription";
@@ -12,9 +12,10 @@ import ConnexionModal from "./component/ui/Connexion-modal";
 import Panier from "./component/pages/Panier";
 import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
-import SuivisArbre from "./component/layout/SuivisArbre";
 import Cgu from "./component/pages/Cgu";
 import SuivisArbresUser from "./component/pages/SuivisArbreUser";
+import fetchmethod from "./fetch/method-fetch";
+import { Itrees } from "../type/type";
 
 
 function App() {
@@ -22,6 +23,13 @@ function App() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   // State de la modale de connexion
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
+  // State de stockage des articles
+  // const [articles, setArticles] = useState<Itrees[]>([]);
+
+  // useEffect(() => {
+  //   fetchmethod.getArticles().then((data) => setArticles(data));
+  // }, []);
 
   return (
 
@@ -38,7 +46,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/boutique" element={<> <Boutique /> <SuivisArbre /> </>} />
+          <Route path="/boutique" element={<Boutique />} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />

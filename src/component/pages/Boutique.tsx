@@ -1,34 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../ui/Card";
 import EditModal from "../ui/Edit-modal";
 import DeleteModal from "../ui/Delete-modal";
+import fetchmethod from "../../fetch/method-fetch";
+import SuivisArbre from "../layout/SuivisArbre";
+import { Itrees } from "../../../type/type";
 
 
 
 export default function Boutique() {
-
-    // state de la modale d'edition
+    // State des modales
     const [isOpenedEditModal, setIsOpenedEditModal] = useState<boolean>(false);
-
-    // state de la modale de suppression
     const [isOpenedDeleteModal, setIsOpenedDeleteModal] = useState<boolean>(false);
 
+    const [articles, setArticles] = useState<Itrees[]>([]);
+
+    useEffect(() => {
+        fetchmethod.getArticles().then((data) => setArticles(data));
+    }, []);
 
 
     return (
         <>
             {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal} />}
-
             {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} />}
 
             <div className="w-full max-w-screen overflow-hidden ">
                 <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32">
-
                     <section className="flex flex-col gap-6">
                         <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
                             Nos arbres
                         </h2>
-                        <div className="flex justify-center">
+
+                        {/* Sélecteur de catégories */}
+                        <div className="flex flex-col gap-6 items-center md:flex-row md:justify-between md:gap-6">
                             <select
                                 name="categories"
                                 id="categ-id"
@@ -41,28 +46,38 @@ export default function Boutique() {
                                 <option className="bg-dark-primary text-white text-lg p-2" value="croissance-rapide">Arbres à croissance rapide</option>
                                 <option className="bg-dark-primary text-white text-lg p-2" value="medicinaux">Arbres médicinaux</option>
                             </select>
+                            <button type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-6 md:px-4">
+                                Ajouter un arbre +
+                            </button>
                         </div>
 
-                        <div className="flex flex-col gap-6">
-                            <Card
-                                isAdmin={true}
-                                setIsOpenedEditModal={setIsOpenedEditModal}
-                                setIsOpenedDeleteModal={setIsOpenedDeleteModal}
-                            />
-                            <Card
-                                isAdmin={true}
-                                setIsOpenedEditModal={setIsOpenedEditModal}
-                                setIsOpenedDeleteModal={setIsOpenedDeleteModal}
-                            />
-                            <Card
-                                isAdmin={true}
-                                setIsOpenedEditModal={setIsOpenedEditModal}
-                                setIsOpenedDeleteModal={setIsOpenedDeleteModal}
-                            />
+
+                        {/* Affichage des articles */}
+                        <div className="flex flex-col gap-6 items-center md:grid md:grid-cols-3 md:gap-6">
+                            {articles.length > 0 ? (
+                                articles.map((article) => (
+                                    <Card
+                                        key={article.id}
+                                        article={article}
+                                        isAdmin={true}
+                                        setIsOpenedEditModal={setIsOpenedEditModal}
+                                        setIsOpenedDeleteModal={setIsOpenedDeleteModal}
+                                    />
+                                ))
+                            ) : (
+                                <p>Aucun article disponible.</p>
+                            )}
                         </div>
                     </section>
+                    <div>
+                        <SuivisArbre />
+                        <SuivisArbre />
+                        <SuivisArbre />
+                    </div>
+
+
                 </main>
             </div>
         </>
-    )
+    );
 }

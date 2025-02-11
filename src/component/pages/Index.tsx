@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
 import bgAccueil from "../../assets/images/bgAccueil.jpg"
 import Card from "../ui/Card";
+import fetchmethod from "../../fetch/method-fetch";
+import { Itrees } from "../../../type/type";
 
 // import ConnexionModal from "../ui/Connexion-modal";
 
 export default function Index() {
+
+    const [newarticle, setnewarticle] = useState<Itrees[]>([]);
+
+    useEffect(() => {
+        fetchmethod.getNewArticle().then((data) => setnewarticle(data));
+    }, []);
+
     return (
         <div className="w-full max-w-screen overflow-hidden">
             {/* <ConnexionModal /> */}
@@ -32,10 +42,18 @@ export default function Index() {
                     <h2 className="text-2xl font-bold font-title">
                         Nos meilleurs arbres
                     </h2>
-                    <div className="flex flex-col gap-6 xl:flex-row">
-                        <Card />
-                        <Card />
-                        <Card />
+                    <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-6">
+                        {newarticle.length > 0 ? (
+                            newarticle.slice(0, 3).map((article) => (
+                                <Card
+                                    key={article.id}
+                                    article={article}
+                                    isAdmin={false}
+                                />
+                            ))
+                        ) : (
+                            <p className="text-white">Aucun article pour le moment</p>
+                        )}
                     </div>
                 </section>
             </main>
