@@ -1,6 +1,6 @@
 export default function Inscription() {
     return (
-        <div className="w-full px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white">
+        <div className="w-full px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
             <h1 className="text-2xl font-bold text-center mb-6 md:text-3xl">Bienvenue</h1>
 
             <form action="" className="flex flex-col gap-6">

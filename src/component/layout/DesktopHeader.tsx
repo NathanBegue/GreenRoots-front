@@ -1,33 +1,61 @@
+import { Link } from "react-router";
+
 export default function DesktopHeader() {
     return (
-        <header className="bg-dark-secondary w-full h-20 px-8 flex items-center justify-between shadow-lg">
+        <header className="fixed z-30 bg-dark-secondary w-full h-24 px-12 flex items-center justify-between shadow-lg">
             {/* Logo */}
-            <img className="h-12" src="/images/icons/logo-.svg" alt="Logo" />
+            <img className="h-16" src="/images/icons/logo-.svg" alt="Logo" />
 
             {/* Navigation */}
             <nav>
-                <ul className="flex gap-8 text-white font-title text-lg">
-                    <li className="hover:text-cta transition"><a href="/">Accueil</a></li>
-                    <li className="hover:text-cta transition"><a href="/boutique">Boutique</a></li>
-                    <li className="hover:text-cta transition"><a href="/historique">Historique</a></li>
+                <ul className="flex gap-10 text-white font-title text-xl">
+                    <li>
+                        <Link
+                            to="/"
+                            className="group relative px-4 py-2 hover:text-cta transition"
+                        >
+                            Accueil
+                            <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/boutique"
+                            className="group relative px-4 py-2 hover:text-cta transition"
+                        >
+                            Boutique
+                            <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/historique"
+                            className="group relative px-4 py-2 hover:text-cta transition"
+                        >
+                            Historique
+                            <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
 
             {/* Icônes et Actions */}
-            <div className="flex items-center gap-6">
-                <img className="h-8 invert cursor-pointer hover:scale-110 transition" src="/images/icons/moon.svg" alt="Mode sombre" />
-                <a href="/panier">
-                    <img className="h-8 invert cursor-pointer hover:scale-110 transition" src="/images/icons/shop-card.svg" alt="Panier" />
-                </a>
+            <div className="flex items-center gap-8">
+                <img className="h-10 invert cursor-pointer hover:scale-110 transition" src="/images/icons/moon.svg" alt="Mode sombre" />
+                <Link to="/panier">
+                    <img className="h-10 invert cursor-pointer hover:scale-110 transition" src="/images/icons/shop-card.svg" alt="Panier" />
+                </Link>
 
                 {/* Boutons Auth */}
-                <div className="flex gap-4">
-                    <button className="px-4 py-2 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta hover:text-dark-secondary transition">
+                <div className="flex gap-6">
+                    <Link to="/inscription"><button className="px-6 py-3 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta hover:text-dark-secondary transition text-lg">
                         Inscription
                     </button>
-                    <button className="px-4 py-2 bg-cta text-white rounded-lg hover:bg-cta-dark transition">
+                    </Link>
+                    <Link to="/connexion"> <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
                         Connexion
                     </button>
+                    </Link>
                 </div>
             </div>
         </header>

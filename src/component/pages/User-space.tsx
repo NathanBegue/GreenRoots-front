@@ -2,7 +2,7 @@ import Card from "../ui/Card";
 
 export default function UserSpace() {
     return (
-        <div className="w-full mx-auto p-6 shadow-lg bg-dark-primary text-white pt-20">
+        <div className="w-full mx-auto p-6 shadow-lg bg-dark-primary text-white pt-20 lg:pt-32">
             {/* Block de modification des informations personnelles */}
             <div>
                 <h1 className="text-2xl font-bold text-center mb-6">Espace personnel</h1>
