@@ -22,7 +22,7 @@ export default function Boutique() {
             {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} />}
 
             <div className="w-full max-w-screen overflow-hidden ">
-                <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24">
+                <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32">
 
                     <section className="flex flex-col gap-6">
                         <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
@@ -45,17 +45,17 @@ export default function Boutique() {
 
                         <div className="flex flex-col gap-6">
                             <Card
-                                isAdmin={false}
+                                isAdmin={true}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />
                             <Card
-                                isAdmin={false}
+                                isAdmin={true}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />
                             <Card
-                                isAdmin={false}
+                                isAdmin={true}
                                 setIsOpenedEditModal={setIsOpenedEditModal}
                                 setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                             />

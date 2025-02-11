@@ -7,7 +7,7 @@ export default function Index() {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             {/* <ConnexionModal /> */}
-            <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center ">
+            <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center pt-14">
                 <section className="flex flex-col gap-6">
                     <h1 className="text-2xl font-bold font-title pt-20">
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳

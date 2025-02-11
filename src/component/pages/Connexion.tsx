@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Connexion() {
     return (
-        <div className="w-full min-h-[calc(100vh-37px)] px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white">
+        <div className="w-full min-h-[calc(100vh-37px)] px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
 
             <h1 className="text-2xl font-bold text-center mb-20">Rebonjour</h1>
 
