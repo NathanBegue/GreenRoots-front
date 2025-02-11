@@ -46,7 +46,19 @@ const fetchmethod = {
             console.error("Erreur lors du fetch des articles:", error);
             return [];
         }
+    },
+
+    getArticleByOrder: async () => {
+        try {
+            const response = await fetch("http://localhost:5000/commande");
+            const data = await response.json();
+            console.log("Données reçues:", data);
+
+        } catch (error) {
+            console.error("Erreur lors de la récupération de l'historique des commandes:", error);
+        }
     }
+
 };
 
 export default fetchmethod;

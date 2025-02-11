@@ -13,3 +13,10 @@ export interface Ipicture {
     url: string;
     description: string;
 }
+
+export interface Iorder {
+    id: number;
+    article_summary: string;
+    date: string;
+    price: number;
+}

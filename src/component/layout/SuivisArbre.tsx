@@ -6,15 +6,15 @@ export default function SuivisArbre() {
         <div className="bg-dark-primary flex-col h-full pb-2 lg:pt-20 w-fit md:flex-row">
 
             <h2 className="font-title font-bold text-2xl text-center mb-6 text-white ">Suivi d'arbre</h2>
-            <div className="bg-dark-secondary w-auto h-full flex flex-col border-2 border-zinc-200 p-2 shadow-xl mr-4 ml-4 text-white justify-center rounded-lg border shadow-black shadow-lg">
+            <div className="bg-dark-secondary w-auto h-full flex flex-col  border-zinc-200 p-2 mr-4 ml-4 text-white justify-center rounded-lg border shadow-black shadow-lg">
                 <div className="flex gap-2 justify-end">
-                    <button onClick={() => setIsOpenedEditModal(true)}
+                    <button
                         className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
 
                         <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                     </button>
 
-                    <button onClick={() => setIsOpenedDeleteModal(true)}
+                    <button
                         className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
 
                         <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert" />

@@ -3,7 +3,7 @@ import Page404 from "./component/pages/Page404";
 import Boutique from "./component/pages/Boutique";
 import Header from "./component/layout/Header";
 import BurgerMenu from "./component/layout/Burger-menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Connexion from "./component/pages/Connexion";
 import Inscription from "./component/pages/Inscription";
@@ -14,8 +14,8 @@ import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
 import Cgu from "./component/pages/Cgu";
 import SuivisArbresUser from "./component/pages/SuivisArbreUser";
-import fetchmethod from "./fetch/method-fetch";
-import { Itrees } from "../type/type";
+// import fetchmethod from "./fetch/method-fetch";
+// import { Itrees } from "../type/type";
 
 
 function App() {
