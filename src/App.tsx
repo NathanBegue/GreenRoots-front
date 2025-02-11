@@ -14,6 +14,7 @@ import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
 import SuivisArbre from "./component/layout/SuivisArbre";
 import Cgu from "./component/pages/Cgu";
+import SuivisArbresUser from "./component/pages/SuivisArbreUser";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/inscription" element={<Inscription />} />
           <Route path="/compte" element={<UserSpace />} />
           <Route path="/cgu" element={<Cgu />} />
+          <Route path="/suivis" element={<SuivisArbresUser />} />
           <Route path="/interdit" element={<Page403 />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
