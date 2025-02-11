@@ -1,6 +1,16 @@
-import Card from "../ui/Card";
+import { useEffect, useState } from "react";
+// import Card from "../ui/Card";
+import fetchmethod from "../../fetch/method-fetch";
+import { Iorder } from "../../../type/type";
 
 export default function UserSpace() {
+
+    const [orders, setOrders] = useState<Iorder[]>([]);
+
+    useEffect(() => {
+        fetchmethod.getArticleByOrder().then((data) => setOrders(data));
+    }, []);
+
     return (
         <div className="w-full mx-auto p-6 shadow-lg bg-dark-primary text-white pt-20 lg:pt-32">
             {/* Block de modification des informations personnelles */}
@@ -95,8 +105,7 @@ export default function UserSpace() {
 
                     {/* Liste des articles (cartes plus petites) */}
                     <div className="flex flex-col gap-4 mt-4">
-                        <Card isSmall={true} />
-                        <Card isSmall={true} />
+
                     </div>
 
                     {/* Total de la commande */}
