@@ -1,4 +1,7 @@
+import { Itrees } from "../../../type/type.ts";
+
 export default function Card({
+    article,
     isAdmin = true,
     isSmall = false,
     setIsOpenedEditModal,
@@ -8,6 +11,7 @@ export default function Card({
     isSmall?: boolean; // Gère le format compact ET la suppression des boutons
     setIsOpenedEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
     setIsOpenedDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
+    article: Itrees;
 }) {
     return (
         <article
@@ -16,13 +20,18 @@ export default function Card({
         >
             {/* Image du produit */}
             <div>
-                <img className={`object-cover rounded-lg ${isSmall ? "w-12 h-12" : ""}`} src="/images/arbres/ChenePedoncule.webp" alt="Chêne pédonculé" />
+                <img
+                    className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
+                    src={article.picture?.url ? `/images/arbres/${article.picture.url}.webp` : "/images/default.jpg"}
+                    alt={article.picture?.description || "Image par défaut"}
+                />
+
             </div>
 
             {/* Contenu de la carte */}
             <div className={`flex ${isSmall ? "items-center gap-2" : "gap-4"} justify-between items-center w-full p-4`}>
-                <p className={`font-title text-xs min-[374px]:text-base ${isSmall ? "text-sm" : "text-xl font-bold"}`}>Chêne pédonculé</p>
-                <p className="font-semibold text-xs min-[374px]:text-base text-cta">Prix: 25€</p>
+                <p className={`font-title text-xs min-[374px]:text-base ${isSmall ? "text-sm" : "text-xl font-bold"}`}>{article.name}</p>
+                <p className="font-semibold text-xs min-[374px]:text-base text-cta">{`Prix: ` + article.price}</p>
 
                 {/* Supprime tous les boutons si isSmall est activé */}
                 {!isSmall &&
