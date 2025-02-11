@@ -5,13 +5,12 @@ export interface Itrees {
     price: number;
     available: boolean;
     picture_id: number;
-    picture: Ipicture;
+    Picture?: Ipicture;
 }
 
 export interface Ipicture {
     id: number;
     url: string;
-    description: string;
 }
 
 export interface Iorder {
