@@ -20,6 +20,8 @@ export default function Boutique() {
 
 
     const [articles, setArticles] = useState<Itrees[]>([]);
+    // stockage de l'id de l'article selectionné
+    const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
 
 
     useEffect(() => {
@@ -30,8 +32,10 @@ export default function Boutique() {
     return (
         <>
             {openCreateModal && <CreateModal setOpenCreateModal={setOpenCreateModal} openCreateModal={openCreateModal} />}
-            {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal} />}
-            {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} />}
+            {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal}
+                article={selectedArticle} />}
+            {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal}
+                article={selectedArticle} />}
 
 
             <div className="w-full max-w-screen overflow-hidden ">
@@ -74,6 +78,7 @@ export default function Boutique() {
                                         isAdmin={true}
                                         setIsOpenedEditModal={setIsOpenedEditModal}
                                         setIsOpenedDeleteModal={setIsOpenedDeleteModal}
+                                        setSelectedArticle={setSelectedArticle}
                                     />
                                 ))
                             ) : (

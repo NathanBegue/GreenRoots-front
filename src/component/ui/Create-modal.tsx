@@ -93,7 +93,8 @@ export default function CreateModal({
                     <div className="flex flex-col">
                         <label className="font-semibold mb-1">Catégorie</label>
                         <select
-                            value={formData.category}
+                            defaultValue={formData.category}
+                            /* multiple={true} */
                             name="category"
                             onChange={handleChange}
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
