@@ -4,11 +4,13 @@ import { Itrees } from "../../../type/type";
 export default function EditModal({
     setIsOpenedEditModal,
     isOpenedEditModal,
-    article
+    article,
+    setArticles
 }: {
     isOpenedEditModal: boolean,
     setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>>
     article: Itrees;
+    setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
 }) {
 
     const [formData, setFormData] = useState({
@@ -52,6 +54,12 @@ export default function EditModal({
 
             const data = await response.json();
             console.log("Article ajouté avec succès :", data);
+            // setArticles((prev) => {
+            //     const newArticles = [...prev];
+            //     const index = newArticles.findIndex((a) => a.id === article.id);
+            //     newArticles[index] = data;
+            //     return newArticles;
+            // });
             setIsOpenedEditModal(false);
         } catch (error) {
             console.error("Erreur lors de l'ajout de l'article :", error);
