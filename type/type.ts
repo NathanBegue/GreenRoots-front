@@ -19,3 +19,10 @@ export interface Iorder {
     date: string;
     price: number;
 }
+
+export interface IAuthState {
+    token: string | null;
+    isAdmin: boolean | string;
+    login: (token: string, isAdmin: boolean) => void;
+    logout: () => void;
+}

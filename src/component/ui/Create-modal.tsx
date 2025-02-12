@@ -11,10 +11,11 @@ export default function CreateModal({
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
         name: "",
-        image: "",
+        url: "",
         price: "",
         description: "",
         category: "",
+        available: true,
     });
 
 
@@ -22,15 +23,10 @@ export default function CreateModal({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
-            [e.target.price]: e.target.value,
-            [e.target.description]: e.target.value,
-            [e.target.category]: e.target.value,
-            [e.target.url]: e.target.value
-
-
+            [e.target.name]: e.target.name === "price" ? Number(e.target.value) : e.target.value,
         });
     };
+
 
 
     // Fonction pour gérer l'envoi du formulaire
@@ -43,13 +39,15 @@ export default function CreateModal({
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({
                     name: formData.name,
                     price: Number(formData.price), // Conversion en nombre
-                    category: formData.category,
-                    url: formData.image, // On envoie l'URL de l'image
-                    description: formData.description
+                    categoryName: [formData.category],
+                    pictureUrl: formData.url, // On envoie l'URL de l'image
+                    description: formData.description,
+                    available: formData.available,
                 }),
             });
 
