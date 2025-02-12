@@ -1,9 +1,42 @@
+import { useState } from "react";
+
 export default function Inscription() {
+
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [repeat_password, setrepeat_password] = useState("")
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        console.log("Inscription en cours...");
+
+        if (password !== repeat_password) {
+            console.error("Les mots de passe ne correspondent pas");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/inscription", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ firstname, lastname, email, password, repeat_password }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+        } catch (error) {
+            console.error("Erreur lors de l'inscription :", error);
+        }
+    }
+
     return (
         <div className="w-full px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
             <h1 className="text-2xl font-bold text-center mb-6 md:text-3xl">Bienvenue</h1>
 
-            <form action="" className="flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 {/* Prénom */}
                 <div className="flex flex-col">
                     <label htmlFor="firstname" className="font-semibold mb-1 md:text-xl">Prénom</label>
@@ -13,6 +46,8 @@ export default function Inscription() {
                         name="firstname"
                         placeholder="Entrez votre prénom"
                         className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        onChange={(e) => setFirstname(e.target.value)}
+                        value={firstname}
                         required
                     />
                 </div>
@@ -26,19 +61,23 @@ export default function Inscription() {
                         name="lastname"
                         placeholder="Entrez votre nom"
                         className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        onChange={(e) => setLastname(e.target.value)}
+                        value={lastname}
                         required
                     />
                 </div>
 
                 {/* Email */}
                 <div className="flex flex-col">
-                    <label htmlFor="mail" className="font-semibold mb-1 md:text-xl">Adresse e-mail</label>
+                    <label htmlFor="email" className="font-semibold mb-1 md:text-xl">Adresse e-mail</label>
                     <input
                         type="email"
                         id="mail"
-                        name="mail"
+                        name="email"
                         placeholder="Entrez votre adresse e-mail"
                         className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         required
                     />
                 </div>
@@ -52,6 +91,8 @@ export default function Inscription() {
                         name="password"
                         placeholder="Choisissez un mot de passe"
                         className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                         required
                     />
                 </div>
@@ -65,6 +106,8 @@ export default function Inscription() {
                         name="confirmation"
                         placeholder="Confirmez votre mot de passe"
                         className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        onChange={(e) => setrepeat_password(e.target.value)}
+                        value={repeat_password}
                         required
                     />
                 </div>
