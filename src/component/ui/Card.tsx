@@ -5,13 +5,15 @@ export default function Card({
     isAdmin = true,
     isSmall = false,
     setIsOpenedEditModal,
-    setIsOpenedDeleteModal
+    setIsOpenedDeleteModal,
+    setSelectedArticle
 }: {
     isAdmin?: boolean;
     isSmall?: boolean; // Gère le format compact ET la suppression des boutons
     setIsOpenedEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
     setIsOpenedDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
     article: Itrees;
+    setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
 }) {
     return (
         <article
@@ -37,12 +39,20 @@ export default function Card({
                 {!isSmall &&
                     (isAdmin ? (
                         <div className="flex gap-2">
-                            <button onClick={() => setIsOpenedEditModal && setIsOpenedEditModal(true)}
+                            <button onClick={() => {
+                                setIsOpenedEditModal && setIsOpenedEditModal(true);
+                                setSelectedArticle && setSelectedArticle(article)
+                            }
+
+                            }
                                 className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition">
                                 <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                             </button>
 
-                            <button onClick={() => setIsOpenedDeleteModal && setIsOpenedDeleteModal(true)}
+                            <button onClick={() => {
+                                setIsOpenedDeleteModal && setIsOpenedDeleteModal(true)
+                                setSelectedArticle && setSelectedArticle(article)
+                            }}
                                 className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition">
                                 <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert" />
                             </button>
@@ -55,6 +65,6 @@ export default function Card({
                     ))
                 }
             </div>
-        </article>
+        </article >
     );
 }

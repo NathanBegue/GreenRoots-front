@@ -13,6 +13,11 @@ export interface Ipicture {
     url: string;
 }
 
+export interface Icategory {
+    id: number;
+    name: string;
+}
+
 export interface Iorder {
     id: number;
     article_summary: string;

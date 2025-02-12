@@ -1,10 +1,64 @@
+import { useState } from "react";
+import { Itrees } from "../../../type/type";
+
 export default function EditModal({
     setIsOpenedEditModal,
-    isOpenedEditModal
+    isOpenedEditModal,
+    article
 }: {
     isOpenedEditModal: boolean,
     setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>>
+    article: Itrees;
 }) {
+
+    const [formData, setFormData] = useState({
+        category: "Conifères",
+        name: article.name,
+        image: article.Picture.url,
+        price: article.price,
+        description: article.description,
+        available: true
+    });
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/articles/${article.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    price: Number(formData.price), // Conversion en nombre
+                    categoryName: [formData.category],
+                    pictureUrl: formData.image, // On envoie l'URL de l'image
+                    description: formData.description,
+                    available: formData.available,
+                }),
+            });
+
+
+            const data = await response.json();
+            console.log("Article ajouté avec succès :", data);
+            setIsOpenedEditModal(false);
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de l'article :", error);
+        }
+    };
+
+
     return (
         <>
             {/* Overlay pour fermer la modale en cliquant à l'extérieur */}
@@ -27,15 +81,19 @@ export default function EditModal({
                 />
 
                 {/* Titre */}
-                <h2 className="text-xl font-bold text-center">Modifier un article</h2>
+                <h2 className="text-xl font-bold text-center">Modifier : {article.name}</h2>
 
                 {/* Formulaire */}
-                <form className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
                     {/* Catégorie */}
                     <div className="flex flex-col">
                         <label className="font-semibold mb-1">Catégorie</label>
-                        <select className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta">
+                        <select className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                            defaultValue={formData.category}
+                            /*    multiple={true} */
+                            onChange={handleChange}
+                            name="category">
                             <option value="">Choisir une catégorie</option>
                             <option value="fruitier">Arbres fruitiers</option>
                             <option value="ornement">Arbres d'ornement</option>
@@ -53,6 +111,9 @@ export default function EditModal({
                             type="text"
                             placeholder="Ex: Chêne pédonculé"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                            onChange={handleChange}
+                            value={formData.name}
+                            name="name"
                             required
                         />
                     </div>
@@ -64,6 +125,9 @@ export default function EditModal({
                             type="text"
                             placeholder="https://exemple.com/image.jpg"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                            onChange={handleChange}
+                            value={formData.image}
+                            name="image"
                             required
                         />
                     </div>
@@ -75,6 +139,9 @@ export default function EditModal({
                             type="number"
                             placeholder="Ex: 110"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                            onChange={handleChange}
+                            value={formData.price}
+                            name="price"
                             required
                         />
                     </div>
@@ -85,6 +152,9 @@ export default function EditModal({
                         <textarea
                             placeholder="Ajoutez une brève description..."
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta resize-none"
+                            onChange={handleChange}
+                            value={formData.description}
+                            name="description"
                             rows={3}
                             required
                         />
