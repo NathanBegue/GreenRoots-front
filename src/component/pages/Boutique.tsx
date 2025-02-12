@@ -31,11 +31,26 @@ export default function Boutique() {
 
     return (
         <>
-            {openCreateModal && <CreateModal setOpenCreateModal={setOpenCreateModal} openCreateModal={openCreateModal} />}
-            {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal}
-                article={selectedArticle} setArticles={setArticles} />}
-            {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal}
-                article={selectedArticle} setArticles={setArticles} />}
+            {openCreateModal && <CreateModal setOpenCreateModal={setOpenCreateModal} isOpenedCreateModal={openCreateModal} />}
+
+            {isOpenedEditModal && selectedArticle && (
+                <EditModal
+                    setIsOpenedEditModal={setIsOpenedEditModal}
+                    isOpenedEditModal={isOpenedEditModal}
+                    article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+                    setArticles={setArticles}
+                />
+            )}
+
+            {isOpenedDeleteModal && selectedArticle && (
+                <DeleteModal
+                    setIsOpenedDeleteModal={setIsOpenedDeleteModal}
+                    isOpenedDeleteModal={isOpenedDeleteModal}
+                    article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+                    setArticles={setArticles}
+                />
+            )}
+
 
 
             <div className="w-full max-w-screen overflow-hidden ">
