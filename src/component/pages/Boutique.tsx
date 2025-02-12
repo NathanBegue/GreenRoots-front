@@ -33,9 +33,9 @@ export default function Boutique() {
         <>
             {openCreateModal && <CreateModal setOpenCreateModal={setOpenCreateModal} openCreateModal={openCreateModal} />}
             {isOpenedEditModal && <EditModal setIsOpenedEditModal={setIsOpenedEditModal} isOpenedEditModal={isOpenedEditModal}
-                article={selectedArticle} />}
+                article={selectedArticle} setArticles={setArticles} />}
             {isOpenedDeleteModal && <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal}
-                article={selectedArticle} />}
+                article={selectedArticle} setArticles={setArticles} />}
 
 
             <div className="w-full max-w-screen overflow-hidden ">

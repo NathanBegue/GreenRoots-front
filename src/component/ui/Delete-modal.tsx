@@ -3,12 +3,17 @@ import { Itrees } from "../../../type/type";
 export default function DeleteModal({
     isOpenedDeleteModal,
     setIsOpenedDeleteModal,
-    article
+    article,
+    setArticles
 }: {
     isOpenedDeleteModal: boolean,
     setIsOpenedDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
     article: Itrees;
+    setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
 }) {
+
+
+
 
     const handleDelete = async () => {
         try {
@@ -18,15 +23,20 @@ export default function DeleteModal({
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
+
             });
 
             const data = await response.json();
             console.log("Article supprimé avec succès :", data);
+            setArticles((prev) => prev.filter((a) => a.id !== article.id));
+
 
         } catch (error) {
             console.error("Erreur lors de la suppression de l'article :", error)
         }
+
     };
+
 
     return (
         <>
