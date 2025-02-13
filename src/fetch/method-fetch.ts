@@ -1,47 +1,63 @@
-import { Itrees, Ipicture } from "../../type/type";
+import { Itrees, } from "../../type/type";
 
 const fetchmethod = {
     getArticles: async (): Promise<Itrees[]> => {
         try {
-            const response = await fetch("http://localhost:5000/boutique");
-            const data: { articles: Itrees[]; pictures: Ipicture[] } = await response.json();
+            const token = localStorage.getItem("token"); // Récupération du token
 
-            // Vérifie si data contient les articles et images
-            if (data.articles && data.pictures) {
-                const mergedArticles: Itrees[] = data.articles.map((article) => ({
+            const response = await fetch("http://localhost:5000/api/articles", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, // 🔥 Ajout du token JWT
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur API : ${response.status} - ${await response.text()}`);
+            }
+
+            const data = await response.json();
+            console.log("Données reçues :", data);
+
+            if (data.articles) {
+                const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    picture: data.pictures.find((p) => p.id === article.picture_id) || null,
+                    Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
                 }));
 
-                return mergedArticles; // On retourne les données fusionnées
+                return mergedArticles;
             } else {
                 console.error("Format inattendu de l'API", data);
                 return [];
             }
+
         } catch (error) {
             console.error("Erreur lors du fetch des articles:", error);
             return [];
         }
     },
 
+
     getNewArticle: async (): Promise<Itrees[]> => {
         try {
             const response = await fetch("http://localhost:5000/");
-            const data: { articles: Itrees[]; pictures: Ipicture[] } = await response.json();
-            console.log("Données reçues:", data);
+            const data = await response.json();
 
-            // Vérifie si data contient les articles et images
-            if (data.articles && data.pictures) {
-                const mergedArticles: Itrees[] = data.articles.map((article) => ({
+            console.log("Données reçues :", data);
+
+            if (data.articles) {
+                const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    picture: data.pictures.find((p) => p.id === article.picture_id) || null,
+                    Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
                 }));
 
-                return mergedArticles; // On retourne les données fusionnées
+                return mergedArticles;
             } else {
                 console.error("Format inattendu de l'API", data);
                 return [];
             }
+
         } catch (error) {
             console.error("Erreur lors du fetch des articles:", error);
             return [];

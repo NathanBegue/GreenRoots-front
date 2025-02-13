@@ -1,10 +1,43 @@
+import { Itrees } from "../../../type/type";
+
 export default function DeleteModal({
     isOpenedDeleteModal,
-    setIsOpenedDeleteModal
+    setIsOpenedDeleteModal,
+    article,
+    setArticles
 }: {
     isOpenedDeleteModal: boolean,
     setIsOpenedDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
+    article: Itrees;
+    setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
 }) {
+
+
+
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/articles/${article.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+
+            });
+
+            const data = await response.json();
+            console.log("Article supprimé avec succès :", data);
+            setArticles((prev) => prev.filter((a) => a.id !== article.id));
+
+
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'article :", error)
+        }
+
+    };
+
+
     return (
         <>
             {/* Overlay qui ferme la modale en cliquant à l'extérieur */}
@@ -27,7 +60,7 @@ export default function DeleteModal({
                 />
 
                 {/* Texte de confirmation */}
-                <h2 className="text-xl font-bold text-center">Supprimer cet article ?</h2>
+                <h2 className="text-xl font-bold text-center">Supprimer {article.name} ?</h2>
                 <p className="text-center text-gray-300">Cette action est irréversible.</p>
 
                 {/* Boutons d'action */}
@@ -40,6 +73,11 @@ export default function DeleteModal({
                     </button>
                     <button
                         className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                        onClick={() => {
+                            // fetchmethod.deleteArticle(article.id);
+                            handleDelete();
+                            setIsOpenedDeleteModal(false);
+                        }}
                     >
                         Supprimer
                     </button>
