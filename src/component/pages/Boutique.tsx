@@ -43,6 +43,7 @@ export default function Boutique() {
                     isOpenedEditModal={isOpenedEditModal}
                     article={selectedArticle} // On s'assure que selectedArticle n'est pas null
                     setArticles={setArticles}
+                    setSelectedArticle={setSelectedArticle}
                 />
             )}
 
