@@ -5,13 +5,17 @@ export interface Itrees {
     price: number;
     available: boolean;
     picture_id: number;
-    picture: Ipicture;
+    Picture?: Ipicture;
 }
 
 export interface Ipicture {
     id: number;
     url: string;
-    description: string;
+}
+
+export interface Icategory {
+    id: number;
+    name: string;
 }
 
 export interface Iorder {
@@ -19,4 +23,11 @@ export interface Iorder {
     article_summary: string;
     date: string;
     price: number;
+}
+
+export interface IAuthState {
+    token: string | null;
+    isAdmin: boolean | string;
+    login: (token: string, isAdmin: boolean) => void;
+    logout: () => void;
 }
