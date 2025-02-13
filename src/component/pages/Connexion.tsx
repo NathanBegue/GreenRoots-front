@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
 
@@ -7,6 +7,7 @@ export default function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const login = useAuthStore((state) => state.login);
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,6 +24,7 @@ export default function Connexion() {
 
             login(data.token, data.isAdmin);
             console.log("Connexion réussie :", data);
+            navigate("/compte");
 
         } catch (error) {
             console.error(error);

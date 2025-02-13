@@ -1,9 +1,10 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 
 export default function DesktopHeader() {
 
     const { token, logout } = useAuthStore();
+    const navigate = useNavigate();
 
     return (
         <header className="fixed z-30 bg-dark-secondary w-full h-24 px-12 flex items-center justify-between shadow-lg">
@@ -60,7 +61,10 @@ export default function DesktopHeader() {
                         </Link>
                         <button
                             className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-lg"
-                            onClick={() => logout()}
+                            onClick={() => {
+                                logout()
+                                navigate("/")
+                            }}
                         >
                             Déconnexion
                         </button>
