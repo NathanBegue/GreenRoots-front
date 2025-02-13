@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 
 export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
@@ -7,6 +7,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
 }) {
 
     const { token, logout } = useAuthStore();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -53,6 +54,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
                                 onClick={() => {
                                     logout(); // Déconnexion
                                     setIsModalOpened(false);
+                                    navigate("/");
                                 }}
                             >
                                 Déconnexion
