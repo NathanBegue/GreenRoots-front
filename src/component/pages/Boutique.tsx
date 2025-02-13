@@ -43,23 +43,25 @@ export default function Boutique() {
         setArticles={setArticles}
       />}
 
-      {isOpenedEditModal && selectedArticle && (
-        <EditModal
-          setIsOpenedEditModal={setIsOpenedEditModal}
-          isOpenedEditModal={isOpenedEditModal}
-          article={selectedArticle} // On s'assure que selectedArticle n'est pas null
-          setArticles={setArticles}
-        />
-      )}
 
-      {isOpenedDeleteModal && selectedArticle && (
-        <DeleteModal
-          setIsOpenedDeleteModal={setIsOpenedDeleteModal}
-          isOpenedDeleteModal={isOpenedDeleteModal}
-          article={selectedArticle} // On s'assure que selectedArticle n'est pas null
-          setArticles={setArticles}
-        />
-      )}
+            {isOpenedEditModal && selectedArticle && (
+                <EditModal
+                    setIsOpenedEditModal={setIsOpenedEditModal}
+                    isOpenedEditModal={isOpenedEditModal}
+                    article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+                    setArticles={setArticles}
+                    setSelectedArticle={setSelectedArticle}
+                />
+            )}
+
+            {isOpenedDeleteModal && selectedArticle && (
+                <DeleteModal
+                    setIsOpenedDeleteModal={setIsOpenedDeleteModal}
+                    isOpenedDeleteModal={isOpenedDeleteModal}
+                    article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+                    setArticles={setArticles}
+                />
+            )}
 
 
 
