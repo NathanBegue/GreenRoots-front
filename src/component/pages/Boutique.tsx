@@ -43,6 +43,7 @@ export default function Boutique() {
         setArticles={setArticles}
       />}
 
+
       {isOpenedEditModal && selectedArticle && (
         <EditModal
           setIsOpenedEditModal={setIsOpenedEditModal}
