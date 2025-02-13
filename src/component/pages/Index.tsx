@@ -17,7 +17,7 @@ export default function Index() {
 
             <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center ">
                 <section className="flex flex-col gap-6 ">
-                    <h1 className="text-2xl font-bold font-title pt-20 lg:text-3xl">
+                    <h1 className="text-2xl font-bold font-title pt-25 lg:text-3xl">
 
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
                     </h1>
@@ -37,7 +37,7 @@ export default function Index() {
                 </section>
                 <section className="flex flex-col gap-6 p-6">
                     <h2 className="text-2xl font-bold font-title">
-                        Nos meilleurs arbres
+                        Nos derniers arbres
                     </h2>
                     <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-6">
                         {newarticle.length > 0 ? (

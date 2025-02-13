@@ -31,7 +31,11 @@ export default function Boutique() {
 
     return (
         <>
-            {openCreateModal && <CreateModal setOpenCreateModal={setOpenCreateModal} isOpenedCreateModal={openCreateModal} />}
+            {openCreateModal && <CreateModal
+                setOpenCreateModal={setOpenCreateModal}
+                isOpenedCreateModal={openCreateModal}
+                setArticles={setArticles}
+            />}
 
             {isOpenedEditModal && selectedArticle && (
                 <EditModal
@@ -104,8 +108,7 @@ export default function Boutique() {
                     </section>
                     <div>
                         <SuivisArbre />
-                        <SuivisArbre />
-                        <SuivisArbre />
+
                     </div>
 
 

@@ -3,9 +3,21 @@ import { Itrees, } from "../../type/type";
 const fetchmethod = {
     getArticles: async (): Promise<Itrees[]> => {
         try {
-            const response = await fetch("http://localhost:5000/boutique");
-            const data = await response.json();
+            const token = localStorage.getItem("token"); // Récupération du token
 
+            const response = await fetch("http://localhost:5000/api/articles", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, // 🔥 Ajout du token JWT
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur API : ${response.status} - ${await response.text()}`);
+            }
+
+            const data = await response.json();
             console.log("Données reçues :", data);
 
             if (data.articles) {
@@ -25,6 +37,7 @@ const fetchmethod = {
             return [];
         }
     },
+
 
     getNewArticle: async (): Promise<Itrees[]> => {
         try {
