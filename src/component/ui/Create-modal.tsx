@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { Itrees } from "../../../type/type";
 
 
 export default function CreateModal({
     setOpenCreateModal,
-    isOpenedCreateModal
+    isOpenedCreateModal,
+    setArticles
 }: {
     isOpenedCreateModal: boolean;
     setOpenCreateModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
 }) {
     // State pour stocker les valeurs du formulaire
     const [formData, setFormData] = useState({
@@ -14,7 +17,7 @@ export default function CreateModal({
         url: "",
         price: "",
         description: "",
-        category: "",
+        category: "Arbres d'ornement",
         available: true,
     });
 
@@ -54,6 +57,7 @@ export default function CreateModal({
 
             const data = await response.json();
             console.log("Article ajouté avec succès :", data);
+            setArticles((prevArticles) => [...prevArticles, data.article]);
             setOpenCreateModal(false);
         } catch (error) {
             console.error("Erreur lors de l'ajout de l'article :", error);
