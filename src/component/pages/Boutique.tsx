@@ -24,10 +24,10 @@ export default function Boutique() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredArticles =
-  selectedCategory === "All"
-    ? articles
-    : articles.filter((article) =>  article.categories.some((cat) => cat.name === selectedCategory));
- 
+    selectedCategory === "All"
+      ? articles
+      : articles.filter((article) => article.categories.some((cat) => cat.name === selectedCategory));
+
 
   useEffect(() => {
     fetchmethod.getArticles().then((data) => setArticles(data));
@@ -49,6 +49,7 @@ export default function Boutique() {
           isOpenedEditModal={isOpenedEditModal}
           article={selectedArticle} // On s'assure que selectedArticle n'est pas null
           setArticles={setArticles}
+          setSelectedArticle={setSelectedArticle}
         />
       )}
 
@@ -67,7 +68,7 @@ export default function Boutique() {
         <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32">
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
-                            Nos arbres
+              Nos arbres
             </h2>
 
 
@@ -95,10 +96,10 @@ export default function Boutique() {
 
               </select>
               <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
-                                Ajouter un arbre +
+                Ajouter un arbre +
               </button>
 
-       
+
             </div>
             {/* Affichage des articles */}
 
