@@ -22,14 +22,22 @@ export default function Connexion() {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Erreur lors de la connexion");
 
-            login(data.token, data.isAdmin);
+            console.log("Réponse API :", data); // ✅ Vérifie que `role_id` est bien reçu
+
+            if (!data.role_id) {
+                console.error("Erreur : role_id est undefined !");
+                return;
+            }
+
+            login(data.token, data.role_id);
             console.log("Connexion réussie :", data);
+
             navigate("/compte");
 
         } catch (error) {
-            console.error(error);
+            console.error("Erreur de connexion :", error);
         }
-    }
+    };
 
     return (
         <div className="w-full min-h-[calc(100vh-37px)] px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
