@@ -5,12 +5,14 @@ export default function EditModal({
     setIsOpenedEditModal,
     isOpenedEditModal,
     article,
-    setArticles
+    setArticles,
+    setSelectedArticle
 }: {
     isOpenedEditModal: boolean,
     setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>>
     article: Itrees;
     setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
+    setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>;
 }) {
 
     const [formData, setFormData] = useState({
@@ -44,22 +46,33 @@ export default function EditModal({
                 body: JSON.stringify({
                     name: formData.name,
                     price: Number(formData.price), // Conversion en nombre
-                    categoryName: [formData.category],
-                    pictureUrl: formData.image, // On envoie l'URL de l'image
+                    categoryName: article.categories.map((cat) => cat.name), // 🔥 Extraire les noms des catégories
+                    pictureUrl: formData.image, // URL de l'image
                     description: formData.description,
                     available: formData.available,
                 }),
             });
 
+            const updatedArticle = await response.json();
+            console.log("✅ Article mis à jour avec succès :", updatedArticle);
 
-            const data = await response.json();
-            console.log("Article ajouté avec succès :", data);
-            // setArticles((prev) => {
-            //     const newArticles = [...prev];
-            //     const index = newArticles.findIndex((a) => a.id === article.id);
-            //     newArticles[index] = data;
-            //     return newArticles;
-            // });
+            // 🔥 CRÉER UN NOUVEAU TABLEAU (important pour le hot reload)
+            setArticles((prev) => {
+                return prev.map((a) =>
+                    a.id === article.id
+                        ? {
+                            ...a,
+                            ...updatedArticle,
+                            categories: updatedArticle.categories || a.categories,
+                            Picture: updatedArticle.Picture
+                                ? updatedArticle.Picture
+                                : { url: formData.image, description: "Image mise à jour" }
+                        }
+                        : { ...a } // 🔥 IMPORTANT : On recrée un nouvel objet à chaque fois
+                );
+            });
+
+            setSelectedArticle(updatedArticle);
             setIsOpenedEditModal(false);
         } catch (error) {
             console.error("Erreur lors de l'ajout de l'article :", error);

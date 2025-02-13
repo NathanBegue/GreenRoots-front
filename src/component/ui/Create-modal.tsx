@@ -57,7 +57,13 @@ export default function CreateModal({
 
             const data = await response.json();
             console.log("Article ajouté avec succès :", data);
-            setArticles((prevArticles) => [...prevArticles, data.article]);
+            setArticles((prevArticles) => [
+                ...prevArticles,
+                {
+                    ...data.article,  // L'article retourné par l'API
+                    Picture: data.article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
+                }
+            ]);
             setOpenCreateModal(false);
         } catch (error) {
             console.error("Erreur lors de l'ajout de l'article :", error);
