@@ -6,6 +6,7 @@ export interface Itrees {
     available: boolean;
     picture_id: number;
     Picture?: Ipicture;
+    categories :Icategory[];
 }
 
 export interface Ipicture {
