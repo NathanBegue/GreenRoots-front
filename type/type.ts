@@ -7,7 +7,6 @@ export interface Itrees {
     picture_id: number;
     Picture?: Ipicture;
     categories: Icategory[];
-}
 
 export interface Ipicture {
     id: number;
