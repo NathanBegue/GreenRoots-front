@@ -1,32 +1,42 @@
+// authStore.ts
 import { create } from "zustand";
-import { IAuthState } from "../../type/type";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+    role_id: number;
+}
+
+interface IAuthState {
+    token: string | null;
+    isAdmin: boolean;
+    isMember: boolean;
+    login: (token: string) => void;
+    logout: () => void;
+}
 
 export const useAuthStore = create<IAuthState>((set) => ({
-    token: localStorage.getItem("token") || null,
-    role_id: localStorage.getItem("role_id") ? Number(localStorage.getItem("role_id")) : null,
+    token: localStorage.getItem("token"),
+    isAdmin: localStorage.getItem("isAdmin") === "true",
+    isMember: localStorage.getItem("isMember") === "true",
 
-    login: (token: string, role_id: number) => {
-        console.log("Stockage du token et du rôle :", token, role_id); // ✅ Debug
+    login: (token: string) => {
         localStorage.setItem("token", token);
-        localStorage.setItem("role_id", String(role_id));
-        set({ token, role_id });
+
+        // 🔥 Décodage du token pour extraire le role_id
+        const decodedToken: DecodedToken = jwtDecode(token);
+        const isAdmin = decodedToken.role_id === 1;  // Par exemple, role_id 1 correspond à l'admin
+        const isMember = decodedToken.role_id === 2; // Par exemple, role_id 2 correspond à un membre
+
+        localStorage.setItem("isAdmin", String(isAdmin));
+        localStorage.setItem("isMember", String(isMember));
+
+        set({ token, isAdmin, isMember });
     },
 
     logout: () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("role_id");
-        set({ token: null, role_id: null });
+        localStorage.removeItem("isAdmin");
+        localStorage.removeItem("isMember");
+        set({ token: null, isAdmin: false, isMember: false });
     },
-
-    isAdmin: () => {
-        const role_id = localStorage.getItem("role_id") ? Number(localStorage.getItem("role_id")) : null;
-        console.log("isAdmin vérification :", role_id); // ✅ Debug
-        return role_id === 1;
-    },
-
-    isMember: () => {
-        const role_id = localStorage.getItem("role_id") ? Number(localStorage.getItem("role_id")) : null;
-        console.log("isMember vérification :", role_id); // ✅ Debug
-        return role_id === 2;
-    }
 }));
