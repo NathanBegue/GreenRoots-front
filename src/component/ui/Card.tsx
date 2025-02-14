@@ -2,18 +2,18 @@ import { Itrees } from "../../../type/type.ts";
 
 export default function Card({
   article,
-  isAdmin = true,
   isSmall = false,
   setIsOpenedEditModal,
   setIsOpenedDeleteModal,
-  setSelectedArticle
+  setSelectedArticle,
+  isAdmin
 }: {
-    isAdmin?: boolean;
-    isSmall?: boolean; // Gère le format compact ET la suppression des boutons
-    setIsOpenedEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsOpenedDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
-    article: Itrees;
-    setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
+  isSmall?: boolean; // Gère le format compact ET la suppression des boutons
+  setIsOpenedEditModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenedDeleteModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  article: Itrees;
+  setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
+  isAdmin: boolean;
 }) {
   return (
     <article
@@ -31,41 +31,41 @@ export default function Card({
       </div>
 
       {/* Contenu de la carte */}
-          <p className={`font-title text-3xl min-[374px]:text-base pt-4 ${isSmall ? "text-sm" : "text-xl font-bold"}`}>{article.name}</p>
+      <p className={`font-title text-3xl min-[374px]:text-base pt-4 ${isSmall ? "text-sm" : "text-xl font-bold"}`}>{article.name}</p>
       <div className={`flex justify-between items-center w-full pb-4`}>
-               <p className="font-semibold text-xs min-[374px]:text-base text-cta ml-2">{`Prix: ` + article.price}</p>
+        <p className="font-semibold text-xs min-[374px]:text-base text-cta ml-2">{`Prix: ` + article.price}</p>
 
-                 {/* Supprime tous les boutons si isSmall est activé */}
-          {!isSmall &&
-                    (isAdmin ? (
-                      <div className="flex gap-2 mt-2">
-                        <button onClick={() => {
-                          setIsOpenedEditModal && setIsOpenedEditModal(true);
-                          setSelectedArticle && setSelectedArticle(article)
-                        }
+        {/* Supprime tous les boutons si isSmall est activé */}
+        {!isSmall &&
+          (isAdmin ? (
+            <div className="flex gap-2 mt-2">
+              <button onClick={() => {
+                setIsOpenedEditModal && setIsOpenedEditModal(true);
+                setSelectedArticle && setSelectedArticle(article)
+              }
 
-                        }
-                        className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12">
-                          <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
-                        </button>
+              }
+                className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12">
+                <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
+              </button>
 
-                        <button onClick={() => {
-                          setIsOpenedDeleteModal && setIsOpenedDeleteModal(true)
-                          setSelectedArticle && setSelectedArticle(article)
-                        }}
-                        className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2">
-                          <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert "/>
-                        </button>
-                      </div>
-                    ) : (
-                    // Bouton d’ajout au panier pour l’utilisateur normal
-                      <button className="flex items-center bg-cta p-2 rounded-lg hover:bg-cta-dark transition">
-                        <img src="/images/icons/shop-card.svg" alt="Ajouter au panier" className="w-6 h-6 invert" />
-                      </button>
-                    ))
-          }
+              <button onClick={() => {
+                setIsOpenedDeleteModal && setIsOpenedDeleteModal(true)
+                setSelectedArticle && setSelectedArticle(article)
+              }}
+                className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2">
+                <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
+              </button>
+            </div>
+          ) : (
+            // Bouton d’ajout au panier pour l’utilisateur normal
+            <button className="flex items-center bg-cta p-2 rounded-lg hover:bg-cta-dark transition">
+              <img src="/images/icons/shop-card.svg" alt="Ajouter au panier" className="w-6 h-6 invert" />
+            </button>
+          ))
+        }
 
-        </div>
+      </div>
 
 
     </article >
