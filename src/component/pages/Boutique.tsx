@@ -40,6 +40,13 @@ export default function Boutique() {
     }
   }, []);
 
+  const uniqueCategories = Array.from(
+    new Set(
+      articles.flatMap((article) =>
+        article.categories?.map((cat) => cat.name) || []
+      )
+    )
+  );
 
 
   return (
@@ -88,19 +95,17 @@ export default function Boutique() {
                 id="categ-id"
                 className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition md:py-2 md:px-2 md:text-2xl">
                 <option className="bg-dark-primary text-white text-lg p-2" value="All">Catégories</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres fruitiers">Arbres fruitiers</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres d'ornement">Arbres d’ornement</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres forestiers">Arbres forestiers</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Conifères">Conifères</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres à croissance rapide">Arbres à croissance rapide</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres médicinaux">Arbres médicinaux</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres mellifères">Arbres mellifères</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres légendaires">Arbres légendaires</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres tropicaux">Arbres tropicaux</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres feuillus">Arbres feuillus</option>
 
 
-
+                {uniqueCategories.map((categoryName, index) => (
+                  <option
+                    key={index}
+                    className="bg-dark-primary text-white text-lg p-2"
+                    value={categoryName}
+                  >
+                    {categoryName}
+                  </option>
+                ))}
 
               </select>
               <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
