@@ -6,6 +6,7 @@ import fetchmethod from "../../fetch/method-fetch";
 import SuivisArbre from "../layout/SuivisArbre";
 import { Itrees } from "../../../type/type";
 import CreateModal from "../ui/Create-modal";
+import { useAuthStore } from "../../Auth/authStore";
 
 
 
@@ -26,11 +27,17 @@ export default function Boutique() {
   const filteredArticles =
     selectedCategory === "All"
       ? articles
-      : articles.filter((article) => article.categories.some((cat) => cat.name === selectedCategory));
+      : articles.filter((article) => article.category.some((cat) => cat.name === selectedCategory));
+
+  const { isAdmin } = useAuthStore()
 
 
   useEffect(() => {
-    fetchmethod.getArticles().then((data) => setArticles(data));
+    if (isAdmin) {
+      fetchmethod.getArticlesByAdmin().then((data) => setArticles(data));
+    } else {
+      fetchmethod.getArticle().then((data) => setArticles(data));
+    }
   }, []);
 
 
