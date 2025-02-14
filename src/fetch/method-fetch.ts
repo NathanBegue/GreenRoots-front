@@ -1,7 +1,9 @@
 import { Itrees, } from "../../type/type";
 
 const fetchmethod = {
-  getArticles: async (): Promise<Itrees[]> => {
+
+  // fetch admin
+  getArticlesByAdmin: async (): Promise<Itrees[]> => {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
 
@@ -38,7 +40,7 @@ const fetchmethod = {
     }
   },
 
-
+  // fetch page d'accueil
   getNewArticle: async (): Promise<Itrees[]> => {
     try {
       const response = await fetch("http://localhost:5000/");
@@ -64,16 +66,47 @@ const fetchmethod = {
     }
   },
 
-  getArticleByOrder: async () => {
+  // fetch boutique 
+  getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:5000/commande");
+      const response = await fetch("http://localhost:5000/boutique");
       const data = await response.json();
-      console.log("Données reçues:", data);
+
+      console.log("Données reçues :", data);
+
+      if (data.articles) {
+        const mergedArticles = data.articles.map((article: Itrees) => ({
+          ...article,
+          Picture: article.Picture || {
+            url: "/images/default.jpg",
+            description: "Image par défaut"
+          },
+          // Si la propriété category n'existe pas, on lui attribue une valeur par défaut.
+          category: article.category || { name: "Catégorie par défaut" }
+        }));
+
+        return mergedArticles;
+      } else {
+        console.error("Format inattendu de l'API", data);
+        return [];
+      }
 
     } catch (error) {
-      console.error("Erreur lors de la récupération de l'historique des commandes:", error);
+      console.error("Erreur lors du fetch des articles:", error);
+      return [];
     }
-  }
+  },
+
+  // getArticleByOrder: async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:5000/commande");
+  //     const data = await response.json();
+  //     console.log("Données reçues:", data);
+
+  //   } catch (error) {
+  //     console.error("Erreur lors de la récupération de l'historique des commandes:", error);
+  //   }
+  // }
 
 };
 
