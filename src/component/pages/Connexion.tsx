@@ -1,14 +1,16 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export default function Connexion() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const login = useAuthStore((state) => state.login);
+    const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
@@ -19,15 +21,23 @@ export default function Connexion() {
             });
 
             const data = await response.json();
-            if (!response.ok) throw new Error(data.message || "Erreur lors de la connexion");
+            if (!response.ok) {
+                throw new Error(data.message || "Erreur lors de la connexion");
+            }
 
-            login(data.token, data.isAdmin);
+            // 🔥 Décoder le token pour vérification (facultatif, car le store le décode déjà)
+            const decodedToken = jwtDecode(data.token);
+            console.log("Token décodé :", decodedToken);
+
+            // Mise à jour du store avec le token (le store se charge de décoder et de définir les rôles)
+            login(data.token);
+
             console.log("Connexion réussie :", data);
-
+            navigate("/");
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     return (
         <div className="w-full min-h-[calc(100vh-37px)] px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">

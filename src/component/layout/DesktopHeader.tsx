@@ -1,6 +1,11 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../../Auth/authStore";
 
 export default function DesktopHeader() {
+
+    const { token, logout } = useAuthStore();
+    const navigate = useNavigate();
+
     return (
         <header className="fixed z-30 bg-dark-secondary w-full h-24 px-12 flex items-center justify-between shadow-lg">
             {/* Logo */}
@@ -46,17 +51,38 @@ export default function DesktopHeader() {
                     <img className="h-10 invert cursor-pointer hover:scale-110 transition" src="/images/icons/shop-card.svg" alt="Panier" />
                 </Link>
 
+                {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
+                {token ? (
+                    <div className="flex gap-6">
+                        <Link to="/compte">
+                            <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
+                                Mon Compte
+                            </button>
+                        </Link>
+                        <button
+                            className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-lg"
+                            onClick={() => {
+                                logout()
+                                navigate("/")
+                            }}
+                        >
+                            Déconnexion
+                        </button>
+                    </div>
+                ) : (
+                    <div className="flex gap-6">
+                        <Link to="/inscription"><button className="px-6 py-3 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta hover:text-dark-secondary transition text-lg">
+                            Inscription
+                        </button>
+                        </Link>
+                        <Link to="/connexion"> <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
+                            Connexion
+                        </button>
+                        </Link>
+                    </div>
+                )}
                 {/* Boutons Auth */}
-                <div className="flex gap-6">
-                    <Link to="/inscription"><button className="px-6 py-3 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta hover:text-dark-secondary transition text-lg">
-                        Inscription
-                    </button>
-                    </Link>
-                    <Link to="/connexion"> <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
-                        Connexion
-                    </button>
-                    </Link>
-                </div>
+
             </div>
         </header>
     );

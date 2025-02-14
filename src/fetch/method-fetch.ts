@@ -1,7 +1,9 @@
-import { Itrees, } from "../../type/type";
+import { Itrees, Iorder, IUserInfos } from "../../type/type";
 
 const fetchmethod = {
-  getArticles: async (): Promise<Itrees[]> => {
+
+  // fetch admin
+  getArticlesByAdmin: async (): Promise<Itrees[]> => {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
 
@@ -38,7 +40,7 @@ const fetchmethod = {
     }
   },
 
-
+  // fetch page d'accueil
   getNewArticle: async (): Promise<Itrees[]> => {
     try {
       const response = await fetch("http://localhost:5000/");
@@ -49,7 +51,8 @@ const fetchmethod = {
       if (data.articles) {
         const mergedArticles = data.articles.map((article: Itrees) => ({
           ...article,
-          Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
+          Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" },
+
         }));
 
         return mergedArticles;
@@ -64,16 +67,82 @@ const fetchmethod = {
     }
   },
 
-  getArticleByOrder: async () => {
+  // fetch boutique 
+  getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:5000/commande");
+      const response = await fetch("http://localhost:5000/boutique");
       const data = await response.json();
-      console.log("Données reçues:", data);
+      console.log("Données reçues :", data);
 
+      if (data.articles) {
+        const mergedArticles = data.articles.map((article: Itrees) => ({
+          ...article,
+          Picture: article.Picture || {
+            url: "/images/default.jpg",
+            description: "Image par défaut",
+          },
+          // Si article.category n'existe pas, on lui attribue une valeur par défaut.
+          categories: article.categories || { name: "Catégorie par défaut" },
+        }));
+        return mergedArticles;
+      } else {
+        console.error("Format inattendu de l'API", data);
+        return [];
+      }
     } catch (error) {
-      console.error("Erreur lors de la récupération de l'historique des commandes:", error);
+      console.error("Erreur lors du fetch des articles:", error);
+      return [];
     }
-  }
+  },
+
+  // fetch commandes utilisateur
+  getHistoryByUser: async (): Promise<Iorder[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/compte/commandes", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+
+      // Si data est un tableau, on le retourne directement,
+      // sinon on tente de retourner data.orders ou un tableau vide
+      return data
+    } catch (error) {
+      console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
+
+  // fetch infos utilisateur
+  getUserInfos: async (): Promise<IUserInfos> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:5000/compte", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+      return data;
+    } catch (error) {
+      console.error("Erreur lors du fetch des infos utilisateur :", error);
+      // Retourne un objet par défaut respectant IUserInfos
+      return {
+        firstname: "",
+        lastname: "",
+        email: "",
+        age: 0,
+      };
+    }
+  },
 
 };
 
