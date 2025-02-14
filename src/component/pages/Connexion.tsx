@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export default function Connexion() {
 
@@ -9,7 +10,7 @@ export default function Connexion() {
     const login = useAuthStore((state) => state.login);
     const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
@@ -20,22 +21,21 @@ export default function Connexion() {
             });
 
             const data = await response.json();
-            if (!response.ok) throw new Error(data.message || "Erreur lors de la connexion");
-
-            console.log("Réponse API :", data); // ✅ Vérifie que `role_id` est bien reçu
-
-            if (!data.role_id) {
-                console.error("Erreur : role_id est undefined !");
-                return;
+            if (!response.ok) {
+                throw new Error(data.message || "Erreur lors de la connexion");
             }
 
-            login(data.token, data.role_id);
+            // 🔥 Décoder le token pour vérification (facultatif, car le store le décode déjà)
+            const decodedToken = jwtDecode(data.token);
+            console.log("Token décodé :", decodedToken);
+
+            // Mise à jour du store avec le token (le store se charge de décoder et de définir les rôles)
+            login(data.token);
+
             console.log("Connexion réussie :", data);
-
-            navigate("/compte");
-
+            navigate("/");
         } catch (error) {
-            console.error("Erreur de connexion :", error);
+            console.error(error);
         }
     };
 
