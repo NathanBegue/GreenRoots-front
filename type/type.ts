@@ -23,7 +23,7 @@ export interface Iorder {
     id: number;
     article_summary: string;
     date: string;
-    price: number;
+    total_price: number;
 }
 
 export interface IAuthState {
@@ -31,4 +31,11 @@ export interface IAuthState {
     isAdmin: boolean | string;
     login: (token: string, isAdmin: boolean) => void;
     logout: () => void;
+}
+
+export interface IUserInfos {
+    firstname: string;
+    lastname: string;
+    age: number;
+    email: string;
 }
