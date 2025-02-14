@@ -6,6 +6,7 @@ import fetchmethod from "../../fetch/method-fetch";
 import SuivisArbre from "../layout/SuivisArbre";
 import { Itrees } from "../../../type/type";
 import CreateModal from "../ui/Create-modal";
+import { useAuthStore } from "../../Auth/authStore";
 
 
 
@@ -26,13 +27,26 @@ export default function Boutique() {
   const filteredArticles =
     selectedCategory === "All"
       ? articles
-      : articles.filter((article) => article.categories.some((cat) => cat.name === selectedCategory));
+      : articles.filter((article) => article.category.some((cat) => cat.name === selectedCategory));
+
+  const { isAdmin } = useAuthStore()
 
 
   useEffect(() => {
-    fetchmethod.getArticles().then((data) => setArticles(data));
+    if (isAdmin) {
+      fetchmethod.getArticlesByAdmin().then((data) => setArticles(data));
+    } else {
+      fetchmethod.getArticle().then((data) => setArticles(data));
+    }
   }, []);
 
+  const uniqueCategories = Array.from(
+    new Set(
+      articles.flatMap((article) =>
+        article.categories?.map((cat) => cat.name) || []
+      )
+    )
+  );
 
 
   return (
@@ -81,19 +95,17 @@ export default function Boutique() {
                 id="categ-id"
                 className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition md:py-2 md:px-2 md:text-2xl">
                 <option className="bg-dark-primary text-white text-lg p-2" value="All">Catégories</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres fruitiers">Arbres fruitiers</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres d'ornement">Arbres d’ornement</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres forestiers">Arbres forestiers</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Conifères">Conifères</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres à croissance rapide">Arbres à croissance rapide</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres médicinaux">Arbres médicinaux</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres mellifères">Arbres mellifères</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres légendaires">Arbres légendaires</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres tropicaux">Arbres tropicaux</option>
-                <option className="bg-dark-primary text-white text-lg p-2" value="Arbres feuillus">Arbres feuillus</option>
 
 
-
+                {uniqueCategories.map((categoryName, index) => (
+                  <option
+                    key={index}
+                    className="bg-dark-primary text-white text-lg p-2"
+                    value={categoryName}
+                  >
+                    {categoryName}
+                  </option>
+                ))}
 
               </select>
               <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
