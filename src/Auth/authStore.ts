@@ -1,19 +1,44 @@
+// authStore.ts
 import { create } from "zustand";
-import { IAuthState } from "../../type/type";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+    role_id: number;
+}
+
+interface IAuthState {
+    token: string | null;
+    isAdmin: boolean;
+    isMember: boolean;
+    login: (token: string) => void;
+    logout: () => void;
+}
 
 export const useAuthStore = create<IAuthState>((set) => ({
-  token: localStorage.getItem("token") || null,
-  isAdmin: localStorage.getItem("isAdmin") ? localStorage.getItem("isAdmin") === "true" : false, // ✅ Vérification supplémentaire
 
-  login: (token, isAdmin) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("isAdmin", String(isAdmin)); // ✅ S'assurer que c'est une string ("true" ou "false")
-    set({ token, isAdmin });
-  },
+    token: localStorage.getItem("token"),
+    isAdmin: localStorage.getItem("isAdmin") === "true",
+    isMember: localStorage.getItem("isMember") === "true",
 
-  logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("isAdmin");
-    set({ token: null, isAdmin: false });
-  },
+    login: (token: string) => {
+        localStorage.setItem("token", token);
+
+        // 🔥 Décodage du token pour extraire le role_id
+        const decodedToken: DecodedToken = jwtDecode(token);
+        const isAdmin = decodedToken.role_id === 1;  // Par exemple, role_id 1 correspond à l'admin
+        const isMember = decodedToken.role_id === 2; // Par exemple, role_id 2 correspond à un membre
+
+        localStorage.setItem("isAdmin", String(isAdmin));
+        localStorage.setItem("isMember", String(isMember));
+
+        set({ token, isAdmin, isMember });
+    },
+
+    logout: () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("isAdmin");
+        localStorage.removeItem("isMember");
+        set({ token: null, isAdmin: false, isMember: false });
+    },
+
 }));

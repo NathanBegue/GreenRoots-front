@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Inscription() {
 
@@ -7,6 +8,7 @@ export default function Inscription() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repeat_password, setrepeat_password] = useState("")
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -26,6 +28,7 @@ export default function Inscription() {
 
             const data = await response.json();
             console.log(data);
+            navigate("/connexion");
 
         } catch (error) {
             console.error("Erreur lors de l'inscription :", error);
