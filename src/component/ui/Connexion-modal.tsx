@@ -27,13 +27,13 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
             >
 
 
-        {/* Logo de fermeture X */}
-        <img
-          onClick={() => setIsModalOpened(false)}
-          className="w-8 h-8 invert absolute top-4 right-4 cursor-pointer md:w-10 md:h-10 md:top-9 md:right-6"
-          src="/images/icons/close.svg"
-          alt="Fermer"
-        />
+                {/* Logo de fermeture X */}
+                <img
+                    onClick={() => setIsModalOpened(false)}
+                    className="w-8 h-8 invert absolute top-4 right-4 cursor-pointer md:w-10 md:h-10 md:top-9 md:right-6"
+                    src="/images/icons/close.svg"
+                    alt="Fermer"
+                />
 
                 {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
                 {token ? (
@@ -76,18 +76,6 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
                                 Connexion
                             </Link>
                         </div>
-
-
-        <div className="flex flex-col gap-2 min-w-34">
-          <p className="font-content md:text-lg">Déjà un compte ?</p>
-          <Link
-            to="/connexion"
-            className="bg-cta py-2 px-4 rounded-sm font-title font-bold md:py-3 md:px-6 md:text-lg rouded-lg"
-            onClick={() => setIsModalOpened(false)} // Ferme la modale avant de naviguer
-          >
-                        Connexion
-          </Link>
-        </div>
 
 
                         <div className="flex flex-col gap-2 min-w-34">

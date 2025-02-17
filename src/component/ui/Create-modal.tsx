@@ -135,16 +135,15 @@ export default function CreateModal({
                     </div>
 
 
-                    {/* Image URL */}
+                    {/* Image file */}
                     <div className="flex flex-col">
-                        <label className="font-semibold mb-1">Image (URL)</label>
+                        <label className="font-semibold mb-1">Image</label>
                         <input
-                            type="text"
-                            placeholder="https://exemple.com/image.jpg"
+                            type="file"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
-                            name="url"
-                            value={formData.url}
+                            name="image"
                             onChange={handleChange}
+                            accept="image/*"
                             required
                         />
                     </div>

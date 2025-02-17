@@ -16,7 +16,7 @@ import Cgu from "./component/pages/Cgu";
 import SuivisArbresUser from "./component/pages/SuivisArbreUser";
 import DetailModal from "./component/ui/Detail-modal";
 import { Itrees } from "../type/type";
-import Paypage from "./component/pages/Paiement";
+import FakePayment from "./component/pages/Paiement";
 
 
 
@@ -55,7 +55,7 @@ function App() {
           <Route path="/compte" element={<UserSpace />} />
           <Route path="/cgu" element={<Cgu />} />
           <Route path="/suivis" element={<SuivisArbresUser />} />
-          <Route path="/paiement" element={<Paypage />} />
+          <Route path="/paiement" element={<FakePayment />} />
           <Route path="/interdit" element={<Page403 />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
