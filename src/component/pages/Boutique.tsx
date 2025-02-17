@@ -10,7 +10,8 @@ import { useAuthStore } from "../../Auth/authStore";
 
 
 
-export default function Boutique() {
+export default function Boutique({setIsOpenDetail, setSelectedArticle, isOpenDetail}:{setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,   setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>, isOpenDetail:boolean
+}) {
 
   // State des modales
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
@@ -19,8 +20,7 @@ export default function Boutique() {
 
 
   const [articles, setArticles] = useState<Itrees[]>([]);
-  // stockage de l'id de l'article selectionné
-  const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
+
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -127,6 +127,9 @@ export default function Boutique() {
                     setIsOpenedEditModal={setIsOpenedEditModal}
                     setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                     setSelectedArticle={setSelectedArticle}
+                    setIsOpenDetail={setIsOpenDetail}
+                    isOpenDetail={true}
+
                   />
                 ))
               ) : (
@@ -136,7 +139,7 @@ export default function Boutique() {
             </div>
           </section>
           <h2 className="font-title font-bold text-2xl text-center  text-white mt-6">Suivi d'arbre</h2>
-          <div className=" md:flex md:flex-row ">
+          <div className="flex justify-center flex-col md:flex md:flex-row">
             <SuivisArbre />
             <SuivisArbre />
             <SuivisArbre />

@@ -46,7 +46,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} />} />
-          <Route path="/boutique" element={<Boutique />} />
+          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail}  />} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
