@@ -23,7 +23,7 @@ function App() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   // State de la modale de connexion
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  // State de la modalde de détail d'un arbre 
+  // State de la modalde de détail d'un arbre
   const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false);
 
   const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
