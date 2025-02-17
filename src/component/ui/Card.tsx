@@ -1,4 +1,5 @@
 import { Itrees } from "../../../type/type.ts";
+import useCartStore from "../../Auth/cartStore.ts";
 
 export default function Card({
   article,
@@ -15,6 +16,9 @@ export default function Card({
   setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
   isAdmin: boolean;
 }) {
+
+  const addToCart = useCartStore((state) => state.addToCart);
+
   return (
     <article
       className={`bg-dark-secondary text-white flex ${isSmall ? "flex-row items-center p-2 gap-2 w-full max-w-sm" : "flex-col"} 
@@ -59,7 +63,7 @@ export default function Card({
             </div>
           ) : (
             // Bouton d’ajout au panier pour l’utilisateur normal
-            <button className="flex items-center bg-cta p-2 rounded-lg hover:bg-cta-dark transition">
+            <button className="flex items-center bg-cta p-2 rounded-lg hover:bg-cta-dark transition" onClick={() => addToCart(article)}>
               <img src="/images/icons/shop-card.svg" alt="Ajouter au panier" className="w-6 h-6 invert" />
             </button>
           ))
