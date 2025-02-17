@@ -14,8 +14,10 @@ import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
 import Cgu from "./component/pages/Cgu";
 import SuivisArbresUser from "./component/pages/SuivisArbreUser";
+import Paypage from "./component/pages/Paiement";
 import DetailModal from "./component/ui/Detail-modal";
 import { Itrees } from "../type/type";
+
 
 
 function App() {
@@ -53,6 +55,7 @@ function App() {
           <Route path="/compte" element={<UserSpace />} />
           <Route path="/cgu" element={<Cgu />} />
           <Route path="/suivis" element={<SuivisArbresUser />} />
+          <Route path="/paiement" element={<Paypage />} />
           <Route path="/interdit" element={<Page403 />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

@@ -27,7 +27,7 @@ export default function Boutique() {
   const filteredArticles =
     selectedCategory === "All"
       ? articles
-      : articles.filter((article) => article.category.some((cat) => cat.name === selectedCategory));
+      : articles.filter((article) => article.categories.some((cat) => cat.name === selectedCategory));
 
   const { isAdmin } = useAuthStore()
 
@@ -123,7 +123,7 @@ export default function Boutique() {
                   <Card
                     key={article.id}
                     article={article}
-                    isAdmin={true}
+                    isAdmin={isAdmin}
                     setIsOpenedEditModal={setIsOpenedEditModal}
                     setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                     setSelectedArticle={setSelectedArticle}
