@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 import { useEffect, useState } from "react";
 import bgAccueil from "../../assets/images/bgAccueil.jpg"
 import Card from "../ui/Card";
@@ -10,9 +11,9 @@ export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail
   const [newarticle, setnewarticle] = useState<Itrees[]>([]);
 
   useEffect(() => {
-    fetchmethod.getNewArticle().then((data) => setnewarticle(data));
+    fetchmethod.getArticle().then((data) => setnewarticle(data));
   }, []);
-  
+
 
 
 
@@ -25,7 +26,7 @@ export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail
 
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
           </h1>
-          <div className="w-screen h-screen bg-cover bg-center pt-30" style={{ backgroundImage: `url(${bgAccueil})` }}>
+          <div className="w-screen h-screen bg-cover bg-center pt-30 lg:p-30" style={{ backgroundImage: `url(${bgAccueil})` }}>
             <div className="flex flex-col gap-6 inset-0 bg-black/60  items-center justify-center p-6">
               <h2 className="text-xl font-bold font-title">
                                 La déforestation, un enjeu majeur pour la planète

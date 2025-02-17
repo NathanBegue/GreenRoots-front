@@ -1,11 +1,14 @@
-/* eslint-disable no-trailing-spaces */
+
+
 import { Itrees } from "../../../type/type";
 
 
 
-export default function DetailModal({setIsOpenDetail, article,isOpenDetail}:{ setIsOpenDetail :React.Dispatch<React.SetStateAction<boolean>>, article : Itrees, isOpenDetail:boolean}) {
 
-  
+export default function DetailModal({ setIsOpenDetail, article, isOpenDetail }: { setIsOpenDetail: React.Dispatch<React.SetStateAction<boolean>>, article: Itrees, isOpenDetail: boolean }) {
+
+
+
   return (
     <>
       {/* Overlay pour fermer la modale en cliquant à l'extérieur */}
@@ -17,7 +20,7 @@ export default function DetailModal({setIsOpenDetail, article,isOpenDetail}:{ se
       )}
 
       {/* Modale */}
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8" style={{ maxHeight: "80vh", overflowY: "auto" }}>
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 md:w-md lg:w-lg" style={{ maxHeight: "80vh", overflowY: "auto" }}>
 
         {/* Bouton de fermeture */}
         <img
@@ -28,37 +31,43 @@ export default function DetailModal({setIsOpenDetail, article,isOpenDetail}:{ se
         />
 
         {/* Titre */}
-        <h1 className="text-2xl font-bold text-center">Détail de l'arbre : </h1>
-        <h2 className="text-xl font-bold text-center">{article.name} </h2>
+        <h1 className="text-2xl font-bold text-center">Détail de l'arbre </h1>
+        <h2 className="text-xl font-bold text-center font-title">{article.name} </h2>
 
-        {/* Formulaire */}
+
         <div className="flex flex-col gap-4">
 
-          {/* Catégorie */}
-          <div className="flex flex-col">
-            <h3 className="font-semibold mb-1">Categorie : {article.categories} </h3>
-          </div>
-
-    
           {/* Image URL */}
           <div className="flex flex-col">
-            <h3 className="font-semibold mb-1">Image :</h3>
             <img className="h-56" src={article.Picture ? `/images/arbres/${article.Picture.url}.webp` : "/images/default.jpg"}
-              alt={article.name}/>
+              alt={article.name} />
+          </div>
+          {/* Catégorie */}
+          <div className="flex flex-col">
+            <h3 className="font-semibold mb-1 font-title">Catégories :</h3>
+            <ul className="list-disc pl-4 font-content">
+              {article.categories.map((category, index) => (
+                <li key={index}>{category.name}</li>
+              ))}
+            </ul>
           </div>
 
-          {/* Prix */}
-          <div className="flex flex-col">
-            <h3 className="font-semibold mb-1">Prix : {article.price} €</h3>
-          
-          </div>
 
           {/* Description */}
-          <div className="flex flex-col ">
-            <h3 className="font-semibold mb-1">Description :</h3>
-            <p> {article.description}</p>
+          <div className="flex flex-col mb-4">
+            <h3 className="font-semibold mb-1 font-title">Description :</h3>
+            <p className="font-content"> {article.description}</p>
+
+            {/* Prix */}
+            <div className="flex flex-col mt-4">
+              <h3 className="font-semibold mb-1 font-content">Prix : {article.price} €</h3>
+            </div>
 
           </div>
+          <div className="flex justify-center">
+            <button className="bg-cta p-2 font-content text-sm rounded-sm"> Ajouter au panier </button>
+          </div>
+
         </div>
       </div>
 
