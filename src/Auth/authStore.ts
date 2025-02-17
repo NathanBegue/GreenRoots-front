@@ -1,44 +1,46 @@
-// authStore.ts
 import { create } from "zustand";
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
     role_id: number;
+    id: number;
 }
 
 interface IAuthState {
     token: string | null;
     isAdmin: boolean;
     isMember: boolean;
+    userId: number | null;
     login: (token: string) => void;
     logout: () => void;
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
-
     token: localStorage.getItem("token"),
     isAdmin: localStorage.getItem("isAdmin") === "true",
     isMember: localStorage.getItem("isMember") === "true",
+    userId: localStorage.getItem("userId") ? Number(localStorage.getItem("userId")) : null,
 
     login: (token: string) => {
         localStorage.setItem("token", token);
 
-        // 🔥 Décodage du token pour extraire le role_id
         const decodedToken: DecodedToken = jwtDecode(token);
-        const isAdmin = decodedToken.role_id === 1;  // Par exemple, role_id 1 correspond à l'admin
-        const isMember = decodedToken.role_id === 2; // Par exemple, role_id 2 correspond à un membre
+        const isAdmin = decodedToken.role_id === 1;
+        const isMember = decodedToken.role_id === 2;
+        const userId = decodedToken.id;
 
         localStorage.setItem("isAdmin", String(isAdmin));
         localStorage.setItem("isMember", String(isMember));
+        localStorage.setItem("userId", String(userId));
 
-        set({ token, isAdmin, isMember });
+        set({ token, isAdmin, isMember, userId });
     },
 
     logout: () => {
         localStorage.removeItem("token");
         localStorage.removeItem("isAdmin");
         localStorage.removeItem("isMember");
-        set({ token: null, isAdmin: false, isMember: false });
+        localStorage.removeItem("userId");
+        set({ token: null, isAdmin: false, isMember: false, userId: null });
     },
-
 }));

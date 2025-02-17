@@ -30,9 +30,11 @@ export default function Card({
       <div>
         <img
           className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
-          src={article.Picture ? `/images/arbres/${article.Picture.url}.webp` : "/images/default.jpg"}
+          // src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
+          src={`mimosa.webp`}
           alt={article.name}
         />
+        {/* {console.log(article.Picture.url)} */}
 
         <p className={`font-content text-2xl max-sm:text-base pt-4 ${isSmall ? "text-sm" : "text-xl font-bold"}`}>{article.name}</p>
       </div>

@@ -17,14 +17,14 @@ export default function EditModal({
     setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>;
 }) {
 
-  const [formData, setFormData] = useState({
-    category: "Conifères",
-    name: article.name,
-    image: article.Picture.url,
-    price: article.price,
-    description: article.description,
-    available: true
-  });
+    const [formData, setFormData] = useState({
+        category: "Conifères",
+        name: article.name,
+        image: article.Picture.url,
+        price: article.price,
+        description: article.description,
+        available: true
+    });
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -143,14 +143,13 @@ export default function EditModal({
 
                     {/* Image URL */}
                     <div className="flex flex-col">
-                        <label className="font-semibold mb-1">Image (URL)</label>
+                        <label className="font-semibold mb-1">Image</label>
                         <input
-                            type="text"
-                            placeholder="https://exemple.com/image.jpg"
+                            type="file"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
-                            onChange={handleChange}
-                            value={formData.image}
                             name="image"
+                            onChange={handleChange}
+                            accept="image/*"
                             required
                         />
                     </div>
@@ -192,16 +191,16 @@ export default function EditModal({
                         >
 
                             Annuler
-            </button>
-            <button
-              type="submit"
-              className="bg-cta px-4 py-2 rounded-lg text-white hover:bg-cta-dark transition"
-            >
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-cta px-4 py-2 rounded-lg text-white hover:bg-cta-dark transition"
+                        >
                             Sauvegarder
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
-  );
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </>
+    );
 }
