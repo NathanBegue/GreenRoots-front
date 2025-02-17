@@ -1,8 +1,26 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useCartStore from "../../Auth/cartStore";
+import { useAuthStore } from "../../Auth/authStore";
+import { useState } from "react";
 
 export default function Panier() {
     const { cart, removeFromCart, updateQuantity } = useCartStore();
+    const { token } = useAuthStore();
+    const navigate = useNavigate();
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handlePayment = () => {
+        if (cart.length === 0) return; // Empêcher le paiement si le panier est vide
+        if (!isChecked) {
+            alert("Vous devez accepter les conditions générales de vente.");
+            return;
+        }
+        if (!token) {
+            alert("Vous devez être connecté pour effectuer un paiement.");
+            return;
+        }
+        navigate("/paiement");
+    };
 
     return (
         <div className="bg-dark-primary text-white px-4 py-10 w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-32">
@@ -56,13 +74,15 @@ export default function Panier() {
 
                 <form action="" className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                        <input type="checkbox" id="cgv" className="size-5" />
+                        <input type="checkbox" id="cgv" className="size-5" onChange={(e) => setIsChecked(e.target.checked)} />
                         <label htmlFor="cgv" className="text-sm lg:text-base">J'accepte les conditions générales de vente</label>
                     </div>
 
                     <div className="flex flex-col items-center gap-4">
                         <Link to="/cgu" className="underline text-sm text-gray-300 hover:text-white lg:text-base">Voir les CGU</Link>
-                        <button className="bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold hover:bg-opacity-90 transition lg:text-xl">Payer</button>
+                        <button onClick={handlePayment} className={`bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold transition lg:text-xl ${cart.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-90"}`} disabled={cart.length === 0}>
+                            Payer
+                        </button>
                     </div>
                 </form>
             </div>
