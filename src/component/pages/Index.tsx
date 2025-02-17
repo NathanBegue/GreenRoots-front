@@ -1,12 +1,12 @@
 /* eslint-disable no-trailing-spaces */
 import { useEffect, useState } from "react";
-import bgAccueil from "../../assets/images/bgAccueil.jpg"
+import bgAccueil from "../../assets/images/bgAccueil.jpg";
 import Card from "../ui/Card";
 import fetchmethod from "../../fetch/method-fetch";
 import { Itrees } from "../../../type/type";
 
-export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail}:{setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,   setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>, isOpenDetail:boolean
-}) {
+export default function Index({setIsOpenDetail, setSelectedArticle, isDarkMode, setIsDarkMode}:{setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,   setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>, isOpenDetail:boolean
+, isDarkMode : boolean, setIsDarkMode : React.Dispatch<React.SetStateAction<boolean>>}) {
 
   const [newarticle, setnewarticle] = useState<Itrees[]>([]);
 
@@ -14,24 +14,27 @@ export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail
     fetchmethod.getArticle().then((data) => setnewarticle(data));
   }, []);
 
-
+  useEffect(() => {
+    console.log(document.documentElement.classList.contains("dark")); // Vérifie si la classe 'dark' est présente
+  }, [isDarkMode]);
+  
 
 
   return (
     <div className="w-full max-w-screen overflow-hidden">
 
-      <main className="bg-dark-primary text-white  flex flex-col gap-6 text-center ">
+      <main className={`flex flex-col gap-6 text-center ${isDarkMode ? "dark:bg-dark-primary dark:text-white" : "bg-light-primary text-black"}`}>
         <section className="flex flex-col gap-6 ">
           <h1 className="text-2xl font-bold font-title pt-25 lg:text-3xl">
 
                         🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
           </h1>
           <div className="w-screen h-screen bg-cover bg-center pt-30 lg:p-30" style={{ backgroundImage: `url(${bgAccueil})` }}>
-            <div className="flex flex-col gap-6 inset-0 bg-black/60  items-center justify-center p-6">
-              <h2 className="text-xl font-bold font-title">
+            <div className="flex flex-col gap-6 inset-0 dark:bg-black/60  items-center justify-center p-6 bg-white/ text-white">
+              <h2 className="text-xl font-bold font-title ">
                                 La déforestation, un enjeu majeur pour la planète
               </h2>
-              <p className="font-content pt-6 lg:text-2xl">
+              <p className="font-content pt-6 lg:text-2xl ">
                                 Chaque année, 15 milliards d'arbres sont abattus, mais seulement 5 milliards sont replantés. La déforestation entraîne une perte de 10 milliards d’arbres par an, menaçant la biodiversité et accélérant la désertification. En Amazonie, 17% de la forêt a déjà disparu, et en Afrique, le taux de déforestation a augmenté de 150% en 20 ans.
               </p>
               <p className="font-content lg:text-2xl">
@@ -53,7 +56,8 @@ export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail
                   isAdmin={false}
                   setIsOpenDetail={setIsOpenDetail}
                   setSelectedArticle={setSelectedArticle}
-                  isOpenDetail={true}
+                  isDarkMode={isDarkMode}
+                  setIsDarkMode={setIsDarkMode}                 
     
                 />
               ))
@@ -64,5 +68,5 @@ export default function Index({setIsOpenDetail, setSelectedArticle, isOpenDetail
         </section>
       </main>
     </div>
-  )
+  );
 }

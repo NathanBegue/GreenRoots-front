@@ -18,6 +18,7 @@ import DetailModal from "./component/ui/Detail-modal";
 import { Itrees } from "../type/type";
 
 
+
 function App() {
   // State du burger-menu
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -28,13 +29,21 @@ function App() {
 
   const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
 
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+
+
   return (
+
 
     <Router>
       <>
         {/* Header générique */}
-        <Header setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} />
-
+        <Header
+          setIsOpened={setIsOpened}
+          setIsModalOpened={setIsModalOpened}
+          setIsDarkMode={setIsDarkMode}
+          isDarkMode={isDarkMode}
+        />
         {/* Affichage du BurgerMenu */}
         {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} />}
 
@@ -42,11 +51,12 @@ function App() {
         {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} />}
 
         {/* Affichage de la modale de détail*/}
-        {isOpenDetail && selectedArticle && (<DetailModal setIsOpenDetail={setIsOpenDetail} article={selectedArticle} />)}
+        {isOpenDetail && selectedArticle && (<DetailModal setIsOpenDetail={setIsOpenDetail} article={selectedArticle} setIsDarkMode={setIsDarkMode}
+          isDarkMode={isDarkMode} />)}
 
         <Routes>
-          <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} />} />
-          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail}  />} />
+          <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} setIsOpened={setIsOpened} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
           <Route path="/inscription" element={<Inscription />} />
@@ -57,10 +67,12 @@ function App() {
           <Route path="*" element={<Page404 />} />
         </Routes>
 
+
         {/* Footer générique */}
-        <Footer />
+        <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </>
     </Router>
+
 
   );
 }
