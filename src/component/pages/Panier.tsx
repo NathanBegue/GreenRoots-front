@@ -9,34 +9,34 @@ export default function Panier() {
             <h1 className="text-center text-xl font-bold">Votre panier</h1>
 
             {/* Articles du panier */}
-            <div className="w-full flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4 lg:max-w-4xl lg:mx-auto">
                 {cart.length === 0 ? (
                     <p className="text-center text-gray-400">Votre panier est vide.</p>
                 ) : (
                     cart.map((item) => (
-                        <div key={item.id} className="bg-dark-accent p-4 flex flex-col items-center gap-4 shadow-lg w-full rounded-lg border sm:flex-row sm:justify-between">
+                        <div key={item.id} className="bg-dark-accent p-4 flex flex-col sm:flex-row items-center gap-4 shadow-lg w-full rounded-lg border lg:flex-row lg:justify-between lg:p-6">
                             {/* Image de l'article */}
-                            <img className="size-20 object-cover rounded-lg" src={item.image} alt={item.name} />
+                            <img className="size-20 sm:size-24 lg:size-28 object-cover rounded-lg" src={item.image} alt={item.name} />
 
                             {/* Nom et prix */}
-                            <div className="text-center sm:text-left flex flex-col">
-                                <p className="text-sm font-bold">{item.name}</p>
-                                <p className="text-lg font-semibold">{item.price} €</p>
+                            <div className="text-center sm:text-left flex flex-col sm:flex-grow lg:flex-grow-0 lg:w-1/4">
+                                <p className="text-sm font-bold lg:text-base">{item.name}</p>
+                                <p className="text-lg font-semibold lg:text-xl">{item.price} €</p>
                             </div>
 
                             {/* Sélecteur de quantité */}
-                            <div className="flex flex-row items-center gap-3">
+                            <div className="flex flex-row items-center gap-3 lg:gap-5">
                                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1">
                                     <img className="size-6 invert" src="/images/icons/chevron-up.svg" alt="Augmenter" />
                                 </button>
-                                <p className="w-8 text-center text-lg font-bold">{item.quantity}</p>
+                                <p className="w-8 text-center text-lg font-bold lg:text-xl">{item.quantity}</p>
                                 <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1">
                                     <img className="size-6 invert" src="/images/icons/chevron-down.svg" alt="Diminuer" />
                                 </button>
                             </div>
 
                             {/* Prix total */}
-                            <p className="text-lg font-semibold">{item.price * item.quantity} €</p>
+                            <p className="text-lg font-semibold lg:text-xl">{(item.price * item.quantity).toFixed(2)} €</p>
 
                             {/* Bouton de suppression */}
                             <button onClick={() => removeFromCart(item.id)} className="size-8 flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg p-1">
@@ -48,26 +48,26 @@ export default function Panier() {
             </div>
 
             {/* Section Total & Paiement */}
-            <div className="bg-dark-accent p-6 flex flex-col gap-6 shadow-lg w-full rounded-lg border">
-                <div className="flex justify-between text-lg font-semibold">
+            <div className="bg-dark-accent p-6 flex flex-col gap-6 shadow-lg w-full rounded-lg border lg:max-w-4xl lg:mx-auto">
+                <div className="flex justify-between text-lg font-semibold lg:text-xl">
                     <h2>Total</h2>
-                    <p>{cart.reduce((total, item) => total + item.price * item.quantity, 0)} €</p>
+                    <p>{cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)} €</p>
                 </div>
 
                 <form action="" className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
                         <input type="checkbox" id="cgv" className="size-5" />
-                        <label htmlFor="cgv" className="text-sm">J'accepte les conditions générales de vente</label>
+                        <label htmlFor="cgv" className="text-sm lg:text-base">J'accepte les conditions générales de vente</label>
                     </div>
 
                     <div className="flex flex-col items-center gap-4">
-                        <Link to="/cgu" className="underline text-sm text-gray-300 hover:text-white">Voir les CGU</Link>
-                        <button className="bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold hover:bg-opacity-90 transition">Payer</button>
+                        <Link to="/cgu" className="underline text-sm text-gray-300 hover:text-white lg:text-base">Voir les CGU</Link>
+                        <button className="bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold hover:bg-opacity-90 transition lg:text-xl">Payer</button>
                     </div>
                 </form>
             </div>
 
-            <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg font-semibold text-lg hover:bg-opacity-90 transition">Retour à la boutique</Link>
+            <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg font-semibold text-lg hover:bg-opacity-90 transition lg:text-xl lg:max-w-4xl lg:mx-auto">Retour à la boutique</Link>
         </div>
     );
 }

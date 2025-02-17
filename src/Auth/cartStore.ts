@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Ipicture } from "../../type/type";
 
 // Définition du type d'un produit
 interface Product {
@@ -7,6 +8,7 @@ interface Product {
     price: number;
     image: string;
     quantity: number;
+    Picture: Ipicture;
 }
 
 // Définition du type du store Zustand
