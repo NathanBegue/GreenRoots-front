@@ -10,7 +10,17 @@ import { useAuthStore } from "../../Auth/authStore";
 
 
 
-export default function Boutique({setIsOpenDetail, setSelectedArticle, isOpenDetail}:{setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,   setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>, isOpenDetail:boolean
+export default function Boutique({
+  setIsOpenDetail,
+  setSelectedArticle,
+  isOpenDetail,
+  isDarkMode,}
+  :{
+    setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,
+    setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>,
+    isOpenDetail:boolean,
+    isDarkMode :boolean,
+
 }) {
 
   // State des modales
@@ -80,7 +90,7 @@ export default function Boutique({setIsOpenDetail, setSelectedArticle, isOpenDet
 
 
       <div className="w-full max-w-screen overflow-hidden ">
-        <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32">
+        <main className={`${isDarkMode? "bg-dark-primary text-white" : "bg-light-primary text-black" } p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
               Nos arbres
@@ -129,6 +139,7 @@ export default function Boutique({setIsOpenDetail, setSelectedArticle, isOpenDet
                     setSelectedArticle={setSelectedArticle}
                     setIsOpenDetail={setIsOpenDetail}
                     isOpenDetail={true}
+                    isDarkMode={isDarkMode}
 
                   />
                 ))

@@ -5,9 +5,12 @@ import DesktopHeader from "./DesktopHeader";
 interface HeaderProps {
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Header({ setIsOpened, setIsModalOpened }: HeaderProps) {
+export default function Header({ setIsOpened, setIsModalOpened, isDarkMode,
+  setIsDarkMode, }: HeaderProps) {
 
 
   const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 1024);
@@ -24,8 +27,8 @@ export default function Header({ setIsOpened, setIsModalOpened }: HeaderProps) {
   }, []);
 
   return isDesktop ? (
-    <DesktopHeader />
+    <DesktopHeader isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}  />
   ) : (
-    <MobileHeader setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} />
+    <MobileHeader setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
   );
 }
