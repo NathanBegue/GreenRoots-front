@@ -15,6 +15,7 @@ interface IAuthState {
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
+
     token: localStorage.getItem("token"),
     isAdmin: localStorage.getItem("isAdmin") === "true",
     isMember: localStorage.getItem("isMember") === "true",
@@ -39,4 +40,5 @@ export const useAuthStore = create<IAuthState>((set) => ({
         localStorage.removeItem("isMember");
         set({ token: null, isAdmin: false, isMember: false });
     },
+
 }));

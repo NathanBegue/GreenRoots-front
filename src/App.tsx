@@ -14,8 +14,8 @@ import UserSpace from "./component/pages/User-space";
 import Page403 from "./component/pages/Page403";
 import Cgu from "./component/pages/Cgu";
 import SuivisArbresUser from "./component/pages/SuivisArbreUser";
-// import fetchmethod from "./fetch/method-fetch";
-// import { Itrees } from "../type/type";
+import DetailModal from "./component/ui/Detail-modal";
+import { Itrees } from "../type/type";
 
 
 function App() {
@@ -23,13 +23,10 @@ function App() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   // State de la modale de connexion
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+  // State de la modalde de détail d'un arbre 
+  const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false);
 
-  // State de stockage des articles
-  // const [articles, setArticles] = useState<Itrees[]>([]);
-
-  // useEffect(() => {
-  //   fetchmethod.getArticles().then((data) => setArticles(data));
-  // }, []);
+  const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
 
   return (
 
@@ -44,8 +41,11 @@ function App() {
         {/* Affichage de la modale de connexion */}
         {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} />}
 
+        {/* Affichage de la modale de détail*/}
+        {isOpenDetail && selectedArticle && (<DetailModal setIsOpenDetail={setIsOpenDetail} article={selectedArticle} />)}
+
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} />} />
           <Route path="/boutique" element={<Boutique />} />
           <Route path="/panier" element={<Panier />} />
           <Route path="/connexion" element={<Connexion />} />
