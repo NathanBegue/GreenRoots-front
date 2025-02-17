@@ -10,7 +10,18 @@ import { useAuthStore } from "../../Auth/authStore";
 
 
 
-export default function Boutique() {
+export default function Boutique({
+  setIsOpenDetail,
+  setSelectedArticle,
+  isOpenDetail,
+  isDarkMode,}
+  :{
+    setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,
+    setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>,
+    isOpenDetail:boolean,
+    isDarkMode :boolean,
+
+}) {
 
   // State des modales
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
@@ -19,8 +30,7 @@ export default function Boutique() {
 
 
   const [articles, setArticles] = useState<Itrees[]>([]);
-  // stockage de l'id de l'article selectionné
-  const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
+
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -29,7 +39,7 @@ export default function Boutique() {
       ? articles
       : articles.filter((article) => article.categories.some((cat) => cat.name === selectedCategory));
 
-  const { isAdmin } = useAuthStore()
+  const { isAdmin } = useAuthStore();
 
 
   useEffect(() => {
@@ -80,7 +90,7 @@ export default function Boutique() {
 
 
       <div className="w-full max-w-screen overflow-hidden ">
-        <main className="bg-dark-primary text-white p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32">
+        <main className={`${isDarkMode? "bg-dark-primary text-white" : "bg-light-primary text-black" } p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
               Nos arbres
@@ -127,6 +137,10 @@ export default function Boutique() {
                     setIsOpenedEditModal={setIsOpenedEditModal}
                     setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                     setSelectedArticle={setSelectedArticle}
+                    setIsOpenDetail={setIsOpenDetail}
+                    isOpenDetail={true}
+                    isDarkMode={isDarkMode}
+
                   />
                 ))
               ) : (
@@ -136,7 +150,7 @@ export default function Boutique() {
             </div>
           </section>
           <h2 className="font-title font-bold text-2xl text-center  text-white mt-6">Suivi d'arbre</h2>
-          <div className=" md:flex md:flex-row ">
+          <div className="flex justify-center flex-col md:flex md:flex-row">
             <SuivisArbre />
             <SuivisArbre />
             <SuivisArbre />
