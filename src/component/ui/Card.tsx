@@ -30,8 +30,7 @@ export default function Card({
       <div>
         <img
           className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
-          // src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
-          src={`mimosa.webp`}
+          src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
           alt={article.name}
         />
         {/* {console.log(article.Picture.url)} */}
