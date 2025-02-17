@@ -32,16 +32,31 @@ const useCartStore = create<CartState>((set) => ({
         set((state) => {
             const existingItem = state.cart.find((item) => item.id === product.id);
             let updatedCart;
+
             if (existingItem) {
                 updatedCart = state.cart.map((item) =>
                     item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 );
             } else {
-                updatedCart = [...state.cart, { ...product, quantity: 1 }];
+                updatedCart = [
+                    ...state.cart,
+                    {
+                        ...product,
+                        quantity: 1,
+                        // 🔥 Correction : Récupération correcte de l’image
+                        image: product.Picture?.url
+                            ? `/images/arbres/${product.Picture.url}.webp`
+                            : "/images/default.png",
+                    },
+                ];
             }
-            localStorage.setItem("cart", JSON.stringify(updatedCart)); // Sauvegarde
+
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
             return { cart: updatedCart };
         }),
+
+
+
 
     removeFromCart: (productId: string) =>
         set((state) => {
