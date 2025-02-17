@@ -88,6 +88,43 @@ export default function Panier() {
             </div>
 
             <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg font-semibold text-lg hover:bg-opacity-90 transition lg:text-xl lg:max-w-4xl lg:mx-auto">Retour à la boutique</Link>
+
         </div>
-    );
+
+        {/* Sélecteur de quantité */}
+        <div className="flex flex-row items-center gap-2">
+          <button className="size-6 flex items-center justify-center bg-dark-secondary border rounded">
+            <img className="size-6 invert" src="/images/icons/chevron-up.svg" alt="Augmenter" />
+          </button>
+          <p className="w-6 text-center">2</p>
+          <button className="size-6 flex items-center justify-center bg-dark-secondary border rounded">
+            <img className="size-6 invert" src="/images/icons/chevron-down.svg" alt="Diminuer" />
+          </button>
+        </div>
+
+        {/* Prix total */}
+        <p className="text-lg font-semibold">220 €</p>
+      </div>
+
+      {/* Block total (facture) */}
+      <div className="bg-dark-accent p-6 flex flex-col gap-6 shadow-xl w-full border">
+        <div className="flex justify-between">
+          <h2>Total</h2>
+          <p>105.92 €</p>
+        </div>
+        <form action="">
+          <div className="flex items-center gap-2">
+            <input type="checkbox" name="" id="" />
+            <p className="text-center">J'accepte les conditions générales de vente</p>
+          </div>
+          <div className="flex flex-col items-center gap-6 pt-4">
+            <Link to="/cgu" className="">CGU</Link>
+            <button className="bg-cta px-4 py-2 rounded-2xl">Payer</button>
+          </div>
+        </form>
+      </div>
+
+      <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg">Retour à la boutique</Link>
+    </div>
+  );
 }

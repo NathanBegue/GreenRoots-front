@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Itrees } from "../../../type/type";
 
 export default function EditModal({
+
     setIsOpenedEditModal,
     isOpenedEditModal,
     article,
     setArticles,
     setSelectedArticle
+
 }: {
     isOpenedEditModal: boolean,
     setIsOpenedEditModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,14 +17,14 @@ export default function EditModal({
     setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>;
 }) {
 
-    const [formData, setFormData] = useState({
-        category: "Conifères",
-        name: article.name,
-        image: article.Picture.url,
-        price: article.price,
-        description: article.description,
-        available: true
-    });
+  const [formData, setFormData] = useState({
+    category: "Conifères",
+    name: article.name,
+    image: article.Picture.url,
+    price: article.price,
+    description: article.description,
+    available: true
+  });
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -188,17 +190,18 @@ export default function EditModal({
                             className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
                             onClick={() => setIsOpenedEditModal(false)}
                         >
+
                             Annuler
-                        </button>
-                        <button
-                            type="submit"
-                            className="bg-cta px-4 py-2 rounded-lg text-white hover:bg-cta-dark transition"
-                        >
+            </button>
+            <button
+              type="submit"
+              className="bg-cta px-4 py-2 rounded-lg text-white hover:bg-cta-dark transition"
+            >
                             Sauvegarder
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </>
-    );
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
 }
