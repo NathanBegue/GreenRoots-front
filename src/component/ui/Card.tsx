@@ -67,7 +67,7 @@ export default function Card({
           ))
         }
         <p className="font-content font-semibold text-xs min-[374px]:text-base text-cta ml-2 border-b-1">{"Prix: " + article.price + " €"}</p>
-        <button className="font-content border-2 p-2 border-cta bg-cta rounded-lg drop-shadow-lg max-sm:p-1 max-sm:text-sm min-sm:p-0 min-sm:text-sm min-lg:p-4 min-lg:text-lg"
+        <button className="font-content border-2 p-2 border-cta bg-cta rounded-lg drop-shadow-lg  sm:text-sm sm:p-0  g:p-2 lg:text-lg"
           onClick={() =>  {
             if (setIsOpenDetail) {
               setIsOpenDetail(true);
