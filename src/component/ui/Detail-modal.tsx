@@ -1,4 +1,5 @@
 import { Itrees } from "../../../type/type";
+import useCartStore from "../../Auth/cartStore";
 
 interface DetailModalProps {
   setIsOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,10 +15,12 @@ export default function DetailModal({
   isDarkMode,
 }: DetailModalProps) {
 
+  const addToCart = useCartStore((state) => state.addToCart);
 
   return (
     <>
       {/* Overlay pour fermer la modale en cliquant à l'extérieur */}
+
       {isOpenDetail && (
         <div
           className="fixed inset-0 bg-black/50 z-10"
@@ -43,7 +46,7 @@ export default function DetailModal({
         <div className="flex flex-col gap-4">
           {/* Image URL */}
           <div className="flex flex-col ">
-            <img className="h-56 md:h-100" src={article.Picture ? `/images/arbres/${article.Picture.url}.webp` : "/images/default.jpg"}
+            <img className="h-56 md:h-100" src={article.Picture ? article.Picture.url : "/images/default.jpg"}
               alt={article.name} />
           </div>
           {/* Catégorie */}
@@ -69,7 +72,7 @@ export default function DetailModal({
 
           </div>
           <div className="flex justify-center">
-            <button className={`bg-cta p-2 font-content text-sm rounded-sm ${isDarkMode ? "text-white" : "text-black"} `}> Ajouter au panier </button>
+            <button onClick={() => addToCart(article)} className={`bg-cta p-2 font-content text-sm rounded-sm ${isDarkMode ? "text-white" : "text-black"} `}> Ajouter au panier </button>
           </div>
 
         </div>
