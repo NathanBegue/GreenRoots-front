@@ -12,9 +12,18 @@ export default function CreateModal({
     setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
 }) {
     // State pour stocker les valeurs du formulaire
-    const [formData, setFormData] = useState({
+    interface FormDataState {
+        name: string;
+        image: File | null;
+        price: string;
+        description: string;
+        category: string;
+        available: boolean;
+    }
+
+    const [formData, setFormData] = useState<FormDataState>({
         name: "",
-        url: "",
+        image: null, // ✅ Correct
         price: "",
         description: "",
         category: "Arbres d'ornement",
@@ -22,12 +31,16 @@ export default function CreateModal({
     });
 
 
-    // Fonction pour gérer les changements de champ
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.name === "price" ? Number(e.target.value) : e.target.value,
-        });
+        if (e.target.type === "file") {
+            const file = (e.target as HTMLInputElement).files?.[0] || null;
+            setFormData((prev) => ({ ...prev, image: file }));
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [e.target.name]: e.target.name === "price" ? Number(e.target.value) : e.target.value,
+            }));
+        }
     };
 
 
@@ -36,39 +49,45 @@ export default function CreateModal({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("price", formData.price);
+        formDataToSend.append("categoryName", formData.category);
+        formDataToSend.append("description", formData.description);
+        formDataToSend.append("available", formData.available.toString());
+
+        if (formData.image) {
+            formDataToSend.append("image", formData.image); // ✅ Ajoute l’image au FormData
+        }
 
         try {
             const response = await fetch("http://localhost:5000/api/articles", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-                body: JSON.stringify({
-                    name: formData.name,
-                    price: Number(formData.price), // Conversion en nombre
-                    categoryName: [formData.category],
-                    pictureUrl: formData.url, // On envoie l'URL de l'image
-                    description: formData.description,
-                    available: formData.available,
-                }),
+                body: formDataToSend,
             });
 
-
             const data = await response.json();
-            console.log("Article ajouté avec succès :", data);
+            console.log("📡 Réponse API :", JSON.stringify(data, null, 2));
+
             setArticles((prevArticles) => [
                 ...prevArticles,
                 {
-                    ...data.article,  // L'article retourné par l'API
-                    Picture: data.article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
+                    ...data.article,
+                    Picture: data.article?.Picture
+                        ? data.article.Picture
+                        : { url: "/images/default.jpg", description: "Image par défaut" }
                 }
             ]);
+
             setOpenCreateModal(false);
         } catch (error) {
-            console.error("Erreur lors de l'ajout de l'article :", error);
+            console.error("❌ Erreur lors de l'ajout de l'article :", error);
         }
     };
+
 
 
     return (
@@ -135,16 +154,15 @@ export default function CreateModal({
                     </div>
 
 
-                    {/* Image URL */}
+                    {/* Image file */}
                     <div className="flex flex-col">
-                        <label className="font-semibold mb-1">Image (URL)</label>
+                        <label className="font-semibold mb-1">Image</label>
                         <input
-                            type="text"
-                            placeholder="https://exemple.com/image.jpg"
+                            type="file"
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
-                            name="url"
-                            value={formData.url}
+                            name="image"
                             onChange={handleChange}
+                            accept="image/*"
                             required
                         />
                     </div>

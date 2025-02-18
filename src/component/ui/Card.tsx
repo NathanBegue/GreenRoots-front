@@ -21,10 +21,7 @@ export default function Card({
   setIsOpenDetail?: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
   article: Itrees;
-
-  setIsOpenDetail?: React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>;
-  isDarkMode : boolean,
+  isDarkMode: boolean,
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
 
 
@@ -37,20 +34,21 @@ export default function Card({
       className={`flex ${isDarkMode ? "bg-dark-secondary dark:text-white" : "bg-light-accent text-black"} ${isSmall ? "flex-row items-center p-2 gap-2 w-full max-w-sm" : "flex-col"} 
             rounded-lg border shadow-black shadow-lg md:max-w-4xl`}
     >
+
       {/* Image du produit */}
       <div>
         <img
-          className={`object-cover rounded-lg aspect-square  ${isSmall ? "w-12 h-12" : ""}`}
-          src={article.Picture ? `/images/arbres/${article.Picture.url}.webp` : "/images/default.jpg"}
+          className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
+          src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
           alt={article.name}
         />
+        {/* {console.log(article.Picture.url)} */}
 
         <p className={`font-content text-2xl max-sm:text-base pt-4 ${isSmall ? "text-sm" : "text-xl font-bold"}`}>{article.name}</p>
       </div>
 
       {/* Contenu de la carte */}
       <div className={"flex justify-between items-center w-full pb-4 p-4 min-sm:gap-4"}>
-        <p className="font-semibold text-xs min-[374px]:text-base text-cta ml-2">{`Prix: ` + article.price + " €"}</p>
 
         {/* Supprime tous les boutons si isSmall est activé */}
         {!isSmall &&
@@ -80,9 +78,8 @@ export default function Card({
           ))
         }
 
-        <p className={`font-content font-semibold text-xs min-[374px]:text-base ${ isDarkMode?  "text-cta" : "text-black"} ml-2 border-b-1`}> {"Prix: " + article.price + " €"}</p>
-        <button className="font-content border-2 p-2 border-cta bg-cta rounded-lg drop-shadow-lg  sm:text-sm sm:p-0  g:p-2 lg:text-lg"
-          onClick={() =>  {
+        <p className={`font-content font-semibold text-xs min-[374px]:text-base ${isDarkMode ? "text-cta" : "text-black"} ml-2 border-b-1`}> {"Prix: " + article.price + " €"}</p>
+
 
 
         {/* Bouton détail */}
