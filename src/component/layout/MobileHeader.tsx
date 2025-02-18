@@ -26,10 +26,10 @@ export default function MobileHeader({
         <header className={` ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} w-full h-16 px-6 flex items-center overflow-hidden fixed z-30`}>
 
             <div className="flex items-center gap-4 flex-nowrap justify-between w-full ">
-                <img className={`h-8 ${isDarkMode && "invert"}`} src="/images/icons/logo-.svg" alt="Logo" />
+                <img className={`h-8 ${!isDarkMode && "invert"}`} src="/images/icons/logo-.svg" alt="Logo" />
 
                 <div>
-                    <div className={`min-h-screen flex items-center justify-center dark:text-white ${isDarkMode && "invert"}`}>
+                    <div className={`min-h-screen flex items-center justify-center dark:text-white `}>
                         <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
                     </div>
                 </div>

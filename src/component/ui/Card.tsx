@@ -8,9 +8,7 @@ export default function Card({
   setIsOpenedDeleteModal,
   setIsOpenDetail,
   setSelectedArticle,
-
   isDarkMode,
-  setIsDarkMode,
   isAdmin
 
 }: {
@@ -49,6 +47,7 @@ export default function Card({
 
       {/* Contenu de la carte */}
       <div className={"flex justify-between items-center w-full pb-4 p-4 min-sm:gap-4"}>
+
 
         {/* Supprime tous les boutons si isSmall est activé */}
         {!isSmall &&

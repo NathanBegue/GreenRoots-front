@@ -39,3 +39,22 @@ export interface IUserInfos {
     age: number;
     email: string;
 }
+
+// Définition du type d'un produit
+export interface Product {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    quantity: number;
+    Picture: Ipicture;
+}
+
+// Définition du type du store Zustand
+export interface CartState {
+    cart: Product[];
+    addToCart: (product: Product) => void;
+    removeFromCart: (productId: string) => void;
+    updateQuantity: (productId: string, newQuantity: number) => void;
+    clearCart: () => void;
+}

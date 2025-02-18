@@ -1,24 +1,6 @@
 import { create } from "zustand";
-import { Ipicture } from "../../type/type";
+import { CartState, Product } from "../../type/type";
 
-// Définition du type d'un produit
-interface Product {
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-    quantity: number;
-    Picture: Ipicture;
-}
-
-// Définition du type du store Zustand
-interface CartState {
-    cart: Product[];
-    addToCart: (product: Product) => void;
-    removeFromCart: (productId: string) => void;
-    updateQuantity: (productId: string, newQuantity: number) => void;
-    clearCart: () => void;
-}
 
 // Fonction pour charger les données du localStorage
 const loadCartFromStorage = (): Product[] => {
