@@ -119,7 +119,7 @@ export default function EditModal({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        let pictureUrl = formData.image; // URL ou fichier
+        let pictureUrl = formData.image;
 
         if (formData.image instanceof File) {
             try {
@@ -134,23 +134,27 @@ export default function EditModal({
         }
 
         const payload = {
-            name: formData.name,
-            price: Number(formData.price),
-            categoryName: [formData.category],
-            pictureUrl: pictureUrl,
-            description: formData.description,
+            name: formData.name.trim() !== "" ? formData.name.trim() : article.name,
+            price: formData.price !== "" ? Number(formData.price) : article.price,
+            categoryName: [formData.category.trim() !== "" ? formData.category.trim() : article.categories?.[0]?.name],
+            description: formData.description.trim() !== "" ? formData.description.trim() : article.description,
             available: formData.available,
+            pictureUrl: "uneChaineNonVide",
+            // pictureUrl: (typeof pictureUrl === "string" && pictureUrl.trim() !== "")
+            //     ? pictureUrl.trim()
+            //     : article.Picture?.url,
         };
 
+
+        console.log("Payload envoyé :", payload);
+
         try {
-            // Récupération du token et création des headers
             const token = localStorage.getItem("token");
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
-            // Utilisation d'une URL relative
             const response = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
                 method: "PATCH",
                 headers,
@@ -162,9 +166,8 @@ export default function EditModal({
             }
 
             const updatedArticle = await response.json();
-            console.log("✅ Article mis à jour avec succès :", updatedArticle);
+            console.log("Article mis à jour :", updatedArticle);
 
-            // Mise à jour de la liste des articles
             setArticles((prev) =>
                 prev.map((a) =>
                     a.id === article.id
@@ -174,12 +177,11 @@ export default function EditModal({
                             categories: updatedArticle.categories || a.categories,
                             Picture: updatedArticle.Picture
                                 ? updatedArticle.Picture
-                                : { url: pictureUrl, description: "Image mise à jour" },
+                                : { url: payload.pictureUrl, description: "Image mise à jour" },
                         }
                         : a
                 )
             );
-
             setSelectedArticle(updatedArticle);
             setIsOpenedEditModal(false);
         } catch (error) {
@@ -191,10 +193,7 @@ export default function EditModal({
         <>
             {/* Overlay pour fermer la modale */}
             {isOpenedEditModal && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-10"
-                    onClick={() => setIsOpenedEditModal(false)}
-                />
+                <div className="fixed inset-0 bg-black/50 z-10" onClick={() => setIsOpenedEditModal(false)} />
             )}
 
             {/* Modale */}

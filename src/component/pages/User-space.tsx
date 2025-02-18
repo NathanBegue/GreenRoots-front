@@ -47,7 +47,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
     };
 
     return (
-        <div className={`w-full min-h-full mx-auto p-6 shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} pt-20 lg:pt-48 lg:px-250`}>
+        <div className={`w-full min-h-full mx-auto p-6 shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} pt-20 lg:pt-48 `}>
             {/* Block de modification des informations personnelles */}
             <div>
                 <h1 className="text-2xl font-bold text-center mb-6">Espace personnel</h1>
