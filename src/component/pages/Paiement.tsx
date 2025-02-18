@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Product } from "../../../type/type";
 
 export default function FakePayment() {
     const navigate = useNavigate();
@@ -11,7 +12,8 @@ export default function FakePayment() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]") as Product[];
+
 
         if (cart.length === 0) {
             setErrorMessage("Votre panier est vide.");
@@ -23,15 +25,15 @@ export default function FakePayment() {
 
         try {
             const orderData = {
-                articles: cart.map(item => ({
-                    id: item.id, // ✅ Le backend attend `id` au lieu de `article_id`
-                    quantity: item.quantity // ✅ Quantité envoyée
-                }))
+                articles: cart.map((item: Product) => ({
+                    id: item.id,
+                    quantity: item.quantity,
+                })),
             };
 
             console.log("📦 Données envoyées :", JSON.stringify(orderData, null, 2));
 
-            const response = await fetch("http://localhost:5000/commande", {
+            const response = await fetch("http://localhost:3000/commande", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

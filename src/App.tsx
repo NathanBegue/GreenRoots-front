@@ -53,12 +53,22 @@ function App() {
         {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} />}
 
         {/* Affichage de la modale de détail*/}
-        {isOpenDetail && selectedArticle && (<DetailModal setIsOpenDetail={setIsOpenDetail} article={selectedArticle} setIsDarkMode={setIsDarkMode}
+        {isOpenDetail && selectedArticle && (<DetailModal
+          setIsOpenDetail={setIsOpenDetail}
+          article={selectedArticle}
           isDarkMode={isDarkMode} />)}
 
         <Routes>
-          <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} setIsOpened={setIsOpened} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
-          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} isOpenDetail={isOpenDetail} setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />} />
+          <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail}
+            setSelectedArticle={setSelectedArticle}
+            isOpenDetail={isOpenDetail}
+            isDarkMode={isDarkMode}
+            setIsDarkMode={setIsDarkMode} />} />
+
+          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail}
+            setSelectedArticle={setSelectedArticle}
+            isOpenDetail={isOpenDetail}
+            isDarkMode={isDarkMode} />} />
 
 
           <Route path="/panier" element={<Panier />} />
@@ -74,7 +84,7 @@ function App() {
 
 
         {/* Footer générique */}
-        <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+        <Footer isDarkMode={isDarkMode} />
       </>
     </Router>
 

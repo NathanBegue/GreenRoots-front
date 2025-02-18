@@ -14,7 +14,7 @@ export default function Connexion() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/connexion", {
+      const response = await fetch("http://localhost:3000/connexion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -75,7 +75,7 @@ export default function Connexion() {
           />
           {/* Lien Mot de passe oublié */}
           <Link to="/mot-de-passe-oublie" className="text-sm text-cta hover:underline pt-2 self-end">
-                        Mot de passe oublié ?
+            Mot de passe oublié ?
           </Link>
         </div>
 
@@ -84,7 +84,7 @@ export default function Connexion() {
           type="submit"
           className="bg-cta text-white py-3 px-6 rounded-lg w-full font-bold hover:bg-cta-dark transition"
         >
-                    Connexion
+          Connexion
         </button>
       </form>
     </div>
