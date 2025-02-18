@@ -13,20 +13,25 @@ import { useAuthStore } from "../../Auth/authStore";
 export default function Boutique({
   setIsOpenDetail,
   setSelectedArticle,
+  selectedArticle,  // ✅ Ajout ici
   isOpenDetail,
-  isDarkMode,}
-  :{
-    setIsOpenDetail:React.Dispatch<React.SetStateAction<boolean>>,
-    setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>,
-    isOpenDetail:boolean,
-    isDarkMode :boolean,
+  isDarkMode,
+
+}: {
+  setIsOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedArticle: React.Dispatch<React.SetStateAction<Itrees | null>>;
+  selectedArticle: Itrees | null;  // ✅ Ajout ici
+  isOpenDetail: boolean;
+  isDarkMode: boolean;
 
 }) {
+
 
   // State des modales
   const [openCreateModal, setOpenCreateModal] = useState<boolean>(false);
   const [isOpenedEditModal, setIsOpenedEditModal] = useState<boolean>(false);
   const [isOpenedDeleteModal, setIsOpenedDeleteModal] = useState<boolean>(false);
+
 
 
   const [articles, setArticles] = useState<Itrees[]>([]);
@@ -65,6 +70,8 @@ export default function Boutique({
         setOpenCreateModal={setOpenCreateModal}
         isOpenedCreateModal={openCreateModal}
         setArticles={setArticles}
+        isDarkMode={isDarkMode}
+        articles={articles}
       />}
 
 
@@ -72,25 +79,31 @@ export default function Boutique({
         <EditModal
           setIsOpenedEditModal={setIsOpenedEditModal}
           isOpenedEditModal={isOpenedEditModal}
-          article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+          article={selectedArticle} // ✅ Utilisation correcte
           setArticles={setArticles}
           setSelectedArticle={setSelectedArticle}
+          isDarkMode={isDarkMode}
+          articles={articles}
         />
       )}
+
 
       {isOpenedDeleteModal && selectedArticle && (
         <DeleteModal
           setIsOpenedDeleteModal={setIsOpenedDeleteModal}
           isOpenedDeleteModal={isOpenedDeleteModal}
-          article={selectedArticle} // On s'assure que selectedArticle n'est pas null
+          article={selectedArticle} // ✅ Utilisation correcte
+
           setArticles={setArticles}
+          isDarkMode={isDarkMode}
         />
       )}
 
 
 
+
       <div className="w-full max-w-screen overflow-hidden ">
-        <main className={`${isDarkMode? "bg-dark-primary text-white" : "bg-light-primary text-black" } p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
+        <main className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
           <section className="flex flex-col gap-6">
             <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
               Nos arbres
@@ -118,9 +131,11 @@ export default function Boutique({
                 ))}
 
               </select>
-              <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
-                Ajouter un arbre +
-              </button>
+              {isAdmin &&
+                <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
+                  Ajouter un arbre +
+                </button>}
+
 
 
             </div>

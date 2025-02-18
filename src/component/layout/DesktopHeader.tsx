@@ -17,58 +17,48 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} w-full h-24 px-12 flex items-center justify-between shadow-lg`}>
+    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  w-full h-24 px-2 flex items-center justify-between shadow-lg`}>
       {/* Logo */}
-      <img className="h-16" src="/images/icons/logo-.svg" alt="Logo" />
-
+      <Link to="/">
+        <img className="h-16 rounded-lg" src="src/assets/images/logo.webp" alt="Logo" />
+      </Link >
       {/* Navigation */}
       <nav>
-        <ul className={`flex gap-10 text-white font-title text-xl ${isDarkMode ? "text-white" : "text-black"}`}>
+        <ul className={`flex gap-10 text-white font-title text-xl `}>
           <li>
-            <Link to="/" className="group relative px-4 py-2 hover:text-cta transition">
+            <Link to="/" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Accueil
               <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
             </Link>
           </li>
           <li>
-            <Link to="/boutique" className="group relative px-4 py-2 hover:text-cta transition">
+            <Link to="/boutique" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Boutique
               <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
             </Link>
           </li>
           <li>
-            <Link to="/historique" className="group relative px-4 py-2 hover:text-cta transition">
+            <Link to="/historique" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Historique
               <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
             </Link>
           </li>
         </ul>
       </nav>
-
       {/* Icônes et Actions */}
-      <div className={`flex items-center gap-8 `}>
-        <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <div className={`flex items-center gap-4 `}>
 
-        {/* Lien vers le panier avec compteur */}
-        <Link to="/panier" className="relative">
-          <img className={`h-10 ${isDarkMode && "invert"} cursor-pointer hover:scale-110 transition`} src="/images/icons/shop-card.svg" alt="Panier" />
-          {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-              {totalItems}
-            </span>
-          )}
-        </Link>
 
         {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
         {token ? (
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <Link to="/compte">
-              <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
+              <button className={`px-4 py-1 bg-cta rounded-lg cursor-pointer hover:scale-110 hover:bg-cta-dark transition text-lg ${isDarkMode ? "text-white" : "text-black"}`}>
                 Mon Compte
               </button>
             </Link>
             <button
-              className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-lg"
+              className={`px-4 py-1 bg-cta rounded-lg cursor-pointer hover:scale-110 hover:bg-cta-dark transition text-lg ${isDarkMode ? "text-white" : "text-black"}`}
               onClick={() => {
                 logout();
                 navigate("/");
@@ -78,19 +68,34 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
             </button>
           </div>
         ) : (
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <Link to="/inscription">
-              <button className="px-6 py-3 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta hover:text-dark-secondary transition text-lg">
+              <button className="px-4 py-1 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta cursor-pointer hover:text-dark-secondary transition text-lg">
                 Inscription
               </button>
             </Link>
             <Link to="/connexion">
-              <button className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-dark transition text-lg">
+              <button className="px-4 py-1 text-white rounded-lg bg-dark-primary hover:bg-cta cursor-pointer transition text-lg">
                 Connexion
               </button>
             </Link>
           </div>
         )}
+
+        {/* Lien vers le panier avec compteur */}
+
+
+        <Link to="/panier" className="relative">
+          <img className={`h-8 ${isDarkMode && "invert"} cursor-pointer hover:scale-110 transition`} src="/images/icons/shop-card.svg" alt="Panier" />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+
+
+        <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>
     </header>
   );

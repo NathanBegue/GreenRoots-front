@@ -4,12 +4,14 @@ export default function DeleteModal({
     isOpenedDeleteModal,
     setIsOpenedDeleteModal,
     article,
-    setArticles
+    setArticles,
+    isDarkMode
 }: {
     isOpenedDeleteModal: boolean,
     setIsOpenedDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
     article: Itrees;
     setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
+    isDarkMode: boolean
 }) {
 
 
@@ -17,7 +19,7 @@ export default function DeleteModal({
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/articles/${article.id}`, {
+            const response = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,14 +51,14 @@ export default function DeleteModal({
             )}
 
             {/* Modale */}
-            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-6 z-20">
+            <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"}w-80 p-6 rounded-lg shadow-lg  flex flex-col gap-6 z-20`}>
 
                 {/* Bouton de fermeture */}
                 <img
                     onClick={() => setIsOpenedDeleteModal(false)}
                     src="/images/icons/close.svg"
                     alt="Fermer la modale"
-                    className="w-6 h-6 invert absolute top-4 right-4 cursor-pointer"
+                    className={`w-6 h-6 ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer`}
                 />
 
                 {/* Texte de confirmation */}

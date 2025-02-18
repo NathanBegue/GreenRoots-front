@@ -1,4 +1,4 @@
-export default function Cgu() {
+export default function Cgu({ isDarkMode }: { isDarkMode: boolean }) {
     return (
         <div className="w-full mx-auto p-6 shadow-lg bg-dark-primary text-white pt-20">
             <section className="max-w-3xl mx-auto px-4">

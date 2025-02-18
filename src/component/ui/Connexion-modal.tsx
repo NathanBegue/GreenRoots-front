@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 
-export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
+export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDarkMode }: {
     isModalOpened: boolean,
     setIsModalOpened: React.Dispatch<React.SetStateAction<boolean>>
+    isDarkMode: boolean,
 }) {
 
     const { token, logout } = useAuthStore();
@@ -22,7 +23,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
 
             {/* Modale */}
             <div
-                className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary bg-opacity-90 w-64 h-auto p-6 rounded-lg text-center shadow-lg text-white flex flex-col justify-between items-center gap-4 z-30 md:p-10 md:w-96 md:gap-6 md:rounded-xl md:top-1/2"
+                className={`fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} bg-opacity-90 w-64 h-auto p-6 rounded-lg text-center shadow-lg flex flex-col justify-between items-center gap-4 z-30 md:p-10 md:w-96 md:gap-6 md:rounded-xl md:top-1/2`}
                 onClick={(e) => e.stopPropagation()}
             >
 
@@ -30,7 +31,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened }: {
                 {/* Logo de fermeture X */}
                 <img
                     onClick={() => setIsModalOpened(false)}
-                    className="w-8 h-8 invert absolute top-4 right-4 cursor-pointer md:w-10 md:h-10 md:top-9 md:right-6"
+                    className={`w-8 h-8 absolute top-4 right-4 cursor-pointer md:w-10 md:h-10 md:top-9 md:right-6 ${isDarkMode && "invert"}`}
                     src="/images/icons/close.svg"
                     alt="Fermer"
                 />

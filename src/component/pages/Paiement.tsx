@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
 
-export default function FakePayment() {
+export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");

@@ -3,7 +3,7 @@ import useCartStore from "../../Auth/cartStore";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
 
-export default function Panier() {
+export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
     const { cart, removeFromCart, updateQuantity } = useCartStore();
     const { token } = useAuthStore();
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Panier() {
     };
 
     return (
-        <div className="bg-dark-primary text-white px-4 py-10 w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-32">
+        <div className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} px-4 py-10 w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-32`}>
             <h1 className="text-center text-xl font-bold">Votre panier</h1>
 
             {/* Articles du panier */}
@@ -32,7 +32,7 @@ export default function Panier() {
                     <p className="text-center text-gray-400">Votre panier est vide.</p>
                 ) : (
                     cart.map((item) => (
-                        <div key={item.id} className="bg-dark-accent p-4 flex flex-col sm:flex-row items-center gap-4 shadow-lg w-full rounded-lg border lg:flex-row lg:justify-between lg:p-6">
+                        <div key={item.id} className={`${isDarkMode ? "bg-dark-accent" : "bg-light-secondary"} p-4 flex flex-col sm:flex-row items-center gap-4 shadow-lg w-full rounded-lg border lg:flex-row lg:justify-between lg:p-6`}>
                             {/* Image de l'article */}
                             <img className="size-20 sm:size-24 lg:size-28 object-cover rounded-lg" src={item.image} alt={item.name} />
 
@@ -66,7 +66,7 @@ export default function Panier() {
             </div>
 
             {/* Section Total & Paiement */}
-            <div className="bg-dark-accent p-6 flex flex-col gap-6 shadow-lg w-full rounded-lg border lg:max-w-4xl lg:mx-auto">
+            <div className={`${isDarkMode ? "bg-dark-accent" : "bg-light-secondary"} p-6 flex flex-col gap-6 shadow-lg w-full rounded-lg border lg:max-w-4xl lg:mx-auto`}>
                 <div className="flex justify-between text-lg font-semibold lg:text-xl">
                     <h2>Total</h2>
                     <p>{cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)} €</p>

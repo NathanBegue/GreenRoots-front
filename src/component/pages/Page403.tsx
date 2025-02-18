@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import bgImage from "/src/assets/images/403.webp";
 
-export default function Page403() {
+export default function Page403({ isDarkMode }: { isDarkMode: boolean }) {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             <main className="text-white flex flex-col gap-6 text-center ">
