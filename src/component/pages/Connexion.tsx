@@ -3,7 +3,7 @@ import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export default function Connexion() {
+export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ export default function Connexion() {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-37px)] px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
+    <div className={`w-full h-screen px-6 py-10 shadow-lg pt-24 ${isDarkMode ? "bg-dark-primary text-white " : "bg-light-primary text-black"}  min-lg:pt-48 min-lg:px-125`}>
 
       <h1 className="text-2xl font-bold text-center mb-20">Rebonjour</h1>
 
@@ -53,7 +53,7 @@ export default function Connexion() {
             id="email"
             name="email"
             placeholder="Entrez votre adresse e-mail"
-            className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+            className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -68,7 +68,7 @@ export default function Connexion() {
             id="password"
             name="password"
             placeholder="Choisissez un mot de passe"
-            className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+            className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

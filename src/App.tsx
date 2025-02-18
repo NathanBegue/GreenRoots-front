@@ -47,10 +47,10 @@ function App() {
           isDarkMode={isDarkMode}
         />
         {/* Affichage du BurgerMenu */}
-        {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} />}
+        {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} isDarkMode={isDarkMode} />}
 
         {/* Affichage de la modale de connexion */}
-        {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} />}
+        {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} isDarkMode={isDarkMode} />}
 
         {/* Affichage de la modale de détail*/}
         {isOpenDetail && selectedArticle && (<DetailModal
@@ -65,21 +65,25 @@ function App() {
             isDarkMode={isDarkMode}
             setIsDarkMode={setIsDarkMode} />} />
 
-          <Route path="/boutique" element={<Boutique setIsOpenDetail={setIsOpenDetail}
+          <Route path="/boutique" element={<Boutique
+            setIsOpenDetail={setIsOpenDetail}
             setSelectedArticle={setSelectedArticle}
+            selectedArticle={selectedArticle}
             isOpenDetail={isOpenDetail}
-            isDarkMode={isDarkMode} />} />
+            isDarkMode={isDarkMode}
+          />} />
 
 
-          <Route path="/panier" element={<Panier />} />
-          <Route path="/connexion" element={<Connexion />} />
-          <Route path="/inscription" element={<Inscription />} />
-          <Route path="/compte" element={<UserSpace />} />
-          <Route path="/cgu" element={<Cgu />} />
-          <Route path="/suivis" element={<SuivisArbresUser />} />
-          <Route path="/paiement" element={<FakePayment />} />
-          <Route path="/interdit" element={<Page403 />} />
-          <Route path="*" element={<Page404 />} />
+
+          <Route path="/panier" element={<Panier isDarkMode={isDarkMode} />} />
+          <Route path="/connexion" element={<Connexion isDarkMode={isDarkMode} />} />
+          <Route path="/inscription" element={<Inscription isDarkMode={isDarkMode} />} />
+          <Route path="/compte" element={<UserSpace isDarkMode={isDarkMode} />} />
+          <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
+          <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
+          <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
+          <Route path="/interdit" element={<Page403 isDarkMode={isDarkMode} />} />
+          <Route path="*" element={<Page404 isDarkMode={isDarkMode} />} />
         </Routes>
 
 

@@ -23,10 +23,10 @@ export default function MobileHeader({
     const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
-        <header className={` ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} w-full h-16 px-6 flex items-center overflow-hidden fixed z-30`}>
+        <header className={` ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} w-full h-16 px-2 flex items-center overflow-hidden fixed z-30`}>
 
             <div className="flex items-center gap-4 flex-nowrap justify-between w-full ">
-                <img className={`h-8 ${!isDarkMode && "invert"}`} src="/images/icons/logo-.svg" alt="Logo" />
+                <Link to="/"><img className="h-14 rounded-sm" src="src/assets/images/logo.webp" alt="Logo" /></Link>
 
                 <div>
                     <div className={`min-h-screen flex items-center justify-center dark:text-white `}>

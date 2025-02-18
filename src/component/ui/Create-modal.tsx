@@ -5,11 +5,15 @@ import { Itrees } from "../../../type/type";
 export default function CreateModal({
     setOpenCreateModal,
     isOpenedCreateModal,
-    setArticles
+    setArticles,
+    isDarkMode,
+    articles
 }: {
+    articles: Itrees[];
     isOpenedCreateModal: boolean;
     setOpenCreateModal: React.Dispatch<React.SetStateAction<boolean>>;
     setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
+    isDarkMode: boolean
 }) {
     // State pour stocker les valeurs du formulaire
     interface FormDataState {
@@ -43,51 +47,72 @@ export default function CreateModal({
         }
     };
 
+    const convertToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
+    };
 
 
-    // Fonction pour gérer l'envoi du formulaire
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formDataToSend = new FormData();
-        formDataToSend.append("name", formData.name);
-        formDataToSend.append("price", formData.price);
-        formDataToSend.append("categoryName", formData.category);
-        formDataToSend.append("description", formData.description);
-        formDataToSend.append("available", formData.available.toString());
-
-        if (formData.image) {
-            formDataToSend.append("image", formData.image); // ✅ Ajoute l’image au FormData
+        if (!formData.name.trim()) {
+            console.error("❌ Erreur : Le champ nom est vide !");
+            return;
         }
 
+        let base64Image = "";
+
+        if (formData.image) {
+            try {
+                base64Image = await convertToBase64(formData.image);
+                base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
+            } catch (error) {
+                console.error("❌ Erreur lors de la conversion de l'image :", error);
+                return;
+            }
+        }
+
+        const dataToSend = {
+            name: formData.name,
+            price: Number(formData.price),
+            categoryName: [formData.category], // Envoi sous forme de tableau
+            description: formData.description,
+            available: formData.available,
+            pictureUrl: base64Image, // Image nettoyée
+        };
+
+        console.log("🟢 Données envoyées à l'API :", dataToSend);
+
         try {
-            const response = await fetch("http://localhost:5000/api/articles", {
+            const response = await fetch("http://localhost:3000/api/articles", {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-                body: formDataToSend,
+                body: JSON.stringify(dataToSend),
             });
 
             const data = await response.json();
             console.log("📡 Réponse API :", JSON.stringify(data, null, 2));
 
-            setArticles((prevArticles) => [
-                ...prevArticles,
-                {
-                    ...data.article,
-                    Picture: data.article?.Picture
-                        ? data.article.Picture
-                        : { url: "/images/default.jpg", description: "Image par défaut" }
-                }
-            ]);
+            if (!response.ok) {
+                console.error("❌ Erreur API :", data);
+                return;
+            }
 
+            setArticles((prevArticles) => [...prevArticles, data.article]);
             setOpenCreateModal(false);
         } catch (error) {
             console.error("❌ Erreur lors de l'ajout de l'article :", error);
         }
     };
-
 
 
     return (
@@ -102,7 +127,7 @@ export default function CreateModal({
 
 
             {/* Modale */}
-            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8">
+            <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} w-80 p-6 rounded-lg shadow-lg  flex flex-col gap-4 z-20 mt-8`}>
                 {/* Bouton de fermeture */}
                 <img
                     onClick={() => setOpenCreateModal(false)}
@@ -123,20 +148,22 @@ export default function CreateModal({
                         <label className="font-semibold mb-1">Catégorie</label>
                         <select
                             defaultValue={formData.category}
-                            /* multiple={true} */
                             name="category"
                             onChange={handleChange}
                             className="border p-3 rounded-lg bg-dark-primary text-white focus:outline-none focus:ring-2 focus:ring-cta"
                         >
                             <option value="">Choisir une catégorie</option>
-                            <option value="Arbres fruitiers">Arbres fruitiers</option>
-                            <option value="Arbres d'ornement">Arbres d'ornement</option>
-                            <option value="Arbres forestiers">Arbres forestiers</option>
-                            <option value="Conifères">Conifères</option>
-                            <option value="Arbres à croissance rapide">Arbres à croissance rapide</option>
-                            <option value="Arbres médicinaux">Arbres médicinaux</option>
+                            {articles
+                                .flatMap((article) => article.categories.map((cat) => cat.name)) // Récupère toutes les catégories
+                                .filter((value, index, self) => self.indexOf(value) === index) // Supprime les doublons
+                                .map((category, index) => (
+                                    <option key={index} value={category}>
+                                        {category}
+                                    </option>
+                                ))}
                         </select>
                     </div>
+
 
 
                     {/* Nom */}

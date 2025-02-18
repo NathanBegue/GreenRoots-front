@@ -1,7 +1,7 @@
 import bgImage from "../../assets/images/404.webp";
 import { Link } from "react-router";
 
-export default function Page404() {
+export default function Page404({ isDarkMode }: { isDarkMode: boolean }) {
     return (
         <div className="w-full max-w-screen overflow-hidden">
             <main className="text-white flex flex-col gap-6 text-center ">

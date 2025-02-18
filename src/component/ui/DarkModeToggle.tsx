@@ -16,9 +16,9 @@ export default function DarkModeToggle({
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     <button onClick={toggleDarkMode}>
       {isDarkMode ? (
-        <img className={`w-5 h-5 ${isDarkMode && "invert"}`} src="/images/icons/sun.svg" alt="Mode clair" />
+        <img className={`w-4 h-4 ${isDarkMode && "invert"} md:w-6 md:h-8 lg:w-8 lg:h-8 cursor-pointer `} src="/images/icons/sun.svg" alt="Mode clair" />
       ) : (
-        <img className="w-5 h-5" src="/images/icons/moon.svg" alt="Mode sombre" />
+        <img className={`w-4 h-4 ${isDarkMode && "invert"} md:w-6 md:h-8 lg:w-8 lg:h-8 cursor-pointer `} src="/images/icons/moon.svg" alt="Mode sombre" />
       )}
     </button>
   );

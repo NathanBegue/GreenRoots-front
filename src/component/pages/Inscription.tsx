@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function Inscription() {
+export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -36,7 +36,7 @@ export default function Inscription() {
     }
 
     return (
-        <div className="w-full px-6 py-10 shadow-lg pt-24 bg-dark-primary text-white lg:pt-32">
+        <div className={`w-full min-md:h-250 px-6 py-10 shadow-lg pt-24 ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-32`}>
             <h1 className="text-2xl font-bold text-center mb-6 md:text-3xl">Bienvenue</h1>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -48,7 +48,7 @@ export default function Inscription() {
                         id="firstname"
                         name="firstname"
                         placeholder="Entrez votre prénom"
-                        className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
                         onChange={(e) => setFirstname(e.target.value)}
                         value={firstname}
                         required
@@ -63,7 +63,7 @@ export default function Inscription() {
                         id="lastname"
                         name="lastname"
                         placeholder="Entrez votre nom"
-                        className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
                         onChange={(e) => setLastname(e.target.value)}
                         value={lastname}
                         required
@@ -78,7 +78,7 @@ export default function Inscription() {
                         id="mail"
                         name="email"
                         placeholder="Entrez votre adresse e-mail"
-                        className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                         required
@@ -93,7 +93,7 @@ export default function Inscription() {
                         id="password"
                         name="password"
                         placeholder="Choisissez un mot de passe"
-                        className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         required
@@ -108,7 +108,7 @@ export default function Inscription() {
                         id="confirmation"
                         name="confirmation"
                         placeholder="Confirmez votre mot de passe"
-                        className="border p-3 rounded-lg w-full bg-dark-secondary text-white focus:outline-none focus:ring-2 focus:ring-cta"
+                        className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
                         onChange={(e) => setrepeat_password(e.target.value)}
                         value={repeat_password}
                         required
