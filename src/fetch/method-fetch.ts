@@ -7,7 +7,7 @@ const fetchmethod = {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
 
-      const response = await fetch("http://localhost:5000/api/articles", {
+      const response = await fetch("http://localhost:3000/api/articles", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const fetchmethod = {
   // fetch page d'accueil
   getNewArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:5000/");
+      const response = await fetch("http://localhost:3000/");
       const data = await response.json();
 
       console.log("Données reçues :", data);
@@ -70,7 +70,7 @@ const fetchmethod = {
   // fetch boutique 
   getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:5000/boutique");
+      const response = await fetch("http://localhost:3000/boutique");
       const data = await response.json();
       console.log("Données reçues :", data);
 
@@ -99,7 +99,7 @@ const fetchmethod = {
   getHistoryByUser: async (): Promise<Iorder[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/compte/commandes", {
+      const response = await fetch("http://localhost:3000/compte/commandes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +122,7 @@ const fetchmethod = {
   getUserInfos: async (): Promise<IUserInfos> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/compte", {
+      const response = await fetch("http://localhost:3000/compte", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
