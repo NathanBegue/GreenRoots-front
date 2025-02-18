@@ -34,7 +34,11 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                     cart.map((item) => (
                         <div key={item.id} className={`${isDarkMode ? "bg-dark-accent" : "bg-light-secondary"} p-4 flex flex-col sm:flex-row items-center gap-4 shadow-lg w-full rounded-lg border lg:flex-row lg:justify-between lg:p-6`}>
                             {/* Image de l'article */}
-                            <img className="size-20 sm:size-24 lg:size-28 object-cover rounded-lg" src={item.image} alt={item.name} />
+                            <img
+                                className="size-20 sm:size-24 lg:size-28 object-cover rounded-lg"
+                                src={item.Picture ? item.Picture.url : "/images/default.jpg"}
+                                alt={item.name}
+                            />
 
                             {/* Nom et prix */}
                             <div className="text-center sm:text-left flex flex-col sm:flex-grow lg:flex-grow-0 lg:w-1/4">
