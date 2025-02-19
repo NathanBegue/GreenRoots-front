@@ -3,10 +3,10 @@ import Card from "../ui/Card";
 import EditModal from "../ui/Edit-modal";
 import DeleteModal from "../ui/Delete-modal";
 import fetchmethod from "../../fetch/method-fetch";
-import SuivisArbre from "../layout/SuivisArbre";
 import { Itrees } from "../../../type/type";
 import CreateModal from "../ui/Create-modal";
 import { useAuthStore } from "../../Auth/authStore";
+import Loader from "../layout/Loader";
 
 
 
@@ -32,6 +32,8 @@ export default function Boutique({
   const [isOpenedEditModal, setIsOpenedEditModal] = useState<boolean>(false);
   const [isOpenedDeleteModal, setIsOpenedDeleteModal] = useState<boolean>(false);
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
 
   const [articles, setArticles] = useState<Itrees[]>([]);
@@ -48,10 +50,13 @@ export default function Boutique({
 
 
   useEffect(() => {
+    setIsLoading(true);
     if (isAdmin) {
       fetchmethod.getArticlesByAdmin().then((data) => setArticles(data));
+      setIsLoading(false);
     } else {
       fetchmethod.getArticle().then((data) => setArticles(data));
+      setIsLoading(false);
     }
   }, []);
 
@@ -63,6 +68,9 @@ export default function Boutique({
     )
   );
 
+  if (isLoading) {
+    return <Loader />
+  }
 
   return (
     <>

@@ -37,6 +37,8 @@ export interface IUserInfos {
     firstname: string;
     lastname: string;
     email: string;
+    password: string;
+    repeat_password: string;
 }
 
 // Définition du type d'un produit

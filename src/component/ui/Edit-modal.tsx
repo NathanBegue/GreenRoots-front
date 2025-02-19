@@ -161,7 +161,8 @@ export default function EditModal({
                     : article.Picture?.url;
         }
 
-        console.log("Payload envoyé :", payload);
+        console.log("Payload envoyé :", JSON.stringify(payload, null, 2));
+
 
         try {
             const token = localStorage.getItem("token");
