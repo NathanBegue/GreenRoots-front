@@ -43,6 +43,12 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
               <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
             </Link>
           </li>
+          <li>
+            <Link to="/suivis" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
+              Suivis
+              <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+            </Link>
+          </li>
         </ul>
       </nav>
       {/* Icônes et Actions */}

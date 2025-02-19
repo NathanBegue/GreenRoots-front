@@ -36,7 +36,6 @@ export interface IAuthState {
 export interface IUserInfos {
     firstname: string;
     lastname: string;
-    age: number;
     email: string;
 }
 
@@ -57,4 +56,15 @@ export interface CartState {
     removeFromCart: (productId: string) => void;
     updateQuantity: (productId: string, newQuantity: number) => void;
     clearCart: () => void;
+}
+
+//Définition du type d'un suivis d'article d'une commande 
+export interface Itracking {
+    growth: string;
+    status: string,
+    plant_place: string,
+    nickname: string,
+    article_id: number,
+    article_has_order_id: number,
+    picture_id: number
 }

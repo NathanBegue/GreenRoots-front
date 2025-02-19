@@ -1,4 +1,4 @@
-import { Itrees, Iorder, IUserInfos } from "../../type/type";
+import { Itrees, Iorder, IUserInfos, Itracking } from "../../type/type";
 
 const fetchmethod = {
 
@@ -11,7 +11,8 @@ const fetchmethod = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 🔥 Ajout du token JWT
+          Authorization: `Bearer ${token}`, // 🔥 Ajout du toke
+          // n JWT
         },
       });
 
@@ -139,10 +140,33 @@ const fetchmethod = {
         firstname: "",
         lastname: "",
         email: "",
-        age: 0,
       };
     }
   },
+
+  // fetch commandes utilisateur
+  getOrderTracking: async (): Promise<Itracking[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/compte/commandes/${id}/suivi}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+
+      // Si data est un tableau, on le retourne directement,
+      // sinon on tente de retourner data.orders ou un tableau vide
+      return data
+    } catch (error) {
+      console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
+
 
 };
 

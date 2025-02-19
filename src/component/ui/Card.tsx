@@ -32,7 +32,7 @@ export default function Card({
       {/* Image du produit */}
       <div>
         <img
-          className={`object-cover rounded-lg aspect-square ${isSmall ? "w-12 h-12" : ""}`}
+          className={`object-cover rounded-lg aspect-square${isSmall ? "w-12 h-12" : ""}`}
           src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
           alt={article.name}
         />
@@ -42,7 +42,7 @@ export default function Card({
         </p>
 
         {/* Contenu de la carte */}
-        <div className="flex justify-between items-center w-full p-4 sm:gap-4">
+        <div className="flex justify-between items-center w-full p-4 sm:gap-4 ">
           {/* Supprime tous les boutons si isSmall est activé */}
           {!isSmall &&
             (isAdmin ? (
@@ -51,7 +51,7 @@ export default function Card({
                   setIsOpenedEditModal && setIsOpenedEditModal(true);
                   setSelectedArticle && setSelectedArticle(article);
                 }}
-                  className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12">
+                  className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12 cursor-pointer hover:scale-110">
                   <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                 </button>
 
@@ -59,7 +59,7 @@ export default function Card({
                   setIsOpenedDeleteModal && setIsOpenedDeleteModal(true);
                   setSelectedArticle && setSelectedArticle(article);
                 }}
-                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2">
+                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
                   <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
                 </button>
               </div>
@@ -77,7 +77,7 @@ export default function Card({
       </div>
       {/* Bouton détail */}
       <button className="font-content border-2 border-cta bg-cta rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg 
-          sm:p-1 sm:text-sm md:text-md  lg:text-lg"
+          sm:p-1 sm:text-sm md:text-md  lg:text-lg cursor-pointer hover"
         onClick={() => {
           if (setIsOpenDetail) setIsOpenDetail(true);
           setSelectedArticle && setSelectedArticle(article);

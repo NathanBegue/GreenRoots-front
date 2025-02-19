@@ -19,7 +19,9 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode }: { isOp
                 <ul className="flex flex-col gap-1 w-full">
                     <Link to="/" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Accueil</li></Link>
                     <Link to="/boutique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Boutique</li></Link>
-                    <Link to="/historique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Historique</li></Link>
+                    <Link to="/historique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Historique </li></Link>
+                    <Link to="/suivis" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Suivis </li></Link>
+
                 </ul>
                 <div className="flex flex-col gap-6 items-center">
                     <Link to="/cgu" onClick={() => setIsOpened(false)}><p className="text-center font-title font-bold md:text-2xl md:size-10">CGU</p> </Link>

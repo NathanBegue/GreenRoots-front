@@ -17,6 +17,7 @@ import SuivisArbresUser from "./component/pages/SuivisArbreUser";
 import DetailModal from "./component/ui/Detail-modal";
 import { Itrees } from "../type/type";
 import FakePayment from "./component/pages/Paiement";
+import Historique from "./component/pages/Historique";
 
 
 
@@ -81,6 +82,7 @@ function App() {
           <Route path="/compte" element={<UserSpace isDarkMode={isDarkMode} />} />
           <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
           <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
+          <Route path="/historique" element={<Historique isDarkMode={isDarkMode} />} />
           <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
           <Route path="/interdit" element={<Page403 isDarkMode={isDarkMode} />} />
           <Route path="*" element={<Page404 isDarkMode={isDarkMode} />} />
