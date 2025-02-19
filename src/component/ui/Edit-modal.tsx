@@ -119,32 +119,47 @@ export default function EditModal({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        let pictureUrl = formData.image;
-
+        let newImageBase64 = "";
+        // Si une nouvelle image est fournie, on la compresse et on la convertit en base64
         if (formData.image instanceof File) {
             try {
                 const compressedImage = await compressImage(formData.image);
                 let base64Image = await convertToBase64(compressedImage);
-                base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
-                pictureUrl = base64Image;
+                newImageBase64 = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
             } catch (error) {
                 console.error("Erreur lors de la compression ou conversion de l'image :", error);
                 return;
             }
         }
 
-        const payload = {
+        // Construction du payload de base
+        const payload: any = {
             name: formData.name.trim() !== "" ? formData.name.trim() : article.name,
             price: formData.price !== "" ? Number(formData.price) : article.price,
-            categoryName: [formData.category.trim() !== "" ? formData.category.trim() : article.categories?.[0]?.name],
-            description: formData.description.trim() !== "" ? formData.description.trim() : article.description,
+            categoryName: [
+                formData.category.trim() !== ""
+                    ? formData.category.trim()
+                    : article.categories?.[0]?.name,
+            ],
+            description:
+                formData.description.trim() !== ""
+                    ? formData.description.trim()
+                    : article.description,
             available: formData.available,
-            pictureUrl: "uneChaineNonVide",
-            // pictureUrl: (typeof pictureUrl === "string" && pictureUrl.trim() !== "")
-            //     ? pictureUrl.trim()
-            //     : article.Picture?.url,
         };
 
+        // Si un nouveau fichier image a été fourni, on ajoute imageId et newImageBase64
+        if (formData.image instanceof File) {
+            // article.Picture?.id doit contenir l'id de l'image existante en BDD
+            payload.imageId = article.Picture?.id;
+            payload.newImageBase64 = newImageBase64;
+        } else {
+            // Sinon, on peut envoyer l'URL existante si nécessaire
+            payload.pictureUrl =
+                typeof formData.image === "string" && formData.image.trim() !== ""
+                    ? formData.image.trim()
+                    : article.Picture?.url;
+        }
 
         console.log("Payload envoyé :", payload);
 
@@ -177,7 +192,7 @@ export default function EditModal({
                             categories: updatedArticle.categories || a.categories,
                             Picture: updatedArticle.Picture
                                 ? updatedArticle.Picture
-                                : { url: payload.pictureUrl, description: "Image mise à jour" },
+                                : { url: payload.pictureUrl || a.Picture?.url, description: "Image mise à jour" },
                         }
                         : a
                 )
@@ -188,6 +203,7 @@ export default function EditModal({
             console.error("Erreur lors de la mise à jour de l'article :", error);
         }
     };
+
 
     return (
         <>

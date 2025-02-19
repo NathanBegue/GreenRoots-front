@@ -164,12 +164,7 @@ export default function Boutique({
               )}
             </div>
           </section>
-          <h2 className="font-title font-bold text-2xl text-center  text-white mt-6">Suivi d'arbre</h2>
-          <div className="flex justify-center flex-col md:flex md:flex-row">
-            <SuivisArbre />
-            <SuivisArbre />
-            <SuivisArbre />
-          </div>
+
         </main>
       </div>
     </>

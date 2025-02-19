@@ -49,11 +49,11 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                             {/* Sélecteur de quantité */}
                             <div className="flex flex-row items-center gap-3 lg:gap-5">
                                 <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1">
-                                    <img className="size-6 invert" src="/images/icons/chevron-up.svg" alt="Augmenter" />
+                                    <img className="size-6 invert cursor-pointer hover:scale-110" src="/images/icons/chevron-up.svg" alt="Augmenter" />
                                 </button>
                                 <p className="w-8 text-center text-lg font-bold lg:text-xl">{item.quantity}</p>
-                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1">
-                                    <img className="size-6 invert" src="/images/icons/chevron-down.svg" alt="Diminuer" />
+                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1 ">
+                                    <img className="size-6 invert cursor-pointer hover:scale-110" src="/images/icons/chevron-down.svg" alt="Diminuer" />
                                 </button>
                             </div>
 
@@ -61,8 +61,8 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                             <p className="text-lg font-semibold lg:text-xl">{(item.price * item.quantity).toFixed(2)} €</p>
 
                             {/* Bouton de suppression */}
-                            <button onClick={() => removeFromCart(item.id)} className="size-8 flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg p-1">
-                                <img className="size-6 invert" src="/images/icons/trash.svg" alt="Supprimer" />
+                            <button onClick={() => removeFromCart(item.id)} className="size-8 flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg p-1 cursor-pointer hover:scale-110">
+                                <img className="size-6 invert cursor-pointer hover:scale-110" src="/images/icons/trash.svg" alt="Supprimer" />
                             </button>
                         </div>
                     ))
@@ -78,15 +78,15 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
 
                 <form action="" className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                        <input type="checkbox" id="cgv" className="size-5" onChange={(e) => setIsChecked(e.target.checked)} />
-                        <label htmlFor="cgv" className="text-sm lg:text-base">J'accepte les conditions générales de vente</label>
+                        <input type="checkbox" id="cgv" className="size-5 cursor-pointer hover:scale-110" onChange={(e) => setIsChecked(e.target.checked)} />
+                        <label htmlFor="cgv" className="text-sm lg:text-base ">J'accepte les conditions générales de vente</label>
                     </div>
 
                     <div className="flex flex-col items-center gap-4">
                         <Link to="/cgu" className="underline text-sm text-gray-300 hover:text-white lg:text-base">Voir les CGU</Link>
                         <button
                             onClick={handlePayment}
-                            className={`bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold transition lg:text-xl 
+                            className={`cursor-pointer hover:scale-101 bg-cta w-full text-lg px-6 py-3 rounded-lg font-bold transition lg:text-xl 
                                 ${cart.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-90"}`}
                             disabled={cart.length === 0}>
                             Payer
