@@ -6,14 +6,25 @@ import { Itracking } from "../../../type/type";
 
 export default function SuivisArbre() {
 
-  const [ordersTracking, setOrderstraking] = useState<Itracking[]>([]);
+  const [ordersTracking, setOrdersTracking] = useState<Itracking[]>([]);
 
+
+  const orderId = localStorage.getItem('orderId');
   // fetch tracking d'une commande
 
   const getOrderTracking = async () => {
+
+    if (orderId) {
+      console.log('L\'ID de la commande récupéré :', orderId);
+    } else {
+      console.log('Aucun ID de commande trouvé dans le localStorage');
+    }
+
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/compte/commandes/${id}/suivi}`, {
+      console.log("ordersTracking :", ordersTracking);
+
+      const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +33,7 @@ export default function SuivisArbre() {
       });
       const data = await response.json();
       console.log("Données reçues :", data);
-      setOrderstraking((prev) => prev.filter((orderTracking) => id !== orderTracking.article_has_order_id));
+      setOrdersTracking(data);
 
       // Si data est un tableau, on le retourne directement,
       // sinon on tente de retourner data.orders ou un tableau vide
@@ -32,6 +43,9 @@ export default function SuivisArbre() {
       return [];
     }
   }
+
+
+
 
   const [formData, setFormData] = useState<Itracking>({
 
@@ -48,10 +62,6 @@ export default function SuivisArbre() {
   const { isAdmin } = useAuthStore();
 
 
-  useEffect(() => {
-
-    getOrderTracking().then((data: Itracking[]) => setOrderstraking(data));
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     if (e.target.type === "file") {
@@ -65,12 +75,29 @@ export default function SuivisArbre() {
     }
   };
 
+  useEffect(() => {
+    getOrderTracking().then((data) => {
+      console.log("🚀 Données reçues :", data);
+
+      if (Array.isArray(data)) {
+        setOrdersTracking(data);  // ✅ Si c'est déjà un tableau, on l'utilise directement
+      } else {
+        setOrdersTracking(data.articles || []);  // ✅ Si data contient un objet, on extrait `articles`
+      }
+    });
+  }, []);
+
+
+
+
+
   return (
 
     <div className="bg-dark-primary h-fit  w-fit m-auto  md:w-md lg:w-lg rounded-sm md:rounded-md lg:rounded-lg">
-      {
-        ordersTracking.length > 0 ? ordersTracking.map((orderTracking) =>
 
+      {console.log(ordersTracking)}
+      {
+        ordersTracking.map((orderTracking) =>
 
           <div key={orderTracking.article_id} className="bg-dark-secondary w-auto h-full flex flex-col  border-zinc-200 p-6 text-white justify-center rounded-sm md:rounded-md lg:rounded-lg border shadow-black shadow-lg">
 
@@ -90,7 +117,7 @@ export default function SuivisArbre() {
                 </button>
               </div>
             }
-            <h2 className="text-red-500"> {orderTracking.nickname}</h2>
+            <h2 className="text-white bg-dark-secondary"> Coucou {orderTracking.name}</h2>
             <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
               <label htmlFor="lieu" id="lieu" >Lieu :</label>
               <input type="text" id="lieu" name="lieu" className="text-white h-7 w-25 ml-2" placeholder=" Sao Paulo" />
@@ -102,10 +129,10 @@ export default function SuivisArbre() {
                 type="text"
                 id="croissance"
                 name="croissance"
-                className="text-white h-7 w-25 ml-2"
-                placeholder="1 mètre"
-                onChange={handleChange}
-                value={orderTracking.growth}
+                className="text-white h-7 w-75 ml-2"
+
+                value={orderTracking.ArticleTrackings[0].growth
+                }
               />
             </div>
             <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
@@ -138,7 +165,7 @@ export default function SuivisArbre() {
               <Map />
             </div>
           </div>
-        ) : (<p> pas de commande trouvées </p>)
+        )
       }
 
 

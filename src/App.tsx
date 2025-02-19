@@ -3,7 +3,7 @@ import Page404 from "./component/pages/Page404";
 import Boutique from "./component/pages/Boutique";
 import Header from "./component/layout/Header";
 import BurgerMenu from "./component/layout/Burger-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router";
 import Connexion from "./component/pages/Connexion";
 import Inscription from "./component/pages/Inscription";
@@ -18,6 +18,8 @@ import DetailModal from "./component/ui/Detail-modal";
 import { Itrees } from "../type/type";
 import FakePayment from "./component/pages/Paiement";
 import Historique from "./component/pages/Historique";
+import { useLoaderStore } from "./Auth/loaderStore";
+import Loader from "./component/layout/Loader";
 
 
 
@@ -34,11 +36,28 @@ function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
+  const { isLoading, showLoader, hideLoader } = useLoaderStore();
+
+  useEffect(() => {
+    // Simule un chargement initial de l'app
+    showLoader();
+    setTimeout(() => {
+      hideLoader();
+    }, 1500); // 1.5 secondes de chargement initial
+  }, [showLoader, hideLoader]);
+
 
   return (
 
 
     <Router>
+
+      {/* Loader Global */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
+          <Loader />
+        </div>
+      )}
       <>
         {/* Header générique */}
         <Header
@@ -82,7 +101,7 @@ function App() {
           <Route path="/compte" element={<UserSpace isDarkMode={isDarkMode} />} />
           <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
           <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
-          <Route path="/historique" element={<Historique isDarkMode={isDarkMode} />} />
+          <Route path="/historique" element={<Historique isDarkMode={isDarkMode} setIsOpenDetail={setIsOpenDetail} setSelectedArticle={selectedArticle} article={selectedArticle} />} />
           <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
           <Route path="/interdit" element={<Page403 isDarkMode={isDarkMode} />} />
           <Route path="*" element={<Page404 isDarkMode={isDarkMode} />} />

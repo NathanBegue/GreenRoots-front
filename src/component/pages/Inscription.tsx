@@ -20,7 +20,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/inscription", {
+            const response = await fetch("http://localhost:3000/inscription", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ firstname, lastname, email, password, repeat_password }),
