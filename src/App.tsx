@@ -20,6 +20,7 @@ import FakePayment from "./component/pages/Paiement";
 import Historique from "./component/pages/Historique";
 import { useLoaderStore } from "./Auth/loaderStore";
 import Loader from "./component/layout/Loader";
+import ProtectedModal from "./component/ui/ProtectedModal";
 
 
 
@@ -36,7 +37,11 @@ function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
+  const [isprotectedModal, setIsProtectedModal] = useState<boolean>(false);
+
   const { isLoading, showLoader, hideLoader } = useLoaderStore();
+
+
 
   useEffect(() => {
     // Simule un chargement initial de l'app
@@ -45,6 +50,7 @@ function App() {
       hideLoader();
     }, 1500); // 1.5 secondes de chargement initial
   }, [showLoader, hideLoader]);
+
 
 
   return (
@@ -67,7 +73,7 @@ function App() {
           isDarkMode={isDarkMode}
         />
         {/* Affichage du BurgerMenu */}
-        {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} isDarkMode={isDarkMode} />}
+        {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} />}
 
         {/* Affichage de la modale de connexion */}
         {isModalOpened && <ConnexionModal setIsModalOpened={setIsModalOpened} isModalOpened={isModalOpened} isDarkMode={isDarkMode} />}
@@ -77,6 +83,11 @@ function App() {
           setIsOpenDetail={setIsOpenDetail}
           article={selectedArticle}
           isDarkMode={isDarkMode} />)}
+
+        {/* Modale conditionelle pour les routes authentifiée */}
+        {isprotectedModal && <ProtectedModal isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} />}
+
+
 
         <Routes>
           <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail}

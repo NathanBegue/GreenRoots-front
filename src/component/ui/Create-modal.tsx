@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Itrees } from "../../../type/type";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 
 export default function CreateModal({
@@ -62,7 +63,7 @@ export default function CreateModal({
         e.preventDefault();
 
         if (!formData.name.trim()) {
-            console.error("❌ Erreur : Le champ nom est vide !");
+            showErrorToast("Le nom de l'article est requis");
             return;
         }
 
@@ -73,7 +74,7 @@ export default function CreateModal({
                 base64Image = await convertToBase64(formData.image);
                 base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
             } catch (error) {
-                console.error("❌ Erreur lors de la conversion de l'image :", error);
+                showErrorToast("Erreur lors de la conversion de l'image");
                 return;
             }
         }
@@ -104,13 +105,15 @@ export default function CreateModal({
 
             if (!response.ok) {
                 console.error("❌ Erreur API :", data);
+                showErrorToast(data.error || "Erreur lors de l'ajout de l'article");
                 return;
             }
 
             setArticles((prevArticles) => [...prevArticles, data.article]);
             setOpenCreateModal(false);
+            showSuccessToast("Article ajouté avec succès !");
         } catch (error) {
-            console.error("❌ Erreur lors de l'ajout de l'article :", error);
+            showErrorToast("Erreur lors de l'ajout de l'article");
         }
     };
 

@@ -64,20 +64,20 @@ export default function Card({
                 </button>
               </div>
             ) : (
-              <button className="flex items-center bg-cta p-2  rounded-sm md:rounded-md lg:rounded-lg hover:bg-cta-dark transition"
+              <button className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
                 onClick={() => addToCart(article)}>
                 <img src="/images/icons/shop-card.svg" alt="Ajouter au panier" className="w-6 h-6 invert" />
               </button>
             ))
           }
-          <p className={`font-semibold text-xs min-[374px]:text-base ${isDarkMode ? "text-cta" : "text-black"} ml-2`}>
+          <p className={`font-semibold text-xs min-[374px]:text-base ${isDarkMode ? "text-white" : "text-black"} ml-2`}>
             {`Prix: ` + article.price + " €"}
           </p>
         </div>
       </div>
       {/* Bouton détail */}
-      <button className="font-content border-2 border-cta bg-cta rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg 
-          sm:p-1 sm:text-sm md:text-md  lg:text-lg cursor-pointer hover"
+      <button className={`font-content border-2 ${isDarkMode ? "bg-dark-primary border-dark-primary" : "bg-light-primary border-light-primary"}  rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg 
+          sm:p-1 sm:text-sm md:text-md  lg:text-lg cursor-pointer hover`}
         onClick={() => {
           if (setIsOpenDetail) setIsOpenDetail(true);
           setSelectedArticle && setSelectedArticle(article);

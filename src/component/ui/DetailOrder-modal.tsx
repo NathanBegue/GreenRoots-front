@@ -59,33 +59,18 @@ export default function DetailOrderModal({
 
                 {/* Titre */}
                 <h1 className={`text-2xl font-bold text-center ${isDarkMode ? " text-white" : "text-black"} `}>Détail de la commande </h1>
-                <h2 className={`text-xl font-bold text-center font-title ${isDarkMode ? "text-white" : "text-black"} `}>{orders.article_summary} </h2>
+                <h2 className={`text-xl font-bold text-center font-title ${isDarkMode ? "text-white" : "text-black"} `}>Arbre(s) acheté(s) : {orders.article_summary} </h2>
 
                 <div className="flex flex-col gap-4">
-                    {/* Image URL */}
-                    <div className="flex flex-col ">
-                        {/* <img className="h-56 md:h-100" src={article.Picture ? article.Picture.url : "/images/default.jpg"} */}
-                        {/*   alt={"test"}  /> */}
-                    </div>
-                    {/* Catégorie */}
-                    {/*        <div className={`flex flex-col ${isDarkMode ? "text-white" : "text-black"} `}>
-                        <h3 className="font-semibold mb-1 font-title">Catégories :</h3>
-                        <ul className="list-disc pl-4 font-content">
-                            {article.categories.map((category, index) => (
-                                <li key={index}>{category.name}</li>
-                            ))}
-                        </ul>
-                    </div> */}
-
 
                     {/* Description */}
                     <div className={`flex flex-col mb-4 ${isDarkMode ? "text-white" : "text-black"} `}>
-                        <h3 className="font-semibold mb-1 font-title">Description :</h3>
-                        <p className="font-content"> {orders.id} </p>
+                        <h3 className="font-semibold mb-1 font-title">Date d'achat  :</h3>
+                        <p className="font-content"> {orders.date} </p>
 
                         {/* Prix */}
                         <div className="flex flex-col mt-4">
-                            <h3 className="font-semibold mb-1 font-content">Prix : {orders.total_price}  €</h3>
+                            <h3 className="font-semibold mb-1 font-content">Prix total : {orders.total_price}  €</h3>
                         </div>
 
                     </div>
@@ -94,7 +79,7 @@ export default function DetailOrderModal({
                     </div> */}
 
                     <div className="flex justify-center">
-                        <button className={`bg-cta p-2 font-content text-sm rounded-sm ${isDarkMode ? "text-white" : "text-black"} `} onClick={() => navigate("/suivis")}> Suivie de l'arbre </button>
+                        <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`} onClick={() => navigate("/suivis")}> Suivie de(s) arbre(s) </button>
                     </div>
                 </div>
             </div>

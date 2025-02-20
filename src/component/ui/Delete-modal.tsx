@@ -1,4 +1,5 @@
 import { Itrees } from "../../../type/type";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function DeleteModal({
     isOpenedDeleteModal,
@@ -31,10 +32,11 @@ export default function DeleteModal({
             const data = await response.json();
             console.log("Article supprimé avec succès :", data);
             setArticles((prev) => prev.filter((a) => a.id !== article.id));
+            showSuccessToast("Article supprimé avec succès !");
 
 
         } catch (error) {
-            console.error("Erreur lors de la suppression de l'article :", error)
+            showErrorToast("Erreur lors de la suppression de l'article");
         }
 
     };

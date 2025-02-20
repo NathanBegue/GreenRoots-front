@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDarkMode }: {
     isModalOpened: boolean,
@@ -36,7 +37,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                     alt="Fermer"
                 />
 
-                {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
+                {/* Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
                 {token ? (
                     <>
                         <div className="flex flex-col gap-2 min-w-34">
@@ -57,6 +58,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                                 onClick={() => {
                                     logout(); // Déconnexion
                                     setIsModalOpened(false);
+                                    showSuccessToast("Vous etes déconnecté");
                                     navigate("/");
                                 }}
                             >

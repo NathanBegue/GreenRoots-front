@@ -26,27 +26,27 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
       <nav>
         <ul className={`flex gap-10 text-white font-title text-xl `}>
           <li>
-            <Link to="/" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            <Link to="/" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Accueil
-              <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
             </Link>
           </li>
           <li>
-            <Link to="/boutique" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            <Link to="/boutique" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Boutique
-              <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
             </Link>
           </li>
           <li>
-            <Link to="/historique" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            <Link to="/historique" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Historique
-              <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
             </Link>
           </li>
           <li>
-            <Link to="/suivis" className={`group relative px-4 py-2 hover:text-cta transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            <Link to="/suivis" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Suivis
-              <span className="absolute left-0 bottom-0 w-full h-1 bg-cta scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
             </Link>
           </li>
         </ul>
@@ -59,12 +59,12 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
         {token ? (
           <div className="flex gap-4">
             <Link to="/compte">
-              <button className={`px-4 py-1 bg-cta rounded-lg cursor-pointer hover:scale-110 hover:bg-cta-dark transition text-lg ${isDarkMode ? "text-white" : "text-black"}`}>
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
                 Mon Compte
               </button>
             </Link>
             <button
-              className={`px-4 py-1 bg-cta rounded-lg cursor-pointer hover:scale-110 hover:bg-cta-dark transition text-lg ${isDarkMode ? "text-white" : "text-black"}`}
+              className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
               onClick={() => {
                 logout();
                 navigate("/");
@@ -76,12 +76,12 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
         ) : (
           <div className="flex gap-4">
             <Link to="/inscription">
-              <button className="px-4 py-1 bg-dark-primary text-white rounded-lg border border-cta hover:bg-cta cursor-pointer hover:text-dark-secondary transition text-lg">
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
                 Inscription
               </button>
             </Link>
             <Link to="/connexion">
-              <button className="px-4 py-1 text-white rounded-lg bg-dark-primary hover:bg-cta cursor-pointer transition text-lg">
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
                 Connexion
               </button>
             </Link>

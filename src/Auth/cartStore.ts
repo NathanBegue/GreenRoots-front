@@ -27,7 +27,7 @@ const useCartStore = create<CartState>((set) => ({
                     {
                         ...product,
                         quantity: 1,
-                        // 🔥 Correction : Récupération correcte de l’image
+                        // Correction : Récupération correcte de l’image
                         image: product.Picture?.url
                             ? `/images/arbres/${product.Picture.url}.webp`
                             : "/images/default.png",
