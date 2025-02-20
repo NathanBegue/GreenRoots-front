@@ -4,14 +4,14 @@ import useCartStore from "../../Auth/cartStore";
 interface DetailModalProps {
   setIsOpenDetail: React.Dispatch<React.SetStateAction<boolean>>;
   article: Itrees;
-  isOpenDetail: boolean;
+  isOpenOrderDetail: boolean;
   isDarkMode: boolean;
 }
 
 export default function DetailModal({
   setIsOpenDetail,
   article,
-  isOpenDetail,
+  isOpenOrderDetail,
   isDarkMode,
 }: DetailModalProps) {
 
@@ -21,7 +21,7 @@ export default function DetailModal({
     <>
       {/* Overlay pour fermer la modale en cliquant à l'extérieur */}
 
-      {isOpenDetail && (
+      {isOpenOrderDetail && (
         <div
           className="fixed inset-0 bg-black/50 z-10"
           onClick={() => setIsOpenDetail(false)}

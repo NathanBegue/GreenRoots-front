@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
 
@@ -15,7 +16,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
         console.log("Inscription en cours...");
 
         if (password !== repeat_password) {
-            console.error("Les mots de passe ne correspondent pas");
+            showErrorToast("Les mots de passe ne correspondent pas");
             return;
         }
 
@@ -28,6 +29,14 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
 
             const data = await response.json();
             console.log(data);
+
+            if (!response.ok) {
+                // Si le serveur renvoie une erreur (ex: 400 Bad Request)
+                showErrorToast(data.error || "Une erreur est survenue.");
+                return;
+            }
+
+            showSuccessToast("Inscription réussie !");
             navigate("/connexion");
 
         } catch (error) {

@@ -1,6 +1,21 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../../Auth/authStore";
 
-export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode }: { isOpened: boolean, setIsOpened: React.Dispatch<React.SetStateAction<boolean>>, isDarkMode: boolean }) {
+export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsProtectedModal }: { isOpened: boolean, setIsOpened: React.Dispatch<React.SetStateAction<boolean>>, isDarkMode: boolean, setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+
+
+    const navigate = useNavigate();
+    const { token } = useAuthStore();
+
+    const handleProtectedRoute = () => {
+        if (!token) {
+            setIsProtectedModal(true);
+        }
+        else {
+            navigate("/historique");
+        }
+    }
+
     return (
         <>
             {/* Overlay qui ferme le menu en cliquant à l'extérieur */}
@@ -11,6 +26,7 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode }: { isOp
                 />
             )}
 
+
             <nav className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} w-50 h-dvh z-20 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-16 md:w-64 `}>
 
 
@@ -19,7 +35,7 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode }: { isOp
                 <ul className="flex flex-col gap-1 w-full">
                     <Link to="/" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Accueil</li></Link>
                     <Link to="/boutique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Boutique</li></Link>
-                    <Link to="/historique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Historique </li></Link>
+                    <Link to="/historique" onClick={() => { setIsOpened(false); handleProtectedRoute() }}><li className="border-b pl-2 font-title font-bold text-3xl">Historique </li></Link>
                     <Link to="/suivis" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Suivis </li></Link>
 
                 </ul>

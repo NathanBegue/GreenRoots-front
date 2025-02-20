@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Itrees } from "../../../type/type";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function EditModal({
     setIsOpenedEditModal,
@@ -18,7 +19,7 @@ export default function EditModal({
     isDarkMode: boolean;
     articles: Itrees[];
 }) {
-    // Type du formulaire
+    // Définition du type pour le formulaire
     interface FormDataState {
         category: string;
         name: string;
@@ -26,8 +27,10 @@ export default function EditModal({
         price: number | string;
         description: string;
         available: boolean;
+        picture_id?: number;
     }
 
+    // Initialisation de l'état du formulaire à partir des données de l'article
     const [formData, setFormData] = useState<FormDataState>({
         category: article.categories?.[0]?.name || "Conifères",
         name: article.name,
@@ -37,6 +40,7 @@ export default function EditModal({
         available: true,
     });
 
+    // Gestion des modifications des champs du formulaire
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
@@ -51,61 +55,12 @@ export default function EditModal({
         }
     };
 
-    /**
-     * Compresse et redimensionne l'image à l'aide d'un canvas.
-     */
-    const compressImage = (
-        file: File,
-        maxWidth: number = 800,
-        maxHeight: number = 800,
-        quality: number = 0.7
-    ): Promise<File> => {
-        return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.src = URL.createObjectURL(file);
 
-            image.onload = () => {
-                let { width, height } = image;
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height = Math.floor((height * maxWidth) / width);
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width = Math.floor((width * maxHeight) / height);
-                        height = maxHeight;
-                    }
-                }
-                const canvas = document.createElement("canvas");
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext("2d");
-                if (!ctx) {
-                    reject(new Error("Canvas non supporté"));
-                    return;
-                }
-                ctx.drawImage(image, 0, 0, width, height);
-                canvas.toBlob(
-                    (blob) => {
-                        if (blob) {
-                            const compressedFile = new File([blob], file.name, { type: blob.type });
-                            resolve(compressedFile);
-                        } else {
-                            reject(new Error("La compression a échoué"));
-                        }
-                    },
-                    "image/jpeg",
-                    quality
-                );
-            };
-
-            image.onerror = (error) => reject(error);
-        });
-    };
 
     /**
      * Convertit un fichier en chaîne Base64.
+     * @param file Le fichier à convertir.
+     * @returns Une promesse qui résout avec la chaîne Base64.
      */
     const convertToBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
@@ -116,23 +71,23 @@ export default function EditModal({
         });
     };
 
+    // Gestion de la soumission du formulaire
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        let newImageBase64 = "";
-        // Si une nouvelle image est fournie, on la compresse et on la convertit en base64
+        // Si une nouvelle image est sélectionnée et qu'elle est de type File, la convertir en base64
+        let base64Image = "";
         if (formData.image instanceof File) {
             try {
-                const compressedImage = await compressImage(formData.image);
-                let base64Image = await convertToBase64(compressedImage);
-                newImageBase64 = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
+                base64Image = await convertToBase64(formData.image);
+                base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
             } catch (error) {
-                console.error("Erreur lors de la compression ou conversion de l'image :", error);
+                showErrorToast("Erreur lors de la conversion de l'image");
                 return;
             }
         }
 
-        // Construction du payload de base
+        // Construction du payload de base pour la mise à jour de l'article
         const payload: any = {
             name: formData.name.trim() !== "" ? formData.name.trim() : article.name,
             price: formData.price !== "" ? Number(formData.price) : article.price,
@@ -148,21 +103,20 @@ export default function EditModal({
             available: formData.available,
         };
 
-        // Si un nouveau fichier image a été fourni, on ajoute imageId et newImageBase64
+        // Si une nouvelle image est fournie et c'est un fichier, ajouter les informations pour la mise à jour de l'image
         if (formData.image instanceof File) {
-            // article.Picture?.id doit contenir l'id de l'image existante en BDD
             payload.imageId = article.Picture?.id;
-            payload.newImageBase64 = newImageBase64;
+            payload.pictureUrl = base64Image;
         } else {
-            // Sinon, on peut envoyer l'URL existante si nécessaire
+            // Sinon, on envoie l'URL existante si disponible
             payload.pictureUrl =
                 typeof formData.image === "string" && formData.image.trim() !== ""
                     ? formData.image.trim()
                     : article.Picture?.url;
         }
 
+        // Affichage du payload dans la console pour débogage
         console.log("Payload envoyé :", JSON.stringify(payload, null, 2));
-
 
         try {
             const token = localStorage.getItem("token");
@@ -179,29 +133,45 @@ export default function EditModal({
 
             if (!response.ok) {
                 throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+
             }
 
             const updatedArticle = await response.json();
             console.log("Article mis à jour :", updatedArticle);
 
+            // Met à jour la liste des articles dans l'état en remplaçant l'article modifié
             setArticles((prev) =>
+                // Parcourt tous les articles précédents
                 prev.map((a) =>
+                    // Si l'article correspond à celui qui a été mis à jour (vérification par l'ID)
                     a.id === article.id
                         ? {
+                            // Conserve toutes les propriétés existantes de l'article
                             ...a,
+                            // Remplace ou ajoute les propriétés retournées par le serveur lors de la mise à jour
                             ...updatedArticle,
+                            // Pour la propriété "categories" : si updatedArticle.categories existe, on l'utilise ;
+                            // sinon, on conserve les catégories déjà présentes dans l'article précédent
                             categories: updatedArticle.categories || a.categories,
+                            // Pour la propriété "Picture" :
+                            // - Si updatedArticle.Picture est défini, on l'utilise.
+                            // - Sinon, on crée un objet Picture avec :
+                            //    - url : on utilise la valeur de payload.pictureUrl si disponible, sinon celle existante (a.Picture?.url)
+                            //    - description : on indique "Image mise à jour" pour signaler que l'image a été modifiée
                             Picture: updatedArticle.Picture
                                 ? updatedArticle.Picture
                                 : { url: payload.pictureUrl || a.Picture?.url, description: "Image mise à jour" },
                         }
-                        : a
+                        : a // Pour tous les autres articles, on ne change rien
                 )
             );
             setSelectedArticle(updatedArticle);
             setIsOpenedEditModal(false);
+            showSuccessToast("Article mis à jour avec succès !");
+
         } catch (error) {
             console.error("Erreur lors de la mise à jour de l'article :", error);
+            showErrorToast("Erreur lors de la mise à jour de l'article");
         }
     };
 

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import useCartStore from "../../Auth/cartStore";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
+import { showErrorToast, } from "../../../utils/toast";
 
 export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
     const { cart, removeFromCart, updateQuantity } = useCartStore();
@@ -12,11 +13,11 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
     const handlePayment = () => {
         if (cart.length === 0) return; // Empêcher le paiement si le panier est vide
         if (!isChecked) {
-            alert("Vous devez accepter les conditions générales de vente.");
+            showErrorToast("Veuillez accepter les conditions générales de vente.");
             return;
         }
         if (!token) {
-            alert("Vous devez être connecté pour effectuer un paiement.");
+            showErrorToast("Vous devez être connecté pour effectuer un paiement.");
             return;
         }
         navigate("/paiement");
@@ -76,7 +77,7 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                     <p>{cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)} €</p>
                 </div>
 
-                <form action="" className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
                         <input type="checkbox" id="cgv" className="size-5 cursor-pointer hover:scale-110" onChange={(e) => setIsChecked(e.target.checked)} />
                         <label htmlFor="cgv" className="text-sm lg:text-base ">J'accepte les conditions générales de vente</label>
@@ -92,7 +93,7 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                             Payer
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
 
             <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg font-semibold text-lg hover:bg-opacity-90 transition lg:text-xl lg:max-w-4xl lg:mx-auto">

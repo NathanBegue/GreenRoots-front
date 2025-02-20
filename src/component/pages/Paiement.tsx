@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
 
@@ -16,12 +16,11 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
 
 
         if (cart.length === 0) {
-            setErrorMessage("Votre panier est vide.");
+            showErrorToast("Votre panier est vide.");
             return;
         }
 
         setIsProcessing(true);
-        setErrorMessage("");
 
         try {
             const orderData = {
@@ -51,12 +50,13 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
 
             localStorage.removeItem("cart");
             setPaymentSuccess(true);
+            showSuccessToast("Merci pour votre achat !");
 
             setTimeout(() => {
-                navigate("/confirmation");
+                navigate("/");
             }, 2000);
         } catch (error) {
-            setErrorMessage("Échec du paiement, veuillez réessayer.");
+            showErrorToast("Erreur lors du paiement. Veuillez réessayer.");
             setIsProcessing(false);
         }
     };
@@ -83,8 +83,6 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                                 required
                             />
                         </div>
-
-                        {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
 
                         <button
                             type="submit"

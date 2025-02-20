@@ -3,26 +3,26 @@ import { useAuthStore } from "../../Auth/authStore";
 import Map from "../ui/Map";
 import { Itracking } from "../../../type/type";
 
+export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
-export default function SuivisArbre() {
-
+  // State pour stocker les données de suivi des commandes
   const [ordersTracking, setOrdersTracking] = useState<Itracking[]>([]);
 
-
+  // Récupération de l'ID de la commande depuis le localStorage
   const orderId = localStorage.getItem('orderId');
-  // fetch tracking d'une commande
 
+  // Fonction pour récupérer le suivi de la commande
   const getOrderTracking = async () => {
-
     if (orderId) {
       console.log('L\'ID de la commande récupéré :', orderId);
     } else {
       console.log('Aucun ID de commande trouvé dans le localStorage');
+      return;
     }
 
     try {
       const token = localStorage.getItem("token");
-      console.log("ordersTracking :", ordersTracking);
+      console.log("Tracking des commandes :", ordersTracking);
 
       const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi`, {
         method: "GET",
@@ -31,145 +31,146 @@ export default function SuivisArbre() {
           Authorization: `Bearer ${token}`,
         },
       });
+
       const data = await response.json();
       console.log("Données reçues :", data);
-      setOrdersTracking(data);
 
-      // Si data est un tableau, on le retourne directement,
-      // sinon on tente de retourner data.orders ou un tableau vide
-      return data
+      // Vérification du format des données et mise à jour de l'état
+      if (Array.isArray(data)) {
+        setOrdersTracking(data);  // Si c'est déjà un tableau, on l'utilise
+      } else {
+        setOrdersTracking(data.articles || []);  // Sinon, on extrait `articles`
+      }
     } catch (error) {
       console.error("Erreur lors du fetch des commandes :", error);
-      return [];
-    }
-  }
-
-
-
-
-  const [formData, setFormData] = useState<Itracking>({
-
-    nickname: "",
-    picture_id: "",
-    plant_place: "",
-    article_id: "",
-    article_has_order_id: "",
-    status: "",
-    growth: "",
-  });
-
-
-  const { isAdmin } = useAuthStore();
-
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    if (e.target.type === "file") {
-      const file = (e.target as HTMLInputElement).files?.[0] || null;
-      setFormData((prev) => ({ ...prev, image: file }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [e.target.name]: e.target.name === "price" ? Number(e.target.value) : e.target.value,
-      }));
     }
   };
 
+  const { isAdmin } = useAuthStore();
+
+  // Récupération et mise à jour de l'état des données lors du premier rendu
   useEffect(() => {
-    getOrderTracking().then((data) => {
-      console.log("🚀 Données reçues :", data);
+    getOrderTracking();
+  }, []);  // Cette dépendance vide garantit l'exécution une seule fois après le premier rendu
 
-      if (Array.isArray(data)) {
-        setOrdersTracking(data);  // ✅ Si c'est déjà un tableau, on l'utilise directement
-      } else {
-        setOrdersTracking(data.articles || []);  // ✅ Si data contient un objet, on extrait `articles`
+  useEffect(() => {
+    console.log("⚙️ Données brutes reçues :", ordersTracking);
+  }, [ordersTracking]);
+
+
+  console.log("🚀 Suivi des commandes :", ordersTracking);
+
+  function calculerAgeAvecHeures(dateString) {
+    const dateDeNaissance = new Date(dateString);
+    const aujourdHui = new Date();
+
+    let age = aujourdHui.getFullYear() - dateDeNaissance.getFullYear();
+    let mois = aujourdHui.getMonth() - dateDeNaissance.getMonth();
+    let jours = aujourdHui.getDate() - dateDeNaissance.getDate();
+    let heures = aujourdHui.getHours() - dateDeNaissance.getHours();
+
+    // Ajuster l'âge si le mois est négatif ou si c'est le même mois mais un jour avant
+    if (mois < 0 || (mois === 0 && jours < 0)) {
+      age--;
+      mois += 12;
+    }
+
+    // Ajuster si le nombre de jours est négatif
+    if (jours < 0) {
+      const dernierMois = new Date(aujourdHui.getFullYear(), aujourdHui.getMonth(), 0);
+      jours += dernierMois.getDate();
+      mois--;
+    }
+
+    // Ajuster si les heures sont négatives
+    if (heures < 0) {
+      heures += 24; // Ajouter les 24 heures du jour précédent
+      jours--; // Enlever un jour
+      if (jours < 0) {
+        mois--; // Enlever un mois si nécessaire
+        const dernierMois = new Date(aujourdHui.getFullYear(), aujourdHui.getMonth(), 0);
+        jours += dernierMois.getDate(); // Ajouter les jours du mois précédent
       }
-    });
-  }, []);
+    }
 
+    return {
+      années: age,
+      mois: mois,
+      jours: jours,
+      heures: heures
+    };
+  }
 
+  const dateExemple = "2025-02-20T14:19:16.580Z";
+  const ageComplet = calculerAgeAvecHeures(dateExemple);
 
+  console.log(`Âge : ${ageComplet.années} ans, ${ageComplet.mois} mois, ${ageComplet.jours} jours, ${ageComplet.heures} heures`);
 
 
   return (
+    <div className={`flex flex-wrap gap-20 bg-dark-primary ${!isDarkMode && "bg-light-primary"} h-fit w-full m-auto max-w-7xl rounded-lg justify-center`}>
+      {ordersTracking.map((order) =>
+        order.ArticleTrackings.slice(0, order.ArticleHasOrder.quantity).map((tracking, index) => (
 
-    <div className="bg-dark-primary h-fit  w-fit m-auto  md:w-md lg:w-lg rounded-sm md:rounded-md lg:rounded-lg">
-
-      {console.log(ordersTracking)}
-      {
-        ordersTracking.map((orderTracking) =>
-
-          <div key={orderTracking.article_id} className="bg-dark-secondary w-auto h-full flex flex-col  border-zinc-200 p-6 text-white justify-center rounded-sm md:rounded-md lg:rounded-lg border shadow-black shadow-lg">
-
-            {isAdmin &&
-
-              <div className="flex gap-2 justify-end">
-                <button
-                  className="p-2 bg-yellow-500 rounded-lg cursor-pointer hover:bg-yellow-600 transition">
-
+          <div
+            key={`${order.id}-${tracking.id}-${index}`}
+            className="bg-dark-secondary w-sm md:w-md lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6 text-white justify-center rounded-lg border shadow-black shadow-lg "
+          >
+            {isAdmin ? (
+              <div className="flex gap-2 p-2">
+                <button onClick={() => {
+                  console.log('Modifier', article);
+                  setIsOpenedEditModal && setIsOpenedEditModal(true);
+                  setSelectedArticle && setSelectedArticle(article);
+                }}
+                  className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12 cursor-pointer hover:scale-110">
                   <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                 </button>
 
-                <button
-                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition cursor-pointer">
-
-                  <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert" />
+                <button onClick={() => {
+                  console.log('Supprimer', article);
+                  setIsOpenedDeleteModal && setIsOpenedDeleteModal(true);
+                  setSelectedArticle && setSelectedArticle(article);
+                }}
+                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
+                  <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
                 </button>
               </div>
+            ) : null}
+            <h2 className="text-white text-center">🌿 {order.name}</h2>
+
+            {!order.nickname === null &&
+              < h3 className="text-white text-center"> {tracking.nickname}</h3>
             }
-            <h2 className="text-white bg-dark-secondary"> Coucou {orderTracking.name}</h2>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="lieu" id="lieu" >Lieu :</label>
-              <input type="text" id="lieu" name="lieu" className="text-white h-7 w-25 ml-2" placeholder=" Sao Paulo" />
-
+            <div>
+              <img src={tracking.Picture.url} alt="" />
             </div>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="croissance" id="croissance" >Croissance :</label>
-              <input
-                type="text"
-                id="croissance"
-                name="croissance"
-                className="text-white h-7 w-75 ml-2"
-
-                value={orderTracking.ArticleTrackings[0].growth
-                }
-              />
-            </div>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="status" id="status" >Status :</label>
-              <input type="text" id="status" name="status" className="text-white-7 w-25 ml-2" placeholder="En fleuraison" />
-            </div>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="nbrSuivi" id="nbrSuivi" > commande :</label>
-              <input type="nbrSuivi" id="nbrSuivi" name="nbrSuivi" className="text-white h-7 w-25 ml-2" placeholder=" 4321789" value={orderTracking.article_has_order_id} />
-            </div>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="birthday" id="birthday" >Date de plantation :</label>
-              <input type="birthday" id="birthday" name="birthday" className="text-white h-7 w-25 ml-2" placeholder=" 22/07/22" />
-            </div>
-            <div className="pb-2 text-content text-ms md:text-md lg:text-lg">
-              <label htmlFor="age" id="age" >Age  :</label>
-              <input type="age" id="age" name="age" className="text-white h-7 w-25 ml-2 mb-2" placeholder=" 2 ans" />
-            </div>
-            <div className="flex justify-center items-center pb-8">
-
-              <input type="image" id="image" name="image" className="bg-zinc-200 h-40 w-40 ml-2 rounded-xl" src="images/arbres/Acacia.webp" />
-            </div>
-            <div className="w-full h-full m-auto">
-              <h2 className="text-white text-2xl font-title text-center pb-1"> Localisation de l'arbre : </h2>
-              <div className="flex justify-center items-center pb-4">
-                <label htmlFor="position" id="position" >Position:</label>
-                <input type="position" id="position" name="position" className="text-white h-7 w-25 ml-2 mb-2" placeholder=" 48.8566" />
+            <div className="mb-4">
+              <div className="text-sm">
+                <strong>Lieu :</strong> {tracking.plant_place || "Non défini"}
               </div>
+              <div>
+                <strong>Statut :</strong> {tracking.status}
+              </div>
+              <div>
+                <strong>Croissance :</strong> {tracking.growth}
+              </div>
+              <div>
+                <strong>Age : </strong>{calculerAgeAvecHeures(tracking.created_at).années} ans, {calculerAgeAvecHeures(tracking.created_at).mois} mois, {calculerAgeAvecHeures(tracking.created_at).jours} jours, {calculerAgeAvecHeures(tracking.created_at).heures} heures
 
+              </div>
+            </div>
+
+            <div className="w-full h-full m-auto">
+              <h3 className="text-white text-xl text-center pb-1">📍 Localisation :</h3>
               <Map />
             </div>
           </div>
-        )
+        ))
+      )
       }
-
-
-    </div>
-
+    </div >
   );
+
+
 }
