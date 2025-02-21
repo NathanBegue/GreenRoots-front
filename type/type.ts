@@ -70,3 +70,36 @@ export interface Itracking {
     article_has_order_id: number,
     picture_id: number
 }
+
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+}
+
+export interface ArticleHasOrder {
+    quantity: number;
+}
+
+export interface IArticleDetail {
+    id: number;
+    name: string;
+    description: string;
+    price: string;
+    available: boolean;
+    picture_id: number;
+    stripe_product_id: string;
+    stripe_price_id: string;
+    ArticleHasOrder: ArticleHasOrder;
+}
+
+export interface IOrderDetail {
+    id: number;
+    article_summary: string;
+    date: string;
+    total_price: string;
+    user_id: number;
+    User: User;
+    articles: IArticleDetail[];
+}

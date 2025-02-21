@@ -1,10 +1,11 @@
-import { Link, useNavigate } from "react-router";
-import { Iorder, Itrees } from "../../../type/type";
-import useCartStore from "../../Auth/cartStore";
+import { useNavigate } from "react-router";
+import { Iorder, IOrderDetail } from "../../../type/type";
+import { useAuthStore } from "../../Auth/authStore";
+import { useEffect, useState } from "react";
+import fetchmethod from "../../fetch/method-fetch";
 
 interface DetailModalOrderProps {
     setIsOpenOrderDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    article: Itrees;
     isOpenedOrderModal: boolean;
     isDarkMode: boolean;
     orders: Iorder;
@@ -12,21 +13,46 @@ interface DetailModalOrderProps {
 
 export default function DetailOrderModal({
     setIsOpenOrderDetail,
-    article,
     isOpenedOrderModal,
     isDarkMode,
     orders,
 }: DetailModalOrderProps) {
 
     const navigate = useNavigate();
+    const { isAdmin } = useAuthStore();
+    const [orderDetail, setOrderDetail] = useState<IOrderDetail | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const addToCart = useCartStore((state) => state.addToCart);
+    useEffect(() => {
+        const fetchOrderDetails = async () => {
+            setLoading(true);
+            try {
+                const data = isAdmin
+                    ? await fetchmethod.getOrderDetailAdmin(orders.id)
+                    : await fetchmethod.getOrderDetailUser(orders.id);
 
-    const id = orders.id
+                setOrderDetail(data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des détails :", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        if (isOpenedOrderModal) {
+            fetchOrderDetails();
+        }
+    }, [orders.id, isAdmin, isOpenedOrderModal]);
 
+    if (loading) {
+        return (
+            <div className="text-center">
+                <p>Chargement des détails de la commande...</p>
+            </div>
+        );
+    }
 
-    if (!orders) {
+    if (!orderDetail) {
         return (
             <div className="text-center">
                 <p>Aucune commande disponible.</p>
@@ -34,11 +60,8 @@ export default function DetailOrderModal({
         );
     }
 
-
     return (
         <>
-            {/* Overlay pour fermer la modale en cliquant à l'extérieur */}
-
             {isOpenedOrderModal && (
                 <div
                     className="fixed inset-0 bg-black/50 z-10"
@@ -46,44 +69,92 @@ export default function DetailOrderModal({
                 />
             )}
 
-            {/* Modale */}
-            <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? " bg-dark-secondary" : "bg-light-accent"} w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 md:w-md lg:w-lg`} style={{ maxHeight: "80vh", overflowY: "auto" }}>
-
-                {/* Bouton de fermeture */}
+            <div
+                className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary" : "bg-light-accent"
+                    } w-96 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8`}
+                style={{ maxHeight: "80vh", overflowY: "auto" }}
+            >
                 <img
                     onClick={() => setIsOpenOrderDetail(false)}
                     src="/images/icons/close.svg"
                     alt="Fermer la modale"
-                    className={`w-6 h-6 ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer `}
+                    className={`w-6 h-6 ${isDarkMode && "invert"
+                        } absolute top-4 right-4 cursor-pointer`}
                 />
 
-                {/* Titre */}
-                <h1 className={`text-2xl font-bold text-center ${isDarkMode ? " text-white" : "text-black"} `}>Détail de la commande </h1>
-                <h2 className={`text-xl font-bold text-center font-title ${isDarkMode ? "text-white" : "text-black"} `}>Arbre(s) acheté(s) : {orders.article_summary} </h2>
+                {/* Infos générales */}
+                <h1
+                    className={`text-2xl font-bold text-center ${isDarkMode ? "text-white" : "text-black"
+                        }`}
+                >
+                    Commande #{orderDetail.id}
+                </h1>
+                <h2
+                    className={`text-xl font-semibold text-center ${isDarkMode ? "text-white" : "text-black"
+                        }`}
+                >
+                    {orderDetail.article_summary}
+                </h2>
 
-                <div className="flex flex-col gap-4">
+                <div
+                    className={`flex flex-col gap-2 ${isDarkMode ? "text-white" : "text-black"
+                        }`}
+                >
+                    <p>
+                        <strong>Date d'achat :</strong>{" "}
+                        {new Date(orderDetail.date).toLocaleDateString()}
+                    </p>
+                    <p>
+                        <strong>Prix total :</strong> {orderDetail.total_price} €
+                    </p>
+                </div>
 
-                    {/* Description */}
-                    <div className={`flex flex-col mb-4 ${isDarkMode ? "text-white" : "text-black"} `}>
-                        <h3 className="font-semibold mb-1 font-title">Date d'achat  :</h3>
-                        <p className="font-content"> {orders.date} </p>
+                {/* Infos utilisateur */}
+                {isAdmin && (
+                    <div
+                        className={`mt-4 p-4 rounded ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"
+                            }`}
+                    >
+                        <h3 className="text-lg font-semibold mb-2">Client :</h3>
+                        <p>
+                            {orderDetail.User.firstname} {orderDetail.User.lastname}
+                        </p>
+                        <p>{orderDetail.User.email}</p>
+                    </div>
+                )}
 
-                        {/* Prix */}
-                        <div className="flex flex-col mt-4">
-                            <h3 className="font-semibold mb-1 font-content">Prix total : {orders.total_price}  €</h3>
+                {/* Liste des articles */}
+                <div className="mt-4">
+                    <h3 className="text-lg font-semibold mb-2">Articles commandés :</h3>
+                    {orderDetail.articles.map((article) => (
+                        <div
+                            key={article.id}
+                            className={`p-3 mb-2 rounded ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"
+                                }`}
+                        >
+                            <p className="font-bold">{article.name}</p>
+                            <p>{article.description}</p>
+                            <p>
+                                <strong>Prix :</strong> {article.price} €
+                            </p>
+                            <p>
+                                <strong>Quantité :</strong> {article.ArticleHasOrder.quantity}
+                            </p>
                         </div>
+                    ))}
+                </div>
 
-                    </div>
-                    {/*   <div className="flex justify-center">
-                        <button onClick={() => addToCart(article)} className={`bg-cta p-2 font-content text-sm rounded-sm ${isDarkMode ? "text-white" : "text-black"} `}> Ajouter au panier </button>
-                    </div> */}
-
-                    <div className="flex justify-center">
-                        <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`} onClick={() => navigate("/suivis")}> Suivie de(s) arbre(s) </button>
-                    </div>
+                {/* Bouton de navigation */}
+                <div className="flex justify-center mt-4">
+                    <button
+                        className={`px-4 py-2 rounded-lg bg-dark-primary cursor-pointer hover:scale-105 text-lg ${!isDarkMode && "bg-light-primary text-black"
+                            }`}
+                        onClick={() => navigate("/suivis")}
+                    >
+                        Suivi de(s) arbre(s)
+                    </button>
                 </div>
             </div>
-
         </>
     );
 }
