@@ -143,8 +143,71 @@ const fetchmethod = {
       };
     }
   },
+  // fetch de toutes les commandes (admin)
+  getAllOrders: async (): Promise<Iorder[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3000/api/commandes", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log("Données reçues :", data);
 
+      // Si data est un tableau, on le retourne directement,
+      // sinon on tente de retourner data.orders ou un tableau vide
+      return data
+    } catch (error) {
+      console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
 
+  // detail de la commande d'un utilisateur
+  getOrderDetailAdmin: async (id: number): Promise<Itracking[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/commandes/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+      return data;
+    }
+    catch (error) {
+      console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
+
+  getOrderDetailUser: async (id: number): Promise<Itracking[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/compte/commandes/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+      return data;
+    }
+    catch (error) {
+      console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
 
 
 };

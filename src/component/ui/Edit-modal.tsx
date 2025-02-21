@@ -76,63 +76,77 @@ export default function EditModal({
 
     // Gestionnaire de soumission du formulaire
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        // Empêche le comportement par défaut du formulaire (rechargement de la page)
         e.preventDefault();
 
-        // Construction du payload
-        // Si formData.image commence par "http", c'est l'URL existante,
-        // sinon c'est une nouvelle image (base64) à convertir.
-        // Si formData.image commence par "http", c'est l'URL existante,
-        // sinon c'est une nouvelle image en base64
+        // Détermine la valeur à envoyer pour l'image :
+        // Si 'formData.image' est une chaîne qui commence par "http", cela signifie
+        // que c'est l'URL existante (l'image n'a pas été modifiée)
+        // Sinon, c'est une nouvelle image convertie en base64 par FileReader
         const pictureUrl =
             typeof formData.image === "string" && formData.image.startsWith("http")
                 ? formData.image
                 : formData.image;
 
+        // Construction du payload à envoyer à l'API
+        // Notez que pour la clé 'categoryName', on envoie un tableau contenant la catégorie,
+        // car c'est la structure attendue par le back-end (comme dans le CreateModal)
         const payload = {
-            categoryName: [formData.category], // Envoi sous forme de tableau
+            categoryName: [formData.category],
             name: formData.name,
             description: formData.description,
-            price: Number(formData.price),
+            price: Number(formData.price), // Conversion en nombre pour être sûr
             available: formData.available,
+            // On n'inclut 'pictureUrl' que s'il existe une valeur non vide
             ...(pictureUrl ? { pictureUrl } : {}),
         };
-
-
 
         console.log("Payload à envoyer :", payload);
 
         try {
+            // Récupération du token d'authentification depuis le localStorage
             const token = localStorage.getItem("token");
+            // Construction des headers pour la requête
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
+            // Envoi de la requête PATCH à l'API pour mettre à jour l'article
             const res = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
                 method: "PATCH",
                 headers,
                 body: JSON.stringify(payload),
             });
 
+            // Lecture de la réponse sous forme de texte
             const text = await res.text();
+            // Si la réponse n'est pas vide, on la parse en JSON
             const data = text ? JSON.parse(text) : {};
 
+            // Si la réponse n'est pas "ok", on lève une erreur avec le message renvoyé par le serveur
             if (!res.ok) {
                 throw new Error(data.message || "Erreur lors de la mise à jour de l'article.");
             }
 
+            // Affiche une notification de succès
             showSuccessToast("Article mis à jour avec succès.");
 
+            // Met à jour la liste des articles dans l'état parent en remplaçant l'article modifié
             setArticles((prevArticles) =>
                 prevArticles.map((art) => (art.id === article.id ? data.article : art))
             );
+            // Met à jour l'article sélectionné avec les nouvelles données
             setSelectedArticle(data.article);
+            // Ferme la modale de modification
             setIsOpenedEditModal(false);
         } catch (error: any) {
             console.error("Erreur lors de la mise à jour :", error);
+            // Affiche une notification d'erreur en cas de problème
             showErrorToast(error.message || "Une erreur est survenue");
         }
     };
+
 
 
 

@@ -17,7 +17,7 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  w-full h-24 px-2 flex items-center justify-between shadow-lg `}>
+    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  w-full h-24 px-2 flex items-center justify-between shadow-lg z-10000`}>
       {/* Logo */}
       <Link to="/">
         <img className="h-16 rounded-lg" src="src/assets/images/logo.webp" alt="Logo" />

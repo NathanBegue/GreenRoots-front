@@ -24,7 +24,8 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
       const token = localStorage.getItem("token");
       console.log("Tracking des commandes :", ordersTracking);
 
-      const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi`, {
+
+      const response = await fetch(`http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +59,6 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
   }, [ordersTracking]);
 
 
-  console.log("🚀 Suivi des commandes :", ordersTracking);
 
   function calculerAgeAvecHeures(dateString) {
     const dateDeNaissance = new Date(dateString);
@@ -139,9 +139,9 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
             ) : null}
             <h2 className="text-white text-center">🌿 {order.name}</h2>
 
-            {!order.nickname === null &&
-              < h3 className="text-white text-center"> {tracking.nickname}</h3>
-            }
+
+            < h3 className="text-white text-center"> Surnom : {tracking.nickname}</h3>
+
             <div>
               <img src={tracking.Picture.url} alt="" />
             </div>
