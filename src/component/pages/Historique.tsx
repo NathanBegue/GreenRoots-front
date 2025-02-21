@@ -48,31 +48,32 @@ export default function Historique({
     };
 
     return (
-        <div className="h-400">
-            <h3 className="text-xl font-bold text-center mb-4 pt-40">
+        <div className={`h-full ml-4 mr-4 ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}>
+            <h3 className="text-xl font-bold text-center margin-auto pt-25">
                 🛒 Mes dernières commandes
             </h3>
-            <div className="flex justify-center pt-20 max-w-5xl w-sm flex-col md:w-md lg:flex-row gap-10 mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto pt-15 pb-15 w-full">
                 {orders.length > 0 ? (
                     orders.map((order) => (
                         <div
                             key={order.id}
-                            className={`${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} w-full h-fit p-4 rounded-lg shadow-lg mb-6`}
+                            className={`h-full min-h-[300px] flex flex-col justify-between ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} w-full p-4 rounded-lg shadow-lg`}
                         >
-                            <p className={`text-lg font-semibold ${isDarkMode ? "text-cta" : "text-black"}`}>
+
+                            <p className={`text-lg font-semibold ${isDarkMode ? "text-white" : "text-black"}`}>
                                 Commande du {formatDate(order.date)}
                             </p>
                             <p className="text-xl m-4"> Commande N° {order.id}</p>
                             <p>{order.article_summary}</p>
                             <div className="flex justify-between items-center mt-6 border-t border-gray-600 pt-4">
                                 <p className="text-lg font-semibold">Total :</p>
-                                <p className={`text-xl font-bold ${isDarkMode ? "text-cta" : "text-black"}`}>
+                                <p className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-black"}`}>
                                     {order.total_price} €
                                 </p>
                             </div>
-                            <div>
+                            <div className="flex justify-center mt-auto">
                                 <button
-                                    className={`px-4 py-1 rounded-lg bg-dark-primary cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
+                                    className={` px-4 py-1 rounded-lg bg-dark-primary cursor-pointer hover:scale-110 text-lg mx-auto ${!isDarkMode && "bg-light-primary text-black"}`}
                                     onClick={() => openModal(order)}
                                 >
                                     Voir détail de la commande
@@ -81,7 +82,7 @@ export default function Historique({
                         </div>
                     ))
                 ) : (
-                    <p className="text-center">Aucune commande à afficher.</p>
+                    <p className="text-center ">Aucune commande à afficher.</p>
                 )}
 
                 {isOpenedOrderModal && selectedOrder && (

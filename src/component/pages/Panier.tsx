@@ -96,7 +96,7 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
             </div>
 
-            <Link to="/boutique" className="text-center p-4 bg-cta rounded-lg font-semibold text-lg hover:bg-opacity-90 transition lg:text-xl lg:max-w-4xl lg:mx-auto">
+            <Link to="/boutique" className={`text-center p-4 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} rounded-lg font-semibold text-lg hover:bg-opacity-90 transition lg:text-xl lg:max-w-4xl lg:mx-auto`}>
                 Retour à la boutique
             </Link>
         </div>

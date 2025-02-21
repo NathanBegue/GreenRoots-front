@@ -6,7 +6,6 @@ const fetchmethod = {
   getArticlesByAdmin: async (): Promise<Itrees[]> => {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
-
       const response = await fetch("http://localhost:3000/api/articles", {
         method: "GET",
         headers: {
@@ -184,6 +183,48 @@ const fetchmethod = {
     }
     catch (error) {
       console.error("Erreur lors du fetch des commandes :", error);
+      return [];
+    }
+  },
+
+  getTrackingByIdAdmin: async (orderId: number, trackinId: number): Promise<Itracking[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/api/commandes/${orderId}/suivi/${trackinId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+      return data;
+    }
+    catch (error) {
+      console.error("Erreur lors du fetch du tracking :", error);
+      return [];
+    }
+  },
+
+  getTrackingByIdUser: async (orderId: number, trackinId: number): Promise<Itracking[]> => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi/${trackinId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      console.log("Données reçues :", data);
+      return data;
+    }
+    catch (error) {
+      console.error("Erreur lors du fetch du tracking :", error);
       return [];
     }
   },

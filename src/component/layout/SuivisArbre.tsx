@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "../../Auth/authStore";
 import Map from "../ui/Map";
 import { Itracking } from "../../../type/type";
+import TrackingArticleModal from "../ui/TrackingArticleModal";
 
 export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
   // State pour stocker les données de suivi des commandes
   const [ordersTracking, setOrdersTracking] = useState<Itracking[]>([]);
+  const [trackingModal, setTrackingModal] = useState<boolean>(false);
+  console.log(JSON.stringify(ordersTracking));
+
 
   // Récupération de l'ID de la commande depuis le localStorage
   const orderId = localStorage.getItem('orderId');
@@ -101,52 +105,32 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
     };
   }
 
-  const dateExemple = "2025-02-20T14:19:16.580Z";
-  const ageComplet = calculerAgeAvecHeures(dateExemple);
-
-  console.log(`Âge : ${ageComplet.années} ans, ${ageComplet.mois} mois, ${ageComplet.jours} jours, ${ageComplet.heures} heures`);
 
 
   return (
-    <div className={`flex flex-wrap gap-20 bg-dark-primary ${!isDarkMode && "bg-light-primary"} h-fit w-full m-auto max-w-7xl rounded-lg justify-center`}>
+    <div className={`flex flex-wrap gap-20   h-fit w-full m-auto max-w-7xl rounded-lg justify-center`}>
+
+      {trackingModal && <TrackingArticleModal setTrackingModal={setTrackingModal} setOrdersTracking={setOrdersTracking} orderstracking={ordersTracking} trackingModal={trackingModal} />}
+
       {ordersTracking.map((order) =>
         order.ArticleTrackings.slice(0, order.ArticleHasOrder.quantity).map((tracking, index) => (
 
           <div
             key={`${order.id}-${tracking.id}-${index}`}
-            className="bg-dark-secondary w-sm md:w-md lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6 text-white justify-center rounded-lg border shadow-black shadow-lg "
+            className={` w-sm md:w-md lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6  justify-center rounded-lg border shadow-black shadow-lg ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary text-black"}`}
           >
-            {isAdmin ? (
-              <div className="flex gap-2 p-2">
-                <button onClick={() => {
-                  console.log('Modifier', article);
-                  setIsOpenedEditModal && setIsOpenedEditModal(true);
-                  setSelectedArticle && setSelectedArticle(article);
-                }}
-                  className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12 cursor-pointer hover:scale-110">
-                  <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
-                </button>
 
-                <button onClick={() => {
-                  console.log('Supprimer', article);
-                  setIsOpenedDeleteModal && setIsOpenedDeleteModal(true);
-                  setSelectedArticle && setSelectedArticle(article);
-                }}
-                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
-                  <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
-                </button>
-              </div>
-            ) : null}
-            <h2 className="text-white text-center">🌿 {order.name}</h2>
+            <h2 className=" text-center">🌿 {order.name}</h2>
 
 
-            < h3 className="text-white text-center"> Surnom : {tracking.nickname}</h3>
+            < h3 className=" text-center"> Surnom : {tracking.nickname}</h3>
 
             <div>
               <img src={tracking.Picture.url} alt="" />
             </div>
             <div className="mb-4">
               <div className="text-sm">
+
                 <strong>Lieu :</strong> {tracking.plant_place || "Non défini"}
               </div>
               <div>
@@ -159,13 +143,32 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
                 <strong>Age : </strong>{calculerAgeAvecHeures(tracking.created_at).années} ans, {calculerAgeAvecHeures(tracking.created_at).mois} mois, {calculerAgeAvecHeures(tracking.created_at).jours} jours, {calculerAgeAvecHeures(tracking.created_at).heures} heures
 
               </div>
+              <div>
+                <strong>Mise il y a : </strong>{calculerAgeAvecHeures(tracking.updated_at).années} ans, {calculerAgeAvecHeures(tracking.updated_at).mois} mois, {calculerAgeAvecHeures(tracking.updated_at).jours} jours, {calculerAgeAvecHeures(tracking.updated_at).heures} heures
+
+              </div>
             </div>
 
+
             <div className="w-full h-full m-auto">
-              <h3 className="text-white text-xl text-center pb-1">📍 Localisation :</h3>
-              <Map />
+              <h3 className="text-xl text-center pb-1">📍 Localisation :</h3>
+              <Map city={tracking.plant_place} />
             </div>
+            {isAdmin ? (
+              <div className="flex gap-2 p-2">
+                <button onClick={() => {
+                  setTrackingModal(true);
+
+                }}
+                  className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12 cursor-pointer hover:scale-110">
+                  <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
+                </button>
+              </div>
+            ) : null}
           </div>
+
+
+
         ))
       )
       }

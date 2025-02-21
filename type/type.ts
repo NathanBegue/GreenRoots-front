@@ -7,6 +7,12 @@ export interface Itrees {
     picture_id: number;
     Picture?: Ipicture;
     categories: Icategory[];
+    stripe_product_id: string;
+    stripe_price_id: string;
+    created_at: string;
+    updated_at: string;
+    ArticleHasOrder: ArticleHasOrder;
+    ArticleTrackings: IArticleTracking[];
 }
 
 export interface Ipicture {
@@ -19,11 +25,19 @@ export interface Icategory {
     name: string;
 }
 
+
+
 export interface Iorder {
     id: number;
     article_summary: string;
     date: string;
-    total_price: number;
+    total_price: string;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    User: User;
+    ArticleTrackings: ITracking;
+    articles: Itrees[];
 }
 
 export interface IAuthState {
@@ -61,15 +75,21 @@ export interface CartState {
 }
 
 //Définition du type d'un suivis d'article d'une commande 
-export interface Itracking {
+export interface IArticleTracking {
+    id: number;
     growth: string;
-    status: string,
-    plant_place: string,
-    nickname: string,
-    article_id: number,
-    article_has_order_id: number,
-    picture_id: number
+    status: string;
+    plant_place: string;
+    nickname: string | null;
+    article_id: number;
+    article_has_order_id: number;
+    picture_id: number;
+    created_at: string;
+    updated_at: string;
+    Picture: Ipicture;
 }
+
+
 
 export interface User {
     id: number;
@@ -103,3 +123,12 @@ export interface IOrderDetail {
     User: User;
     articles: IArticleDetail[];
 }
+
+export interface ITracking {
+    id: number;
+    status: string;
+    order_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
