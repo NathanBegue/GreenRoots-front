@@ -44,7 +44,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                             <p className="font-content md:text-lg">Accéder à votre compte</p>
                             <Link
                                 to="/compte"
-                                className="bg-cta py-2 px-4 rounded-sm font-title font-bold md:py-3 md:px-6 md:text-lg"
+                                className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 Mon Compte
@@ -73,7 +73,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                             <p className="font-content md:text-lg">Déjà un compte ?</p>
                             <Link
                                 to="/connexion"
-                                className="bg-cta py-2 px-4 rounded-sm font-title font-bold md:py-3 md:px-6 md:text-lg"
+                                className={`flex justify-center items-center px-10 ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 Connexion
@@ -85,7 +85,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                             <p className="font-content md:text-lg">S'enregistrer</p>
                             <Link
                                 to="/inscription"
-                                className="bg-cta py-2 px-4 rounded-sm font-title font-bold md:py-3 md:px-6 md:text-lg"
+                                className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 S'inscrire

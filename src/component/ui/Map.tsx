@@ -5,7 +5,7 @@ export default function Map() {
   const position: [number, number] = [-3.465305, -62.215881]; // Coordonnées de Paris
 
   return (
-    <div className="flex justify-center z-0">
+    <div className="flex justify-center ">
 
       <MapContainer center={position} zoom={3} style={{ height: "300px", width: "80%" }}>
         <TileLayer
