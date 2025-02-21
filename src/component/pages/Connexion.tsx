@@ -85,7 +85,7 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
         {/* Bouton de connexion */}
         <button
           type="submit"
-          className="bg-cta text-white py-3 px-6 rounded-lg w-full font-bold hover:bg-cta-dark transition"
+          className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
         >
           Connexion
         </button>

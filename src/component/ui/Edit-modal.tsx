@@ -40,83 +40,66 @@ export default function EditModal({
         available: true,
     });
 
-    // Gestion des modifications des champs du formulaire
+    // Gestionnaire de changement pour tous les inputs
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
-        if (e.target.type === "file") {
-            const file = (e.target as HTMLInputElement).files?.[0] || "";
-            setFormData((prev) => ({ ...prev, image: file }));
+        const { name, value, type, checked, files } = e.target;
+
+        if (type === "checkbox") {
+            setFormData((prev) => ({
+                ...prev,
+                [name]: checked,
+            }));
+        } else if (type === "file") {
+            const file = files && files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const result = reader.result as string;
+                    // Supprime le préfixe "data:image/xxx;base64," pour n'envoyer que la chaîne base64
+                    const base64String = result.split(",")[1];
+                    setFormData((prev) => ({
+                        ...prev,
+                        image: base64String,
+                    }));
+                };
+                reader.readAsDataURL(file);
+            }
         } else {
             setFormData((prev) => ({
                 ...prev,
-                [e.target.name]: e.target.value,
+                [name]: value,
             }));
         }
     };
 
-
-
-    /**
-     * Convertit un fichier en chaîne Base64.
-     * @param file Le fichier à convertir.
-     * @returns Une promesse qui résout avec la chaîne Base64.
-     */
-    const convertToBase64 = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = (error) => reject(error);
-        });
-    };
-
-    // Gestion de la soumission du formulaire
-    const handleSubmit = async (e: React.FormEvent) => {
+    // Gestionnaire de soumission du formulaire
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Si une nouvelle image est sélectionnée et qu'elle est de type File, la convertir en base64
-        let base64Image = "";
-        if (formData.image instanceof File) {
-            try {
-                base64Image = await convertToBase64(formData.image);
-                base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
-            } catch (error) {
-                showErrorToast("Erreur lors de la conversion de l'image");
-                return;
-            }
-        }
+        // Construction du payload
+        // Si formData.image commence par "http", c'est l'URL existante,
+        // sinon c'est une nouvelle image (base64) à convertir.
+        // Si formData.image commence par "http", c'est l'URL existante,
+        // sinon c'est une nouvelle image en base64
+        const pictureUrl =
+            typeof formData.image === "string" && formData.image.startsWith("http")
+                ? formData.image
+                : formData.image;
 
-        // Construction du payload de base pour la mise à jour de l'article
-        const payload: any = {
-            name: formData.name.trim() !== "" ? formData.name.trim() : article.name,
-            price: formData.price !== "" ? Number(formData.price) : article.price,
-            categoryName: [
-                formData.category.trim() !== ""
-                    ? formData.category.trim()
-                    : article.categories?.[0]?.name,
-            ],
-            description:
-                formData.description.trim() !== ""
-                    ? formData.description.trim()
-                    : article.description,
+        const payload = {
+            categoryName: [formData.category], // Envoi sous forme de tableau
+            name: formData.name,
+            description: formData.description,
+            price: Number(formData.price),
             available: formData.available,
+            ...(pictureUrl ? { pictureUrl } : {}),
         };
 
-        // Si une nouvelle image est fournie et c'est un fichier, ajouter les informations pour la mise à jour de l'image
-        if (formData.image instanceof File) {
-            payload.imageId = article.Picture?.id;
-            payload.pictureUrl = base64Image;
-        } else {
-            // Sinon, on envoie l'URL existante si disponible
-            payload.pictureUrl =
-                typeof formData.image === "string" && formData.image.trim() !== ""
-                    ? formData.image.trim()
-                    : article.Picture?.url;
-        }
 
-        // Affichage du payload dans la console pour débogage
-        console.log("Payload envoyé :", JSON.stringify(payload, null, 2));
+
+        console.log("Payload à envoyer :", payload);
 
         try {
             const token = localStorage.getItem("token");
@@ -125,62 +108,42 @@ export default function EditModal({
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
-            const response = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
+            const res = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
                 method: "PATCH",
                 headers,
                 body: JSON.stringify(payload),
             });
 
-            if (!response.ok) {
-                throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+            const text = await res.text();
+            const data = text ? JSON.parse(text) : {};
 
+            if (!res.ok) {
+                throw new Error(data.message || "Erreur lors de la mise à jour de l'article.");
             }
 
-            const updatedArticle = await response.json();
-            console.log("Article mis à jour :", updatedArticle);
+            showSuccessToast("Article mis à jour avec succès.");
 
-            // Met à jour la liste des articles dans l'état en remplaçant l'article modifié
-            setArticles((prev) =>
-                // Parcourt tous les articles précédents
-                prev.map((a) =>
-                    // Si l'article correspond à celui qui a été mis à jour (vérification par l'ID)
-                    a.id === article.id
-                        ? {
-                            // Conserve toutes les propriétés existantes de l'article
-                            ...a,
-                            // Remplace ou ajoute les propriétés retournées par le serveur lors de la mise à jour
-                            ...updatedArticle,
-                            // Pour la propriété "categories" : si updatedArticle.categories existe, on l'utilise ;
-                            // sinon, on conserve les catégories déjà présentes dans l'article précédent
-                            categories: updatedArticle.categories || a.categories,
-                            // Pour la propriété "Picture" :
-                            // - Si updatedArticle.Picture est défini, on l'utilise.
-                            // - Sinon, on crée un objet Picture avec :
-                            //    - url : on utilise la valeur de payload.pictureUrl si disponible, sinon celle existante (a.Picture?.url)
-                            //    - description : on indique "Image mise à jour" pour signaler que l'image a été modifiée
-                            Picture: updatedArticle.Picture
-                                ? updatedArticle.Picture
-                                : { url: payload.pictureUrl || a.Picture?.url, description: "Image mise à jour" },
-                        }
-                        : a // Pour tous les autres articles, on ne change rien
-                )
+            setArticles((prevArticles) =>
+                prevArticles.map((art) => (art.id === article.id ? data.article : art))
             );
-            setSelectedArticle(updatedArticle);
+            setSelectedArticle(data.article);
             setIsOpenedEditModal(false);
-            showSuccessToast("Article mis à jour avec succès !");
-
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour de l'article :", error);
-            showErrorToast("Erreur lors de la mise à jour de l'article");
+        } catch (error: any) {
+            console.error("Erreur lors de la mise à jour :", error);
+            showErrorToast(error.message || "Une erreur est survenue");
         }
     };
+
 
 
     return (
         <>
             {/* Overlay pour fermer la modale */}
             {isOpenedEditModal && (
-                <div className="fixed inset-0 bg-black/50 z-10" onClick={() => setIsOpenedEditModal(false)} />
+                <div
+                    className="fixed inset-0 bg-black/50 z-10"
+                    onClick={() => setIsOpenedEditModal(false)}
+                />
             )}
 
             {/* Modale */}

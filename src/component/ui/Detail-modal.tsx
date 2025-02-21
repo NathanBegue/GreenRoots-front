@@ -72,7 +72,7 @@ export default function DetailModal({
 
           </div>
           <div className="flex justify-center">
-            <button onClick={() => addToCart(article)} className={`bg-cta p-2 font-content text-sm rounded-sm ${isDarkMode ? "text-white" : "text-black"} `}> Ajouter au panier </button>
+            <button onClick={() => addToCart(article)} className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}> Ajouter au panier </button>
           </div>
 
         </div>
