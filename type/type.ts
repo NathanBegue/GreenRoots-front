@@ -130,5 +130,12 @@ export interface ITracking {
     order_id: number;
     created_at: string;
     updated_at: string;
+
+    // ✅ Ajout des propriétés attendues
+    name?: string; // Nom de l'article ou commande
+    ArticleHasOrder?: ArticleHasOrder; // Association à la commande
+    ArticleTrackings?: IArticleTracking[]; // Liste des suivis
+    Picture?: Ipicture; // Image liée
 }
+
 

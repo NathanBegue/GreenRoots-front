@@ -112,7 +112,7 @@ export default function DetailOrderModal({
                 {/* Infos utilisateur */}
                 {isAdmin && (
                     <div
-                        className={`mt-4 p-4 rounded ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"
+                        className={`mt-4 p-4 rounded ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"
                             }`}
                     >
                         <h3 className="text-lg font-semibold mb-2">Client :</h3>
@@ -124,7 +124,7 @@ export default function DetailOrderModal({
                 )}
 
                 {/* Liste des articles */}
-                <div className="mt-4">
+                <div className={`mt-4 ${!isDarkMode && "text-black"}`}>
                     <h3 className="text-lg font-semibold mb-2">Articles commandés :</h3>
                     {orderDetail.articles.map((article) => (
                         <div

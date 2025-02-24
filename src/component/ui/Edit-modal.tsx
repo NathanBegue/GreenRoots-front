@@ -44,20 +44,20 @@ export default function EditModal({
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
-        const { name, value, type, checked, files } = e.target;
+        const { name, value, type } = e.target;
 
         if (type === "checkbox") {
+            const checked = (e.target as HTMLInputElement).checked;
             setFormData((prev) => ({
                 ...prev,
                 [name]: checked,
             }));
         } else if (type === "file") {
-            const file = files && files[0];
+            const file = (e.target as HTMLInputElement).files?.[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const result = reader.result as string;
-                    // Supprime le préfixe "data:image/xxx;base64," pour n'envoyer que la chaîne base64
                     const base64String = result.split(",")[1];
                     setFormData((prev) => ({
                         ...prev,
@@ -73,6 +73,7 @@ export default function EditModal({
             }));
         }
     };
+
 
     // Gestionnaire de soumission du formulaire
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

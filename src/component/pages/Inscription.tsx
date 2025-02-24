@@ -45,10 +45,10 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
     }
 
     return (
-        <div className={`w-fit h-200 mb-70 m-auto py-20 shadow-lg bg-dark-secondary ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-25 md:w-md lg:w-lg`}>
+        <div className={`w-5/6 min-h-screen m-auto shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-40 md:w-md lg:w-lg 2xl:w-4xl`}>
             <h1 className="text-2xl font-bold text-center mb-6 md:text-3xl">Bienvenue</h1>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full ">
                 {/* Prénom */}
                 <div className="flex flex-col mx-auto">
                     <label htmlFor="firstname" className="font-semibold mb-1 md:text-xl">Prénom</label>

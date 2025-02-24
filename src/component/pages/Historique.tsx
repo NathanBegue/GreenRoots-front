@@ -4,13 +4,21 @@ import fetchmethod from "../../fetch/method-fetch";
 import DetailOrderModal from "../ui/DetailOrder-modal";
 import { useAuthStore } from "../../Auth/authStore";
 
+interface HistoriqueProps {
+
+    isDarkMode: boolean;
+
+    setIsOpenDetail: (isOpen: boolean) => void;
+
+    setSelectedArticle: (article: Itrees | null) => void;
+
+    article: Itrees | null;
+
+}
+
 export default function Historique({
     isDarkMode,
-    article,
-}: {
-    isDarkMode: boolean,
-    article: Itrees
-}) {
+}: HistoriqueProps) {
 
     const [isOpenedOrderModal, setIsOpenedOrdertModal] = useState<boolean>(false);
     const [orders, setOrders] = useState<Iorder[]>([]);
@@ -48,11 +56,11 @@ export default function Historique({
     };
 
     return (
-        <div className={`h-full ml-4 mr-4 ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}>
+        <div className={` min-h-screen min-w-screen ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}>
             <h3 className="text-xl font-bold text-center margin-auto pt-25">
                 🛒 Mes dernières commandes
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto pt-15 pb-15 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto pt-15 pb-15 w-5/6">
                 {orders.length > 0 ? (
                     orders.map((order) => (
                         <div
@@ -89,7 +97,6 @@ export default function Historique({
                     <DetailOrderModal
                         isDarkMode={isDarkMode}
                         setIsOpenOrderDetail={setIsOpenedOrdertModal}
-                        article={article}
                         isOpenedOrderModal={isOpenedOrderModal}
                         orders={selectedOrder}
                     />

@@ -38,12 +38,16 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
       navigate("/");
     } catch (error) {
       console.error(error);
-      showErrorToast(error.message);
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      } else {
+        showErrorToast("Une erreur inconnue s'est produite");
+      }
     }
   };
 
   return (
-    <div className={`w-full h-screen px-6 py-10 shadow-lg pt-24 ${isDarkMode ? "bg-dark-primary text-white " : "bg-light-primary text-black"}  min-lg:pt-48 min-lg:px-125`}>
+    <div className={`w-full min-h-screen px-6 py-10 shadow-lg pt-24 ${isDarkMode ? "bg-dark-primary text-white " : "bg-light-primary text-black"}  min-lg:pt-48 min-lg:w-lg 2xl:w-5xl m-auto`}>
 
       <h1 className="text-2xl font-bold text-center mb-20">Rebonjour</h1>
 
@@ -77,7 +81,7 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
             required
           />
           {/* Lien Mot de passe oublié */}
-          <Link to="/mot-de-passe-oublie" className="text-sm text-cta hover:underline pt-2 self-end">
+          <Link to="/mot-de-passe-oublie" className={`text-sm hover:underline pt-2 self-end ${isDarkMode ? "text-white" : "text-black"}`}>
             Mot de passe oublié ?
           </Link>
         </div>

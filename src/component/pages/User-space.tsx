@@ -63,7 +63,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
 
         // Prépare le payload (filtre les champs vides)
         const payload = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => value && value.trim() !== "")
+            Object.entries(formData).filter(([, value]) => value && value.trim() !== "")
         );
 
         try {
@@ -100,7 +100,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
     };
 
     return (
-        <div className={`w-full min-h-full mx-auto p-6 shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} pt-20 lg:pt-48`}>
+        <div className={`w-5/6 min-h-screen mx-auto p-6 shadow-lg  lg:w-lg 2xl:w-4xl ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} pt-20 lg:pt-48`}>
             <div>
                 <h1 className="text-2xl font-bold text-center mb-6">Espace personnel</h1>
 
@@ -108,7 +108,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
                     <p className="text-lg font-semibold">Mes informations</p>
                     <button
                         onClick={() => setIsOpenedDeleteAccountModal(true)}
-                        className={`${isDarkMode ? "bg-dark-accent text-red-400" : "bg-red-600 text-black"} text-sm flex items-center gap-2 rounded-lg border p-1`}
+                        className={`${isDarkMode ? "bg-dark-accent text-red-400" : "bg-red-600 text-black"} text-sm flex items-center gap-2 rounded-lg border p-1  cursor-pointer transition hover:scale-105`}
                     >
                         Supprimer mon compte
                     </button>
@@ -207,7 +207,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
                     {/* Bouton de mise à jour */}
                     <button
                         type="submit"
-                        className={`bg-cta text-white py-3 px-6 rounded-lg w-full font-bold hover:bg-cta-dark transition`}
+                        className={` ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} mt-20 py-3 px-6 rounded-lg w-full font-bold hover:bg-cta-dark cursor-pointer transition hover:scale-105`}
                     >
                         Mettre à jour mes informations
                     </button>

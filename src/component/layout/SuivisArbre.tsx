@@ -4,6 +4,9 @@ import Map from "../ui/Map";
 import { ITracking } from "../../../type/type";
 import TrackingArticleModal from "../ui/TrackingArticleModal";
 
+
+
+
 export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
   // State pour stocker les données de suivi des commandes
@@ -18,9 +21,9 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
   // Fonction pour récupérer le suivi de la commande
   const getOrderTracking = async () => {
     if (orderId) {
-      console.log('L\'ID de la commande récupéré :', orderId);
+      console.log("L'ID de la commande récupéré :", orderId);
     } else {
-      console.log('Aucun ID de commande trouvé dans le localStorage');
+      console.log("Aucun ID de commande trouvé dans le localStorage");
       return;
     }
 
@@ -28,28 +31,52 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
       const token = localStorage.getItem("token");
       console.log("Tracking des commandes :", ordersTracking);
 
-
-      const response = await fetch(`http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi?timestamp=${Date.now()}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "Cache-Control": "no-cache",
+          },
+        }
+      );
 
       const data = await response.json();
       console.log("Données reçues :", data);
 
-      // Vérification du format des données et mise à jour de l'état
+      let transformedData;
       if (Array.isArray(data)) {
-        setOrdersTracking(data);  // Si c'est déjà un tableau, on l'utilise
+        transformedData = data.map((order) => ({
+          ...order,
+          ArticleTrackings: order.ArticleTrackings.map((tracking) => {
+            // Si l'ID de la commande associée à ce tracking n'est pas celui du localStorage,
+            // on force le status et le plant_place à des valeurs par défaut.
+            if (
+              tracking.ArticleHasOrder &&
+              tracking.ArticleHasOrder.Order &&
+              tracking.ArticleHasOrder.Order.id !== Number(orderId)
+            ) {
+              return {
+                ...tracking,
+                status: "À définir",
+                plant_place: "À définir",
+              };
+            }
+            return tracking;
+          }),
+        }));
+        setOrdersTracking(transformedData);
       } else {
-        setOrdersTracking(data.articles || []);  // Sinon, on extrait `articles`
+        transformedData = data.articles || [];
+        setOrdersTracking(transformedData);
       }
     } catch (error) {
       console.error("Erreur lors du fetch des commandes :", error);
     }
   };
+
 
   const { isAdmin } = useAuthStore();
 
@@ -64,7 +91,7 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
 
 
-  function calculerAgeAvecHeures(dateString) {
+  function calculerAgeAvecHeures(dateString: string) {
     const dateDeNaissance = new Date(dateString);
     const aujourdHui = new Date();
 
@@ -108,21 +135,24 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
 
   return (
-    <div className={`flex flex-wrap gap-20   h-fit w-full m-auto max-w-7xl rounded-lg justify-center`}>
+    <div className={`flex flex-wrap gap-20 m-auto h-fit w-full justify-center max-w-7xl rounded-lg `}>
 
       {trackingModal && <TrackingArticleModal
         selectedTrackingId={selectedTrackingId}
         ordersTracking={ordersTracking}
         setTrackingModal={setTrackingModal}
         setOrdersTracking={setOrdersTracking}
-        trackingModal={trackingModal} />}
+        trackingModal={trackingModal}
+        refetchTracking={getOrderTracking} // Nouvelle prop pour forcer le refetch
+        isDarkMode={isDarkMode}
+      />}
 
       {ordersTracking.map((order) =>
         order.ArticleTrackings.slice(0, order.ArticleHasOrder.quantity).map((tracking, index) => (
 
           <div
             key={`${order.id}-${tracking.id}-${index}`}
-            className={` w-sm md:w-md lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6  justify-center rounded-lg border shadow-black shadow-lg ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary text-black"}`}
+            className={`w-5/6 lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6  justify-center rounded-lg border shadow-black shadow-lg ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary text-black"} 2xl:grid`}
           >
 
             <h2 className=" text-center">🌿 {order.name}</h2>
@@ -155,7 +185,7 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
             </div>
 
 
-            <div className="w-full h-full m-auto">
+            <div className="">
               <h3 className="text-xl text-center pb-1">📍 Localisation :</h3>
               <Map city={tracking.plant_place} />
             </div>

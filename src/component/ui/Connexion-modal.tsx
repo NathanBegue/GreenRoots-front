@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
-import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { showSuccessToast } from "../../../utils/toast";
 
 export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDarkMode }: {
     isModalOpened: boolean,

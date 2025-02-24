@@ -21,7 +21,7 @@ import Historique from "./component/pages/Historique";
 import { useLoaderStore } from "./Auth/loaderStore";
 import Loader from "./component/layout/Loader";
 import ProtectedModal from "./component/ui/ProtectedModal";
-import BlocActu from "./component/ui/BlocActu";
+import ProtectedRoute from "./component/layout/ProtectedRoute";
 
 
 
@@ -83,6 +83,7 @@ function App() {
         {isOpenDetail && selectedArticle && (<DetailModal
           setIsOpenDetail={setIsOpenDetail}
           article={selectedArticle}
+          isOpenOrderDetail={isOpenDetail}
           isDarkMode={isDarkMode} />)}
 
         {/* Modale conditionelle pour les routes authentifiée */}
@@ -116,8 +117,19 @@ function App() {
           <Route path="/compte" element={<UserSpace isDarkMode={isDarkMode} />} />
           <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
           <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
-          <Route path="/historique" element={<Historique isDarkMode={isDarkMode} setIsOpenDetail={setIsOpenDetail} setSelectedArticle={selectedArticle} article={selectedArticle} />} />
+          {/* <Route path="/historique" element={<Historique isDarkMode={isDarkMode} setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} article={selectedArticle} />} /> */}
           <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
+
+          {/* Route protégée */}
+          <Route
+            path="/historique"
+            element={
+              <ProtectedRoute>
+                {<Historique isDarkMode={isDarkMode} setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} article={selectedArticle} />}
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/interdit" element={<Page403 isDarkMode={isDarkMode} />} />
           <Route path="*" element={<Page404 isDarkMode={isDarkMode} />} />
         </Routes>

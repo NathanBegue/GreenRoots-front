@@ -23,13 +23,13 @@ export default function DetailModal({
 
       {isOpenOrderDetail && (
         <div
-          className="fixed inset-0 bg-black/50 z-10"
+          className="fixed inset-0 bg-black/50 z-40 pointer-events-auto"
           onClick={() => setIsOpenDetail(false)}
         />
       )}
 
       {/* Modale */}
-      <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? " bg-dark-secondary" : "bg-light-accent"} w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 md:w-md lg:w-lg`} style={{ maxHeight: "80vh", overflowY: "auto" }}>
+      <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? " bg-dark-secondary" : "bg-light-accent"} w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-50 mt-8 md:w-md lg:w-lg 2xl:w-2xl`} style={{ maxHeight: "80vh", overflowY: "auto" }}>
 
         {/* Bouton de fermeture */}
         <img
@@ -51,8 +51,8 @@ export default function DetailModal({
           </div>
           {/* Catégorie */}
           <div className={`flex flex-col ${isDarkMode ? "text-white" : "text-black"} `}>
-            <h3 className="font-semibold mb-1 font-title">Catégories :</h3>
-            <ul className="list-disc pl-4 font-content">
+            <h3 className="font-semibold mb-1 font-title 2xl:text-xl">Catégories :</h3>
+            <ul className="list-disc pl-4 font-content 2xl:text-lg">
               {article.categories.map((category, index) => (
                 <li key={index}>{category.name}</li>
               ))}
@@ -62,17 +62,17 @@ export default function DetailModal({
 
           {/* Description */}
           <div className={`flex flex-col mb-4 ${isDarkMode ? "text-white" : "text-black"} `}>
-            <h3 className="font-semibold mb-1 font-title">Description :</h3>
+            <h3 className="font-semibold mb-1 font-title 2xl:text-xl">Description :</h3>
             <p className="font-content"> {article.description}</p>
 
             {/* Prix */}
             <div className="flex flex-col mt-4">
-              <h3 className="font-semibold mb-1 font-content">Prix : {article.price} €</h3>
+              <h3 className="font-semibold mb-1 font-content 2xl:text-lg">Prix : {article.price} €</h3>
             </div>
 
           </div>
           <div className="flex justify-center">
-            <button onClick={() => addToCart(article)} className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}> Ajouter au panier </button>
+            <button onClick={() => addToCart(article)} className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary text-black"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}> Ajouter au panier </button>
           </div>
 
         </div>

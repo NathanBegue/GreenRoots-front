@@ -27,7 +27,7 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
             )}
 
 
-            <nav className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} w-50 h-dvh z-20 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-16 md:w-64 `}>
+            <nav className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} w-50 h-dvh z-1900 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-25 md:w-64`}>
 
 
                 {/* Passage du state a false pour fermé le burger menu une fois cliqué */}
@@ -35,12 +35,12 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
                 <ul className="flex flex-col gap-1 w-full">
                     <Link to="/" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Accueil</li></Link>
                     <Link to="/boutique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Boutique</li></Link>
-                    <Link to="/historique" onClick={() => { setIsOpened(false); handleProtectedRoute() }}><li className="border-b pl-2 font-title font-bold text-3xl">Historique </li></Link>
+                    <li onClick={() => { setIsOpened(false); handleProtectedRoute() }} className="border-b pl-2 font-title font-bold text-3xl">Historique </li>
                     <Link to="/suivis" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Suivis </li></Link>
 
                 </ul>
                 <div className="flex flex-col gap-6 items-center">
-                    <Link to="/cgu" onClick={() => setIsOpened(false)}><p className="text-center font-title font-bold md:text-2xl md:size-10">CGU</p> </Link>
+                    <Link to="/cgu" onClick={() => setIsOpened(false)}><p className="text-center font-title font-bold md:text-xl md:size-10">CGU</p> </Link>
                     <ul className={`flex flex-row gap-6 ${isDarkMode && "invert"}`}>
                         <li><a><img className="w-6 h-6 md:size-10" src="/images/icons/facebook.svg" alt="" /></a></li>
                         <li><a><img className="w-6 h-6 md:size-10" src="/images/icons/instagram.svg" alt="" /></a></li>
