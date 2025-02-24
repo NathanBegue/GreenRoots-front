@@ -21,6 +21,7 @@ import Historique from "./component/pages/Historique";
 import { useLoaderStore } from "./Auth/loaderStore";
 import Loader from "./component/layout/Loader";
 import ProtectedModal from "./component/ui/ProtectedModal";
+import BlocActu from "./component/ui/BlocActu";
 
 
 
@@ -94,7 +95,10 @@ function App() {
             setSelectedArticle={setSelectedArticle}
             isOpenDetail={isOpenDetail}
             isDarkMode={isDarkMode}
-            setIsDarkMode={setIsDarkMode} />} />
+            setIsDarkMode={setIsDarkMode}
+
+
+          />} />
 
           <Route path="/boutique" element={<Boutique
             setIsOpenDetail={setIsOpenDetail}

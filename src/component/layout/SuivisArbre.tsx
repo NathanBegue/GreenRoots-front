@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../Auth/authStore";
 import Map from "../ui/Map";
-import { Itracking } from "../../../type/type";
+import { ITracking } from "../../../type/type";
 import TrackingArticleModal from "../ui/TrackingArticleModal";
 
 export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
   // State pour stocker les données de suivi des commandes
-  const [ordersTracking, setOrdersTracking] = useState<Itracking[]>([]);
+  const [ordersTracking, setOrdersTracking] = useState<ITracking[]>([]);
   const [trackingModal, setTrackingModal] = useState<boolean>(false);
-  console.log(JSON.stringify(ordersTracking));
+  const [selectedTrackingId, setSelectedTrackingId] = useState<number | null>(null);
 
 
   // Récupération de l'ID de la commande depuis le localStorage
@@ -110,7 +110,12 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
   return (
     <div className={`flex flex-wrap gap-20   h-fit w-full m-auto max-w-7xl rounded-lg justify-center`}>
 
-      {trackingModal && <TrackingArticleModal setTrackingModal={setTrackingModal} setOrdersTracking={setOrdersTracking} orderstracking={ordersTracking} trackingModal={trackingModal} />}
+      {trackingModal && <TrackingArticleModal
+        selectedTrackingId={selectedTrackingId}
+        ordersTracking={ordersTracking}
+        setTrackingModal={setTrackingModal}
+        setOrdersTracking={setOrdersTracking}
+        trackingModal={trackingModal} />}
 
       {ordersTracking.map((order) =>
         order.ArticleTrackings.slice(0, order.ArticleHasOrder.quantity).map((tracking, index) => (
@@ -157,6 +162,7 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
             {isAdmin ? (
               <div className="flex gap-2 p-2">
                 <button onClick={() => {
+                  setSelectedTrackingId(tracking.id);
                   setTrackingModal(true);
 
                 }}
@@ -176,4 +182,4 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
   );
 
 
-}
+};
