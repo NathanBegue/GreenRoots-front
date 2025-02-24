@@ -36,7 +36,7 @@ export interface Iorder {
     created_at: string;
     updated_at: string;
     User: User;
-    ArticleTrackings: ITracking;
+    ArticleTrackings: ITracking[];
     articles: Itrees[];
 }
 

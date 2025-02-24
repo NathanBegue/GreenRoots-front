@@ -124,14 +124,14 @@ export default function Boutique({
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 name="categories"
                 id="categ-id"
-                className="bg-dark-secondary text-white font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition md:py-2 md:px-2 md:text-2xl">
+                className={`${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black "} font-title text-center border border-cta rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-cta transition md:py-2 md:px-2 md:text-2xl`}>
                 <option className="bg-dark-primary text-white text-lg p-2" value="All">Catégories</option>
 
 
                 {uniqueCategories.map((categoryName, index) => (
                   <option
                     key={index}
-                    className="bg-dark-primary text-white text-lg p-2"
+                    className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-secondary text-black"} text-lg p-2`}
                     value={categoryName}
                   >
                     {categoryName}
@@ -140,7 +140,7 @@ export default function Boutique({
 
               </select>
               {isAdmin &&
-                <button onClick={() => setOpenCreateModal(true)} type="submit" className="bg-dark-accent text-cta flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3">
+                <button onClick={() => setOpenCreateModal(true)} type="submit" className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} flex justify-center items-center gap-2 rounded-lg border p-2  font-content md:text-2xl md:py-2 md:px-3`}>
                   Ajouter un arbre +
                 </button>}
 

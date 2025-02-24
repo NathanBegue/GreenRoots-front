@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Iorder, ITracking } from "../../../type/type";
 import { useAuthStore } from "../../Auth/authStore";
 import fetchmethod from "../../fetch/method-fetch";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 interface TrackingArticleModalProps {
     setOrdersTracking: React.Dispatch<React.SetStateAction<ITracking[]>>;
     setTrackingModal: React.Dispatch<React.SetStateAction<boolean>>;
     trackingModal: boolean;
-    isDarkMode: boolean;// Ajout d'un ID pour le suivi
-    ordersTracking: Iorder[];
+    isDarkMode: boolean; // Ajout d'un ID pour le suivi
+    ordersTracking: ITracking[];
+    selectedTrackingId: number | null;
 }
 
 export default function TrackingArticleModal({
@@ -17,8 +19,8 @@ export default function TrackingArticleModal({
     setTrackingModal,
     trackingModal,
     isDarkMode,
+    selectedTrackingId,
 }: TrackingArticleModalProps) {
-
     const { isAdmin } = useAuthStore();
     const [getDetailOneTracking, setGetDetailOneTracking] = useState<Iorder[]>([]);
     const [formData, setFormData] = useState({
@@ -28,35 +30,44 @@ export default function TrackingArticleModal({
         growth: "",
     });
 
-    // Récupération de l'ID de la commande depuis le localStorage
+    // Récupération de l'ID de la commande depuis le localStorage et vérification
     const orderIdString = localStorage.getItem("orderId");
-
-    const orderId = orderIdString ? parseInt(orderIdString, 10) : 0;
+    let orderId: number | null = null;
+    if (!orderIdString || orderIdString === "undefined") {
+        console.error("orderId non défini ou invalide dans le localStorage");
+    } else {
+        orderId = parseInt(orderIdString, 10);
+        if (isNaN(orderId)) {
+            console.error("orderId n'est pas un nombre valide");
+            orderId = null;
+        }
+    }
 
     useEffect(() => {
         const fetchTrackingDetails = async () => {
+            if (!orderId) {
+                console.error("orderId invalide. Impossible de récupérer les détails.");
+                return;
+            }
+            if (!selectedTrackingId) {
+                console.warn("Aucun tracking sélectionné.");
+                return;
+            }
+
             try {
-                const trackingIds = ordersTracking.flatMap(order =>
-                    order.ArticleTrackings?.map(tracking => tracking.id) || []
-                );
+                console.log(`Fetching tracking avec l'ID: ${selectedTrackingId}`);
+                const data = isAdmin
+                    ? await fetchmethod.getTrackingByIdAdmin(orderId, selectedTrackingId)
+                    : await fetchmethod.getTrackingByIdUser(orderId, selectedTrackingId);
 
-                console.log("Tracking IDs récupérés :", trackingIds);
-
-                // Boucle pour fetch chaque tracking ID
-                const fetchPromises = trackingIds.map(async (trackingId) => {
-                    const data = isAdmin
-                        ? await fetchmethod.getTrackingByIdAdmin(orderId, trackingId)
-                        : await fetchmethod.getTrackingByIdUser(orderId, trackingId);
-
-                    console.log(`Données reçues pour tracking ID ${trackingId}:`, data);
-                    return data;
+                console.log(`Données reçues pour le tracking ID ${selectedTrackingId}:`, data);
+                setGetDetailOneTracking([data]);
+                setFormData({
+                    location: data.plant_place || "",
+                    image: null,
+                    status: data.status || "",
+                    growth: data.growth || "",
                 });
-
-                // Récupérer toutes les données une fois les fetchs terminés
-                const allTrackingData = await Promise.all(fetchPromises);
-
-                // Aplatir les résultats et les stocker
-                setGetDetailOneTracking(allTrackingData.flat());
             } catch (error) {
                 console.error("Erreur lors de la récupération des détails :", error);
             }
@@ -65,9 +76,7 @@ export default function TrackingArticleModal({
         if (trackingModal) {
             fetchTrackingDetails();
         }
-    }, [trackingModal, isAdmin, ordersTracking, orderId]);
-
-
+    }, [trackingModal, isAdmin, orderId, selectedTrackingId]);
 
     // Gestion des changements dans le formulaire
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -79,13 +88,85 @@ export default function TrackingArticleModal({
         }
     };
 
-    // Gestion de la soumission du formulaire
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Form Data Submitted:", formData);
-        // Logique pour envoyer les données modifiées au backend
-        setTrackingModal(false);
+    // Conversion d'un fichier en Base64
+    const convertToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const result = reader.result as string;
+                const base64String = result.split(",")[1];
+                resolve(base64String);
+            };
+            reader.onerror = (error) => reject(error);
+        });
     };
+
+    // Gestion de la soumission du formulaire
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!orderId) {
+            showErrorToast("Erreur : orderId invalide. Veuillez réessayer.");
+            return;
+        }
+
+        try {
+            let pictureBase64 = null;
+            if (formData.image instanceof File) {
+                pictureBase64 = await convertToBase64(formData.image);
+            } else if (typeof formData.image === "string" && formData.image.startsWith("http")) {
+                pictureBase64 = formData.image;
+            }
+
+            const payload = {
+                plant_place: formData.location,
+                status: formData.status,
+                growth: formData.growth,
+                ...(pictureBase64 ? { picture_url: pictureBase64 } : {}),
+            };
+
+            console.log("Payload de la requête :", payload);
+            const token = localStorage.getItem("token");
+            const headers: HeadersInit = {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            };
+
+            const res = await fetch(
+                `http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi/${selectedTrackingId}`,
+                {
+                    method: "PATCH",
+                    headers,
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            const text = await res.text();
+            const responseData = text ? JSON.parse(text) : {};
+
+            if (!res.ok) {
+                console.error("Erreur du serveur :", responseData);
+                throw new Error(responseData.message || `Erreur HTTP: ${res.status}`);
+            }
+
+            console.log("Réponse du serveur :", responseData);
+            setOrdersTracking((prev) =>
+                prev.map((tracking) =>
+                    tracking.id === selectedTrackingId ? { ...tracking, ...payload } : tracking
+                )
+            );
+
+            showSuccessToast("Suivi mis à jour avec succès !");
+            setTrackingModal(false);
+        } catch (error: any) {
+            console.error("Erreur lors de la mise à jour du suivi :", error);
+            showErrorToast(error.message || "Erreur lors de la mise à jour du suivi");
+        }
+    };
+
+
+
 
     return (
         <>
