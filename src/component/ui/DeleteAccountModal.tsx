@@ -7,7 +7,6 @@ export default function DeleteAccountModal({
     isOpenedDeleteAccountModal,
     setIsOpenedDeleteAccountModal,
     isDarkMode,
-    user,
     setUser,
 }: {
     isOpenedDeleteAccountModal: boolean;

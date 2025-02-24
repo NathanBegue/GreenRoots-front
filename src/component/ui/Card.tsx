@@ -26,18 +26,22 @@ export default function Card({
   return (
     <article
       className={`flex ${isDarkMode ? "bg-dark-secondary dark:text-white" : "bg-light-accent text-black"} ${isSmall ? "flex-row items-center p-2 gap-2 w-full max-w-sm" : "flex-col"} 
-            rounded-lg border shadow-black shadow-lg md:max-w-2xl `}
+            rounded-lg border shadow-black shadow-lg md:max-w-2xl m-auto lg:max-w-lg`}
     >
 
       {/* Image du produit */}
       <div>
         <img
-          className={`object-cover rounded-lg aspect-square${isSmall ? "w-12 h-12" : ""}`}
+          className={`object-cover rounded-lg aspect-square${isSmall ? "w-12 h-12" : ""} cursor-pointer`}
           src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
           alt={article.name}
+          onClick={() => {
+            if (setIsOpenDetail) setIsOpenDetail(true);
+            setSelectedArticle && setSelectedArticle(article);
+          }}
         />
 
-        <p className={`font-content sm:text-sm md:text-md lg:text-lg ${isSmall ? "text-sm" : "text-xl font-bold"}`}>
+        <p className={`font-content sm:text-sm md:text-md lg:text-lg 2xl:text-2xl ${isSmall ? "text-sm" : "text-xl font-bold"}`}>
           {article.name}
         </p>
 
@@ -70,14 +74,14 @@ export default function Card({
               </button>
             ))
           }
-          <p className={`font-semibold text-xs min-[374px]:text-base ${isDarkMode ? "text-white" : "text-black"} ml-2`}>
+          <p className={`font-semibold text-xs min-[374px]:text-base 2xl:text-xl ${isDarkMode ? "text-white" : "text-black"} ml-2`}>
             {`Prix: ` + article.price + " €"}
           </p>
         </div>
       </div>
       {/* Bouton détail */}
       <button className={`font-content border-2 ${isDarkMode ? "bg-dark-primary border-dark-primary" : "bg-light-primary border-light-primary"}  rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg 
-          sm:p-1 sm:text-sm md:text-md  lg:text-lg cursor-pointer hover`}
+          sm:p-1 sm:text-sm md:text-md  lg:text-lg 2xl:text-2xl cursor-pointer hover`}
         onClick={() => {
           if (setIsOpenDetail) setIsOpenDetail(true);
           setSelectedArticle && setSelectedArticle(article);

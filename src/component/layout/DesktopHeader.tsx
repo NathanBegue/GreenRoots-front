@@ -17,14 +17,16 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  w-full h-24 px-2 flex items-center justify-between shadow-lg z-10000`}>
-      {/* Logo */}
-      <Link to="/">
-        <img className="h-16 rounded-lg" src="src/assets/images/logo.webp" alt="Logo" />
-      </Link >
+    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-auto  w-full h-24 px-2 lg:h-lg 2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
+      <div className="pl-4">
+        {/* Logo */}
+        <Link to="/">
+          <img className="h-16 rounded-lg 2xl:w-25 2xl:h-25" src="src/assets/images/logo.webp" alt="Logo" />
+        </Link >
+      </div>
       {/* Navigation */}
       <nav>
-        <ul className={`flex gap-10 text-white font-title text-xl `}>
+        <ul className={`flex gap-10 text-white font-title text-xl 2xl:text-3xl `}>
           <li>
             <Link to="/" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Accueil
@@ -52,45 +54,8 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
         </ul>
       </nav>
       {/* Icônes et Actions */}
-      <div className={`flex items-center gap-4 `}>
-
-
-        {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
-        {token ? (
-          <div className="flex gap-4">
-            <Link to="/compte">
-              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
-                Mon Compte
-              </button>
-            </Link>
-            <button
-              className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
-              onClick={() => {
-                logout();
-                navigate("/");
-              }}
-            >
-              Déconnexion
-            </button>
-          </div>
-        ) : (
-          <div className="flex gap-4">
-            <Link to="/inscription">
-              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
-                Inscription
-              </button>
-            </Link>
-            <Link to="/connexion">
-              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}>
-                Connexion
-              </button>
-            </Link>
-          </div>
-        )}
-
+      <div className={`flex items-center gap-4`}>
         {/* Lien vers le panier avec compteur */}
-
-
         <Link to="/panier" className="relative">
           <img className={`h-8 ${isDarkMode && "invert"} cursor-pointer hover:scale-110 transition`} src="/images/icons/shop-card.svg" alt="Panier" />
           {totalItems > 0 && (
@@ -102,6 +67,40 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
 
 
         <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+
+
+        {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
+        {token ? (
+          <div className="flex gap-4">
+            <Link to="/compte">
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"} `}>
+                Mon Compte
+              </button>
+            </Link>
+            <button
+              className={`px-4 py-1 rounded-lg bg-red-600 cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+            >
+              Déconnexion
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-4 pr-4">
+            <Link to="/inscription">
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary cursor-pointer hover:scale-110 text-lg ${!isDarkMode ? "bg-light-primary text-black" : "text-white"}  2xl:text-2xl`}>
+                Inscription
+              </button>
+            </Link>
+            <Link to="/connexion">
+              <button className={`px-4 py-1 rounded-lg bg-dark-primary cursor-pointer hover:scale-110 text-lg ${!isDarkMode ? "bg-light-primary text-black" : "text-white"}   2xl:text-2xl`}>
+                Connexion
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

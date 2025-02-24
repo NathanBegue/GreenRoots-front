@@ -14,7 +14,6 @@ export default function Boutique({
   setIsOpenDetail,
   setSelectedArticle,
   selectedArticle,  // ✅ Ajout ici
-  isOpenDetail,
   isDarkMode,
 
 }: {
@@ -110,16 +109,16 @@ export default function Boutique({
 
 
 
-      <div className="w-full max-w-screen overflow-hidden ">
+      <div className="w-full min-h-screen max-w-screen overflow-hidden ">
         <main className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
           <section className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold font-title text-center md:text-4xl">
-              Nos arbres
+            <h2 className={`text-3xl font-title font-bold text-center ${isDarkMode ? "text-light-primary" : "text-black"} mb-6 2xl:text-5xl 2xl:pb-10 2xl:pt-10`}>
+              🌱  Nos arbres
             </h2>
 
 
             {/* Sélecteur de catégories */}
-            <div className="flex flex-col gap-6 items-center md:flex-row md:justify-between md:gap-6">
+            <div className="flex flex-col gap-6 items-center md:flex-row md:justify-between md:gap-6 2xl:pb-20">
               <select
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 name="categories"
@@ -161,7 +160,6 @@ export default function Boutique({
                     setIsOpenedDeleteModal={setIsOpenedDeleteModal}
                     setSelectedArticle={setSelectedArticle}
                     setIsOpenDetail={setIsOpenDetail}
-                    isOpenDetail={true}
                     isDarkMode={isDarkMode}
 
                   />

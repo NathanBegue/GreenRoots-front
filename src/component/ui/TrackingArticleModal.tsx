@@ -11,6 +11,7 @@ interface TrackingArticleModalProps {
     isDarkMode: boolean; // Ajout d'un ID pour le suivi
     ordersTracking: ITracking[];
     selectedTrackingId: number | null;
+    refetchTracking: () => Promise<void>;
 }
 
 export default function TrackingArticleModal({
@@ -20,12 +21,13 @@ export default function TrackingArticleModal({
     trackingModal,
     isDarkMode,
     selectedTrackingId,
+    refetchTracking
 }: TrackingArticleModalProps) {
     const { isAdmin } = useAuthStore();
     const [getDetailOneTracking, setGetDetailOneTracking] = useState<Iorder[]>([]);
     const [formData, setFormData] = useState({
         location: "",
-        image: null as File | null,
+        image: null as string | File | null,
         status: "",
         growth: "",
     });
@@ -151,13 +153,18 @@ export default function TrackingArticleModal({
             }
 
             console.log("Réponse du serveur :", responseData);
-            setOrdersTracking((prev) =>
-                prev.map((tracking) =>
-                    tracking.id === selectedTrackingId ? { ...tracking, ...payload } : tracking
-                )
+            setOrdersTracking((prevOrders) =>
+                prevOrders.map((order) => ({
+                    ...order,
+                    ArticleTrackings: order.ArticleTrackings.map((tracking) =>
+                        tracking.id === selectedTrackingId ? { ...tracking, ...payload } : tracking
+                    )
+                }))
             );
 
+
             showSuccessToast("Suivi mis à jour avec succès !");
+            await refetchTracking();
             setTrackingModal(false);
         } catch (error: any) {
             console.error("Erreur lors de la mise à jour du suivi :", error);
@@ -173,7 +180,7 @@ export default function TrackingArticleModal({
             {/* Overlay pour fermer la modale */}
             {trackingModal && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-10"
+                    className="fixed inset-0 bg-black/50 z-1800"
                     onClick={() => setTrackingModal(false)}
                 />
             )}
@@ -181,7 +188,7 @@ export default function TrackingArticleModal({
             {/* Modale */}
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"
-                    } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-20 mt-8`}
+                    } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-1850 mt-8`}
             >
                 {/* Bouton de fermeture */}
                 <img

@@ -70,7 +70,12 @@ const fetchmethod = {
   // fetch boutique 
   getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:3000/boutique");
+      const response = await fetch("http://localhost:3000/boutique", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       console.log("Données reçues :", data);
 
