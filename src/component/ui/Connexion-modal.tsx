@@ -11,6 +11,8 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
     const { token, logout } = useAuthStore();
     const navigate = useNavigate();
 
+    // Classes communes pour les boutons
+    const commonButtonClasses = "flex justify-center items-center px-10 mx-10 p-2 rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110 md:text-lg";
 
     return (
         <>
@@ -27,8 +29,6 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                 className={`fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} bg-opacity-90 w-64 h-auto p-6 rounded-lg text-center shadow-lg flex flex-col justify-between items-center gap-4 z-30 md:p-10 md:w-96 md:gap-6 md:rounded-xl md:top-1/2`}
                 onClick={(e) => e.stopPropagation()}
             >
-
-
                 {/* Logo de fermeture X */}
                 <img
                     onClick={() => setIsModalOpened(false)}
@@ -37,14 +37,14 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                     alt="Fermer"
                 />
 
-                {/* Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
+                {/* Si l'utilisateur est connecté */}
                 {token ? (
                     <>
                         <div className="flex flex-col gap-2 min-w-34">
                             <p className="font-content md:text-lg">Accéder à votre compte</p>
                             <Link
                                 to="/compte"
-                                className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                                className={`${commonButtonClasses} ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 Mon Compte
@@ -54,11 +54,11 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                         <div className="flex flex-col gap-2 min-w-34">
                             <p className="font-content md:text-lg">Vous souhaitez quitter ?</p>
                             <button
-                                className="bg-red-500 py-2 px-4 rounded-sm font-title font-bold md:py-3 md:px-6 md:text-lg"
+                                className={`${commonButtonClasses} bg-red-500 font-title font-bold`}
                                 onClick={() => {
-                                    logout(); // Déconnexion
+                                    logout();
                                     setIsModalOpened(false);
-                                    showSuccessToast("Vous etes déconnecté");
+                                    showSuccessToast("Vous êtes déconnecté");
                                     navigate("/");
                                 }}
                             >
@@ -68,24 +68,23 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                     </>
                 ) : (
                     <>
-                        {/*Affichage par défaut si l'utilisateur N'EST PAS connecté */}
+                        {/* Si l'utilisateur n'est pas connecté */}
                         <div className="flex flex-col gap-2 min-w-34">
                             <p className="font-content md:text-lg">Déjà un compte ?</p>
                             <Link
                                 to="/connexion"
-                                className={`flex justify-center items-center px-10 ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                                className={`${commonButtonClasses} ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 Connexion
                             </Link>
                         </div>
 
-
                         <div className="flex flex-col gap-2 min-w-34">
                             <p className="font-content md:text-lg">S'enregistrer</p>
                             <Link
                                 to="/inscription"
-                                className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                                className={`${commonButtonClasses} ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}
                                 onClick={() => setIsModalOpened(false)}
                             >
                                 S'inscrire
@@ -96,5 +95,4 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
             </div>
         </>
     );
-
 }

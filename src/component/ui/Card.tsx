@@ -1,4 +1,4 @@
-import { Itrees } from "../../../type/type.ts";
+import { Itrees, Ipicture } from "../../../type/type.ts";
 import useCartStore from "../../Auth/cartStore.ts";
 
 export default function Card({
@@ -9,7 +9,8 @@ export default function Card({
   setIsOpenDetail,
   setSelectedArticle,
   isDarkMode,
-  isAdmin
+  isAdmin,
+  newArticle
 }: {
   isAdmin?: boolean;
   isSmall?: boolean;
@@ -19,21 +20,23 @@ export default function Card({
   setSelectedArticle?: React.Dispatch<React.SetStateAction<Itrees | null>>;
   article: Itrees;
   isDarkMode: boolean;
+  newArticle: Itrees[];
+
 }) {
 
   const addToCart = useCartStore((state) => state.addToCart);
 
   return (
     <article
-      className={`flex ${isDarkMode ? "bg-dark-secondary dark:text-white" : "bg-light-accent text-black"} ${isSmall ? "flex-row items-center p-2 gap-2 w-full max-w-sm" : "flex-col"} 
-            rounded-lg border shadow-black shadow-lg md:max-w-2xl m-auto lg:max-w-lg`}
+      className={`flex ${isDarkMode ? "bg-dark-secondary dark:text-white" : "bg-light-accent text-black"} ${isSmall ? "flex-row items-center w-full max-w-sm" : "flex-col"} 
+            rounded-lg border shadow-black shadow-lg md:max-w-2xl m-auto xl1440:w-lg 2xl:w-lg`}
     >
 
       {/* Image du produit */}
       <div>
         <img
           className={`object-cover rounded-lg aspect-square${isSmall ? "w-12 h-12" : ""} cursor-pointer`}
-          src={article.Picture ? `${article.Picture.url}` : "/images/default.jpg"}
+          src={article.Picture ? `${article.Picture.url} ` : "/images/default.jpg"}
           alt={article.name}
           onClick={() => {
             if (setIsOpenDetail) setIsOpenDetail(true);
@@ -41,7 +44,7 @@ export default function Card({
           }}
         />
 
-        <p className={`font-content sm:text-sm md:text-md lg:text-lg 2xl:text-2xl ${isSmall ? "text-sm" : "text-xl font-bold"}`}>
+        <p className={`font-content sm:text-sm md:text-md lg:text-lg 2xl:text-2xl ${isSmall ? "text-sm" : "text-xl font-bold"} `}>
           {article.name}
         </p>
 
@@ -68,20 +71,31 @@ export default function Card({
                 </button>
               </div>
             ) : (
-              <button className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
-                onClick={() => addToCart(article)}>
+              <button
+                className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} p-2 rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                onClick={() =>
+                  addToCart({
+                    id: article.id.toString(), // Product.id est une chaîne de caractères
+                    name: article.name,
+                    price: article.price,
+                    image: article.Picture ? article.Picture.url : "/images/default.jpg",
+                    quantity: 1,
+                    Picture: article.Picture as Ipicture,
+                  })
+                }
+              >
                 <img src="/images/icons/shop-card.svg" alt="Ajouter au panier" className="w-6 h-6 invert" />
               </button>
             ))
           }
-          <p className={`font-semibold text-xs min-[374px]:text-base 2xl:text-xl ${isDarkMode ? "text-white" : "text-black"} ml-2`}>
+          <p className={`font-semibold text-xs min-[374px]:text-base 2xl:text-2xl ${isDarkMode ? "text-white" : "text-black"} ml-2`}>
             {`Prix: ` + article.price + " €"}
           </p>
         </div>
       </div>
       {/* Bouton détail */}
-      <button className={`font-content border-2 ${isDarkMode ? "bg-dark-primary border-dark-primary" : "bg-light-primary border-light-primary"}  rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg 
-          sm:p-1 sm:text-sm md:text-md  lg:text-lg 2xl:text-2xl cursor-pointer hover`}
+      <button className={`font - content border-2 ${isDarkMode ? "bg-dark-primary border-dark-primary" : "bg-light-primary border-light-primary"} rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg
+  sm:p-1 sm:text-sm md:text-md  lg:tex-lg 2xl:text-2xl cursor-pointer hover`}
         onClick={() => {
           if (setIsOpenDetail) setIsOpenDetail(true);
           setSelectedArticle && setSelectedArticle(article);

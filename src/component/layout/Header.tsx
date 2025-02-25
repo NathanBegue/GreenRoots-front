@@ -7,7 +7,8 @@ interface HeaderProps {
   setIsModalOpened: React.Dispatch<React.SetStateAction<boolean>>;
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string | null }>>
+
 }
 
 export default function Header({ setIsOpened, setIsModalOpened, isDarkMode,

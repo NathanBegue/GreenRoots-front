@@ -71,8 +71,8 @@ export default function DetailOrderModal({
 
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary" : "bg-light-accent"
-                    } w-96 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8`}
-                style={{ maxHeight: "80vh", overflowY: "auto" }}
+                    } w-96 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 `}
+                style={{ maxHeight: "80vh", overflowY: "auto", }}
             >
                 <img
                     onClick={() => setIsOpenOrderDetail(false)}
@@ -129,7 +129,7 @@ export default function DetailOrderModal({
                     {orderDetail.articles.map((article) => (
                         <div
                             key={article.id}
-                            className={`p-3 mb-2 rounded ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"
+                            className={`p-3 mb-2 rounded ${isDarkMode ? "bg-dark-accent" : "bg-light-secondary"
                                 }`}
                         >
                             <p className="font-bold">{article.name}</p>

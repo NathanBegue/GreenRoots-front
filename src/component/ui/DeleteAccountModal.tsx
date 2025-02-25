@@ -13,7 +13,7 @@ export default function DeleteAccountModal({
     setIsOpenedDeleteAccountModal: React.Dispatch<React.SetStateAction<boolean>>;
     isDarkMode: boolean;
     user: IUserInfos
-    setUser: React.Dispatch<React.SetStateAction<IUserInfos | null>>;
+    setUser: React.Dispatch<React.SetStateAction<IUserInfos>>;
 }) {
     const { logout } = useAuthStore();
     const navigate = useNavigate();
@@ -90,7 +90,7 @@ export default function DeleteAccountModal({
                 {/* Boutons d'action */}
                 <div className="flex justify-between">
                     <button
-                        className="bg-gray-600 px-4 py-2 rounded-lg text-white hover:bg-gray-700 transition"
+                        className={`${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} px-4 py-2 rounded-lg text-white hover:bg-gray-700 transition`}
                         onClick={() => setIsOpenedDeleteAccountModal(false)}
                     >
                         Annuler

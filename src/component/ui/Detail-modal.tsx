@@ -1,4 +1,4 @@
-import { Itrees } from "../../../type/type";
+import { Itrees, Ipicture } from "../../../type/type";
 import useCartStore from "../../Auth/cartStore";
 
 interface DetailModalProps {
@@ -53,9 +53,13 @@ export default function DetailModal({
           <div className={`flex flex-col ${isDarkMode ? "text-white" : "text-black"} `}>
             <h3 className="font-semibold mb-1 font-title 2xl:text-xl">Catégories :</h3>
             <ul className="list-disc pl-4 font-content 2xl:text-lg">
-              {article.categories.map((category, index) => (
-                <li key={index}>{category.name}</li>
-              ))}
+              {article.categories?.length > 0 ? (
+                article.categories.map((category, index) => (
+                  <li key={index}>{category.name}</li>
+                ))
+              ) : (
+                <p>Aucune catégorie</p>
+              )}
             </ul>
           </div>
 
@@ -72,7 +76,16 @@ export default function DetailModal({
 
           </div>
           <div className="flex justify-center">
-            <button onClick={() => addToCart(article)} className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary text-black"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}> Ajouter au panier </button>
+            <button onClick={() =>
+              addToCart({
+                id: article.id.toString(), // Product.id est une chaîne de caractères
+                name: article.name,
+                price: article.price,
+                image: article.Picture ? article.Picture.url : "/images/default.jpg",
+                quantity: 1, // Par défaut, on ajoute 1 unité
+                Picture: article.Picture as Ipicture,
+              })
+            } className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary text-black"}  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}> Ajouter au panier </button>
           </div>
 
         </div>

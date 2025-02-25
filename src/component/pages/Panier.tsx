@@ -28,7 +28,7 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
             <h1 className="text-center text-xl font-bold">Votre panier</h1>
 
             {/* Articles du panier */}
-            <div className="w-full flex flex-col gap-4 lg:max-w-4xl lg:mx-auto">
+            <div className="w-full flex flex-col gap-4 lg:max-w-4xl lg:mx-auto ">
                 {cart.length === 0 ? (
                     <p className="text-center text-gray-800">Votre panier est vide.</p>
                 ) : (
@@ -49,12 +49,12 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
 
                             {/* Sélecteur de quantité */}
                             <div className="flex flex-row items-center gap-3 lg:gap-5">
-                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1">
-                                    <img className="size-6 invert cursor-pointer hover:scale-110" src="/images/icons/chevron-up.svg" alt="Augmenter" />
+                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className={`size-8 flex items-center justify-center ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  border rounded-lg p-1`}>
+                                    <img className={`size-6 ${isDarkMode ? "invert" : ""} cursor-pointer hover:scale-110`} src="/images/icons/chevron-up.svg" alt="Augmenter" />
                                 </button>
                                 <p className="w-8 text-center text-lg font-bold lg:text-xl">{item.quantity}</p>
-                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="size-8 flex items-center justify-center bg-dark-secondary border rounded-lg p-1 ">
-                                    <img className="size-6 invert cursor-pointer hover:scale-110" src="/images/icons/chevron-down.svg" alt="Diminuer" />
+                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className={`size-8 flex items-center justify-center ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}  border rounded-lg p-1`}>
+                                    <img className={`size-6 ${isDarkMode ? "invert" : ""} cursor-pointer hover:scale-110`} src="/images/icons/chevron-down.svg" alt="Diminuer" />
                                 </button>
                             </div>
 
@@ -84,10 +84,10 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
                     </div>
 
                     <div className="flex flex-col items-center gap-4">
-                        <Link to="/cgu" className="underline text-sm text-gray-300 hover:text-white lg:text-base">Voir les CGU</Link>
+                        <Link to="/cgu" className={`underline text-sm ${isDarkMode ? "text-white" : "text-black"} hover:text-white lg:text-base`}>Voir les CGU</Link>
                         <button
                             onClick={handlePayment}
-                            className={`cursor-pointer hover:scale-101 ${isDarkMode ? "bg-dark-primary " : "bg-dark-primary"} w-full text-lg px-6 py-3 rounded-lg font-bold transition lg:text-xl 
+                            className={`cursor-pointer hover:scale-101 ${isDarkMode ? "bg-dark-primary " : "bg-light-primary"} w-full text-lg px-6 py-3 rounded-lg font-bold transition lg:text-xl 
                                 ${cart.length === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-90"}`}
                             disabled={cart.length === 0}>
                             Payer

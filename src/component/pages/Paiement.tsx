@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -9,14 +9,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
 
-    const inputRef = useRef(null)
 
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-
-    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -72,20 +65,19 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-dark-primary p-6">
-            <div className="bg-dark-secondary p-8 rounded-lg shadow-lg max-w-md w-full">
-                <h2 className="text-2xl font-bold mb-6 text-center text-white">Paiement sécurisé</h2>
+        <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? "  bg-dark-primary text-white" : "bg-light-primary"} p-6`}>
+            <div className={` ${isDarkMode ? " bg-dark-secondary" : "bg-light-secondary text-black"} p-8 rounded-lg shadow-lg max-w-md w-full 2xl:w-2xl `}>
+                <h2 className="text-2xl font-bold mb-6 text-center ">Paiement sécurisé</h2>
 
                 {paymentSuccess ? (
-                    <div className="text-green-600 text-center">
+                    <div className="text-green-600 text-center 2xl:text-2xl">
                         🎉 Paiement réussi ! Redirection en cours...
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 2xl:text-2xl">
                         <div className="flex flex-col">
-                            <label className="text-white">Numéro de carte</label>
+                            <label >Numéro de carte</label>
                             <input
-                                ref={inputRef}
                                 type="text"
                                 className="border p-3 rounded-lg bg-dark-primary text-white"
                                 placeholder="4242 4242 4242 4242"
@@ -98,7 +90,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                         <button
                             type="submit"
                             disabled={isProcessing}
-                            className="bg-cta text-white px-4 py-2 rounded-lg hover:bg-opacity-90 disabled:bg-gray-400"
+                            className={`${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} border-2 border-white cursor-pointer px-4 py-2 rounded-lg hover:bg-opacity-90 disabled:bg-gray-400`}
                         >
                             {isProcessing ? "Paiement en cours..." : "Payer"}
                         </button>

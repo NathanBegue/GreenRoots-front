@@ -3,10 +3,10 @@ import bgImage from "/src/assets/images/403.webp";
 
 export default function Page403() {
     return (
-        <div className="w-full max-w-screen overflow-hidden">
+        <div className=" min-h-full w-full max-w-screen overflow-hidden ">
             <main className="text-white flex flex-col gap-6 text-center ">
 
-                <div className="w-screen h-screen bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>*
+                <div className="w-screen h-screen bg-cover  bg-[position] bg-[20%_25%]" style={{ backgroundImage: `url(${bgImage})` }}>*
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center flex-col gap-4 p-4">
 
                         <h1 className="text-white text-8xl font-bold font-title" > 403 </h1>

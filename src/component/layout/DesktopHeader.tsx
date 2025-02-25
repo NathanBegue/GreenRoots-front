@@ -6,7 +6,8 @@ import DarkModeToggle from "../ui/DarkModeToggle";
 interface DesktopHeaderProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string | null }>>
+
 }
 
 export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtectedModal }: DesktopHeaderProps) {
@@ -36,7 +37,7 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtecte
         </Link >
       </div>
       {/* Navigation */}
-      <nav>
+      <nav className="cursor-pointer">
         <ul className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl `}>
           <li>
             <Link to="/" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
