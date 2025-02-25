@@ -6,15 +6,26 @@ import DarkModeToggle from "../ui/DarkModeToggle";
 interface DesktopHeaderProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHeaderProps) {
+export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtectedModal }: DesktopHeaderProps) {
   const { token, logout } = useAuthStore();
   const navigate = useNavigate();
   const { cart } = useCartStore(); // Récupération du panier
 
   // Calcul du nombre total d'articles dans le panier
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  const handleProtectedRoute = (pageName: string) => {
+    if (!token) {
+      // Passe le nom de la page à la modale
+      setIsProtectedModal({ open: true, pageName });
+    } else {
+      // Redirige vers la page demandée
+      navigate(`/${pageName.toLowerCase()}`);
+    }
+  };
 
   return (
     <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-auto  w-full h-24 px-2 lg:h-lg 2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
@@ -26,7 +37,7 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
       </div>
       {/* Navigation */}
       <nav>
-        <ul className={`flex gap-10 text-white font-title text-xl 2xl:text-3xl `}>
+        <ul className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl `}>
           <li>
             <Link to="/" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Accueil
@@ -39,17 +50,19 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode }: DesktopHead
               <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
             </Link>
           </li>
-          <li>
-            <Link to="/historique" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
-              Historique
-              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
-            </Link>
+          <li
+            onClick={() => { handleProtectedRoute("historique") }}
+            className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            Historique
+            <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
+
           </li>
-          <li>
-            <Link to="/suivis" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
-              Suivis
-              <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
-            </Link>
+          <li
+            onClick={() => { handleProtectedRoute("suivis") }}
+            className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
+            Suivis
+            <span className={`absolute left-0 bottom-0 w-full h-1  ${isDarkMode ? "bg-white" : "bg-black"} scale-x-0 group-hover:scale-x-100 transition-transform`}></span>
+
           </li>
         </ul>
       </nav>

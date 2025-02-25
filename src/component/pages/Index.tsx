@@ -18,7 +18,7 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
   const [newarticle, setnewarticle] = useState<Itrees[]>([]);
 
   useEffect(() => {
-    fetchmethod.getArticle().then((data) => setnewarticle(data));
+    fetchmethod.getNewArticle().then((data) => setnewarticle(data));
   }, []);
 
 

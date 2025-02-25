@@ -1,42 +1,70 @@
-export default function ProtectedModal({ isDarkMode, setIsProtectedModal }:
-    { isDarkMode: boolean, setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+import { Link } from "react-router";
+
+type ProtectedModalProps = {
+    isDarkMode: boolean;
+    setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string }>>;
+    pageName: string; // Nom dynamique de la page
+};
+
+export default function ProtectedModal({ isDarkMode, setIsProtectedModal, pageName }: ProtectedModalProps) {
     return (
         <>
-            {/* Overlay */}
+            {/* Overlay avec transition */}
             <div
-                className="fixed inset-0 bg-black/50 z-10"
-                onClick={() => setIsProtectedModal(false)}
+                className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+                onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
             />
-            {/* Modale */}
-            <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} w-96 p-6 rounded-lg shadow-lg flex flex-col gap-6 z-20`}>
 
+            {/* Modale centrée avec animation */}
+            <div
+                className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 rounded-lg shadow-xl p-8 w-full max-w-md 
+        ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-gray-900"} 
+        animate-scaleIn`}
+            >
                 {/* Bouton de fermeture */}
-                <img
-                    onClick={() => setIsProtectedModal(false)}
-                    src="/images/icons/close.svg"
-                    alt="Fermer la modale"
-                    className={`w-6 h-6 ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer`}
-                />
+                <button
+                    className="absolute top-4 right-4 focus:outline-none"
+                    onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
+                >
+                    <img
+                        src="/images/icons/close.svg"
+                        alt="Fermer la modale"
+                        className={`w-6 h-6 ${isDarkMode ? "invert" : ""}`}
+                    />
+                </button>
 
-                {/* Texte de la modale */}
-                <h2 className="text-xl font-bold text-center">Connexion requise</h2>
-                <p className="text-center text-gray-500">Vous devez être connecté pour accéder à l'historique.</p>
+                {/* Titre et description */}
+                <h2 className="text-2xl font-semibold text-center mb-2">
+                    Connexion requise
+                </h2>
+                <p className={`text-center text-sm mb-6 ${isDarkMode ? "text-white" : "text-black"}`}>
+                    Vous devez être connecté pour accéder à {pageName.toLocaleLowerCase()}.
+                </p>
 
                 {/* Boutons d'action */}
-                <div className="flex justify-between">
-                    <p className="font-content md:text-lg">Deja un compte ?</p>
-                    <button
-                        className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
-                        onClick={() => setIsProtectedModal(false)}
-                    >
-                        Se connecter
-                    </button>
-                    <button
-                        className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
-                        onClick={() => setIsProtectedModal(false)}
-                    >
-                        S'inscrire
-                    </button>
+                <div className="flex flex-col gap-4">
+                    <Link to="/connexion">
+                        <button
+                            onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
+                            className={`w-full py-2 rounded-md font-medium transition-colors duration-200 
+                ${isDarkMode
+                                    ? "bg-dark-primary hover:bg-dark-primary-hover text-white"
+                                    : "bg-light-primary hover:bg-light-primary-hover text-gray-900"}`}
+                        >
+                            Se connecter
+                        </button>
+                    </Link>
+                    <Link to="/inscription">
+                        <button
+                            onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
+                            className={`w-full py-2 rounded-md font-medium border transition-colors duration-200 
+                ${isDarkMode
+                                    ? "border-dark-primary text-white hover:bg-dark-primary"
+                                    : "border-light-primary text-gray-900 hover:bg-light-primary"}`}
+                        >
+                            S'inscrire
+                        </button>
+                    </Link>
                 </div>
             </div>
         </>

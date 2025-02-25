@@ -47,53 +47,54 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
   };
 
   return (
-    <div className={`w-full min-h-screen px-6 py-10 shadow-lg pt-24 ${isDarkMode ? "bg-dark-primary text-white " : "bg-light-primary text-black"}  min-lg:pt-48 min-lg:w-lg 2xl:w-5xl m-auto`}>
+    <div className={`w-screen h-screen flex items-center justify-center ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"}`}>
+      <div className="w-full max-w-md p-6  rounded-lg">
+        <h1 className="text-2xl font-bold text-center mb-10">Rebonjour</h1>
 
-      <h1 className="text-2xl font-bold text-center mb-20">Rebonjour</h1>
+        <form onSubmit={handleLogin} className="flex flex-col gap-6">
+          {/* Email */}
+          <div className="flex flex-col">
+            <label htmlFor="email" className="font-semibold mb-1">Adresse e-mail</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Entrez votre adresse e-mail"
+              className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-      <form onSubmit={handleLogin} className="flex flex-col gap-6 mt-20">
-        {/* Email */}
-        <div className="flex flex-col">
-          <label htmlFor="email" className="font-semibold mb-1">Adresse e-mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Entrez votre adresse e-mail"
-            className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+          {/* Mot de passe */}
+          <div className="flex flex-col">
+            <label htmlFor="password" className="font-semibold mb-1">Mot de passe</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Entrez votre mot de passe"
+              className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Link to="/mot-de-passe-oublie" className="text-sm hover:underline pt-2 self-end">
+              Mot de passe oublié ?
+            </Link>
+          </div>
 
-        {/* Mot de passe */}
-        <div className="flex flex-col">
-          <label htmlFor="password" className="font-semibold mb-1">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Choisissez un mot de passe"
-            className={`border p-3 rounded-lg w-full ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} focus:outline-none focus:ring-2 focus:ring-cta`}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {/* Lien Mot de passe oublié */}
-          <Link to="/mot-de-passe-oublie" className={`text-sm hover:underline pt-2 self-end ${isDarkMode ? "text-white" : "text-black"}`}>
-            Mot de passe oublié ?
-          </Link>
-        </div>
-
-        {/* Bouton de connexion */}
-        <button
-          type="submit"
-          className={`flex justify-center items-center px-10  ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
-        >
-          Connexion
-        </button>
-      </form>
+          {/* Bouton connexion */}
+          <button
+            type="submit"
+            className={`w-full p-3 rounded-lg cursor-pointer hover:scale-105 transition-transform ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"}`}
+          >
+            Connexion
+          </button>
+        </form>
+      </div>
     </div>
   );
+
 }
