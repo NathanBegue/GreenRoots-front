@@ -1,10 +1,11 @@
 /* eslint-disable no-trailing-spaces */
 import { useEffect, useState } from "react";
-import bgAccueil from "../../assets/images/bgAccueil.jpg";
+import bgAccueil from "../../assets/images/bgAccueil.webp";
 import Card from "../ui/Card";
 import fetchmethod from "../../fetch/method-fetch";
 import { Itrees } from "../../../type/type";
 import BlocActu from "../ui/BlocActu";
+import Loader from "../layout/Loader";
 
 export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode, }:
   {
@@ -16,12 +17,17 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
   }) {
 
   const [newarticle, setnewarticle] = useState<Itrees[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchmethod.getNewArticle().then((data) => setnewarticle(data));
+    setIsLoading(false);
   }, []);
 
-
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full max-w-screen min-h-screen overflow-hidden lg:pt-10 xl:pt-20">
@@ -31,12 +37,12 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
 
         <section className="flex flex-col gap-6 ">
 
-          <h1 className="text-2xl font-bold p-4 pt-25 lg:text-3xl lg:m-8 ">
+          <h1 className="text-lg font-bold p-4 pt-25 lg:text-2xl 2xl:text-3xl lg:m-8 ">
 
             🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
           </h1>
-          <div className="w-screen h-screen bg-cover bg-center pt-30 lg:p-30 2xl:p-80 " style={{ backgroundImage: `url(${bgAccueil})` }}>
-            <div className="flex flex-col gap-6 inset-0 dark:bg-black/70  items-center justify-center p-6 bg-white/ text-white py-auto px-10 lg:py-15 2xl:py-40">
+          <div className="w-5/6 mx-auto h-screen bg-cover bg-center pt-20 lg:p-30 2xl:p-80  md:py-50 2xl:py-45" style={{ backgroundImage: `url(${bgAccueil})` }}>
+            <div className={`flex flex-col gap-6 inset-0 ${isDarkMode ? " bg-dark-secondary/80 bg-white/text-white " : "bg-light-secondary/80 bg/black/text-black"} bg-black/90  items-center justify-center p-6 py-auto px-5 lg:py-15 2xl:py-40 rounded-sm md:rounded-md lg:rounded-lg 2xl:rounded-2xl`}>
               <h2 className="text-xl font-bold font-title lg:text-2xl 2xl:text-5xl">
                 La déforestation, un enjeu majeur pour la planète
               </h2>
@@ -67,6 +73,7 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
                   setIsOpenDetail={setIsOpenDetail}
                   setSelectedArticle={setSelectedArticle}
                   isDarkMode={isDarkMode}
+                  newArticle={newarticle}
 
                 />
               ))

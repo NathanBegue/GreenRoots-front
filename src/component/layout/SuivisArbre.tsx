@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../Auth/authStore";
 import Map from "../ui/Map";
-import { ITracking } from "../../../type/type";
+import { ITracking, IArticleTracking } from "../../../type/type";
 import TrackingArticleModal from "../ui/TrackingArticleModal";
 
 
@@ -50,7 +50,7 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
       if (Array.isArray(data)) {
         transformedData = data.map((order) => ({
           ...order,
-          ArticleTrackings: order.ArticleTrackings.map((tracking) => {
+          ArticleTrackings: order.ArticleTrackings.map((tracking: ITracking) => {
             // Si l'ID de la commande associée à ce tracking n'est pas celui du localStorage,
             // on force le status et le plant_place à des valeurs par défaut.
             if (
@@ -147,26 +147,27 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
         isDarkMode={isDarkMode}
       />}
 
-      {ordersTracking.map((order) =>
-        order.ArticleTrackings.slice(0, order.ArticleHasOrder.quantity).map((tracking, index) => (
+      {ordersTracking.map((order) => {
+        // Si l'une des propriétés n'est pas définie, on ne rend rien
+        if (!order.ArticleTrackings || !order.ArticleHasOrder) return null;
 
+        // On définit le nombre d'éléments à afficher
+        const quantity = order.ArticleHasOrder.quantity;
+
+        return order.ArticleTrackings.slice(0, quantity).map((tracking: IArticleTracking, index: number) => (
           <div
             key={`${order.id}-${tracking.id}-${index}`}
-            className={`w-5/6 lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6  justify-center rounded-lg border shadow-black shadow-lg ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary text-black"} 2xl:grid`}
+            className={`w-5/6 lg:w-lg h-full flex flex-col gap-4 border-zinc-200 p-6 justify-center rounded-lg border shadow-black shadow-lg ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"} 2xl:grid 2xl:text-2xl`}
           >
-
-            <h2 className=" text-center">🌿 {order.name}</h2>
-
-
-            < h3 className=" text-center"> Surnom : {tracking.nickname}</h3>
-
+            <h2 className="text-center">🌿 {order.name}</h2>
+            <h3 className="text-center">Surnom : {tracking.nickname}</h3>
             <div>
-              <img src={tracking.Picture.url} alt="" />
+              <img src={tracking.Picture?.url} alt="" />
             </div>
-            <div className="mb-4">
-              <div className="text-sm">
+            <div className="mb-6 ">
+              <div className="text-sm 2xl:text-2xl">
 
-                <strong>Lieu :</strong> {tracking.plant_place || "Non défini"}
+                <strong className="2xl:text-2xl">Lieu :</strong> {tracking.plant_place || "Non défini"}
               </div>
               <div>
                 <strong>Statut :</strong> {tracking.status}
@@ -206,7 +207,7 @@ export default function SuivisArbre({ isDarkMode }: { isDarkMode: boolean }) {
 
 
         ))
-      )
+      })
       }
     </div >
   );

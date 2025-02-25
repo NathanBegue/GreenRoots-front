@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Iorder, ITracking } from "../../../type/type";
+import { IArticleTracking, Iorder, ITracking } from "../../../type/type";
 import { useAuthStore } from "../../Auth/authStore";
 import fetchmethod from "../../fetch/method-fetch";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -9,7 +9,7 @@ interface TrackingArticleModalProps {
     setTrackingModal: React.Dispatch<React.SetStateAction<boolean>>;
     trackingModal: boolean;
     isDarkMode: boolean; // Ajout d'un ID pour le suivi
-    ordersTracking: ITracking[];
+    ordersTracking: IArticleTracking[];
     selectedTrackingId: number | null;
     refetchTracking: () => Promise<void>;
 }

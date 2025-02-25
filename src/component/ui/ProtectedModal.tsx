@@ -2,8 +2,9 @@ import { Link } from "react-router";
 
 type ProtectedModalProps = {
     isDarkMode: boolean;
-    setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string }>>;
-    pageName: string; // Nom dynamique de la page
+    setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string | null }>>
+
+    pageName: string | null; // Nom dynamique de la page
 };
 
 export default function ProtectedModal({ isDarkMode, setIsProtectedModal, pageName }: ProtectedModalProps) {
@@ -38,7 +39,7 @@ export default function ProtectedModal({ isDarkMode, setIsProtectedModal, pageNa
                     Connexion requise
                 </h2>
                 <p className={`text-center text-sm mb-6 ${isDarkMode ? "text-white" : "text-black"}`}>
-                    Vous devez être connecté pour accéder à {pageName.toLocaleLowerCase()}.
+                    Vous devez être connecté pour accéder à {pageName ? pageName.toLocaleLowerCase() : "cette page"}.
                 </p>
 
                 {/* Boutons d'action */}

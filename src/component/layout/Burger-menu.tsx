@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 
-export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsProtectedModal }: { isOpened: boolean, setIsOpened: React.Dispatch<React.SetStateAction<boolean>>, isDarkMode: boolean, setIsProtectedModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsProtectedModal }: {
+    isOpened: boolean, setIsOpened: React.Dispatch<React.SetStateAction<boolean>>, isDarkMode: boolean, setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string | null }>>
+}) {
 
 
     const navigate = useNavigate();
@@ -29,7 +31,7 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
             )}
 
 
-            <nav className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} w-50 h-dvh z-1900 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-25 md:w-64`}>
+            <nav className={`${isDarkMode ? "bg-dark-accent text-white" : "bg-light-secondary text-black"} w-50 h-dvh z-1900 fixed right-0 top-0 flex flex-col justify-between items-center gap-6 pb-6 pt-20 md:w-64`}>
 
 
                 {/* Passage du state a false pour fermé le burger menu une fois cliqué */}

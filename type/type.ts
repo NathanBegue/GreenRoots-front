@@ -76,6 +76,7 @@ export interface CartState {
 
 //Définition du type d'un suivis d'article d'une commande 
 export interface IArticleTracking {
+    ArticleTrackings: any;
     id: number;
     growth: string;
     status: string;
@@ -100,7 +101,11 @@ export interface User {
 
 export interface ArticleHasOrder {
     quantity: number;
+    Order?: {
+        id: number;
+    };
 }
+
 
 export interface IArticleDetail {
     id: number;
@@ -131,11 +136,36 @@ export interface ITracking {
     created_at: string;
     updated_at: string;
 
+
+
     // ✅ Ajout des propriétés attendues
     name?: string; // Nom de l'article ou commande
     ArticleHasOrder?: ArticleHasOrder; // Association à la commande
     ArticleTrackings?: IArticleTracking[]; // Liste des suivis
     Picture?: Ipicture; // Image liée
 }
+
+export interface IOrderTrackingDetail {
+    // Propriétés liées au suivi (tracking)
+    trackingId: number;           // Correspond à ITracking.id
+    trackingStatus: string;       // Correspond à ITracking.status
+    trackingCreatedAt: string;    // Correspond à ITracking.created_at
+    trackingUpdatedAt: string;    // Correspond à ITracking.updated_at
+    trackingName?: string;        // Optionnel, correspondant à ITracking.name
+    ArticleHasOrder?: ArticleHasOrder;  // Optionnel, depuis ITracking.ArticleHasOrder
+    ArticleTrackings?: IArticleTracking[]; // Optionnel, depuis ITracking.ArticleTrackings
+    Picture?: Ipicture;           // Optionnel, depuis ITracking.Picture
+
+    // Propriétés liées au détail de commande (order detail)
+    id: number;                   // Correspond à IOrderDetail.id
+    orderId: number;              // Correspond à IOrderDetail.id (ou ITracking.order_id, si identique)
+    article_summary: string;
+    date: string;
+    total_price: string;
+    user_id: number;
+    User: User;
+    articles: IArticleDetail[];
+}
+
 
 

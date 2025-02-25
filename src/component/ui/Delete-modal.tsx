@@ -60,23 +60,23 @@ export default function DeleteModal({
                     onClick={() => setIsOpenedDeleteModal(false)}
                     src="/images/icons/close.svg"
                     alt="Fermer la modale"
-                    className={`w-6 h-6 ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer`}
+                    className={`w-6 h-6  ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer`}
                 />
 
                 {/* Texte de confirmation */}
-                <h2 className="text-xl font-bold text-center">Supprimer {article.name} ?</h2>
-                <p className="text-center text-gray-300">Cette action est irréversible.</p>
+                <h2 className={`${isDarkMode ? "text-white" : "text-black"} text-xl font-bold text-center pt-6`}>Supprimer {article.name} ?</h2>
+                <p className={`text-center ${isDarkMode ? "text-white" : "text-black"}`}>Cette action est irréversible.</p>
 
                 {/* Boutons d'action */}
-                <div className="flex justify-between">
+                <div className={`flex justify-between ${isDarkMode ? "text-white" : "text-black"} gap-4`}>
                     <button
-                        className="bg-gray-600 px-4 py-2 rounded-lg text-white hover:bg-gray-700 transition"
+                        className={`${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} px-4 py-2 rounded-lg hover:bg-gray-700 transition`}
                         onClick={() => setIsOpenedDeleteModal(false)}
                     >
                         Annuler
                     </button>
                     <button
-                        className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                        className="bg-red-500 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
                         onClick={() => {
                             // fetchmethod.deleteArticle(article.id);
                             handleDelete();

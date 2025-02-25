@@ -27,9 +27,9 @@ export default function NewsBlock({ isDarkMode }: { isDarkMode: boolean }) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {news.map((item, index) => (
-                    <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:scale-105 transition-transform">
-                        <h3 className="text-xl font-title font-semibold text-light-primary mb-2 2xl:text-4xl">{item.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-300 2xl:text-3xl font-content">{item.description}</p>
+                    <div key={index} className={`${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} rounded-xl shadow-md cursor-pointer hover:scale-105 transition-transform`}>
+                        <h3 className={`text-xl font-title font-semibold ${isDarkMode ? "text-light-primary" : "text-dark-primary"} mb-2 2xl:text-4xl`}>{item.title}</h3>
+                        <p className={`${isDarkMode ? "text-white" : "text-black"} 2xl:text-3xl font-content`}>{item.description}</p>
                     </div>
                 ))}
             </div>

@@ -38,9 +38,9 @@ function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
-  const [isprotectedModal, setIsProtectedModal] = useState<{ open: boolean, pageName: string }>({
+  const [isprotectedModal, setIsProtectedModal] = useState<{ open: boolean, pageName: string | null }>({
     open: false,
-    pageName: ""
+    pageName: null,
   });
 
   const { isLoading, showLoader, hideLoader } = useLoaderStore();
@@ -118,10 +118,8 @@ function App() {
           <Route path="/panier" element={<Panier isDarkMode={isDarkMode} />} />
           <Route path="/connexion" element={<Connexion isDarkMode={isDarkMode} />} />
           <Route path="/inscription" element={<Inscription isDarkMode={isDarkMode} />} />
-          <Route path="/compte" element={<UserSpace isDarkMode={isDarkMode} />} />
           <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
           <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
-          {/* <Route path="/historique" element={<Historique isDarkMode={isDarkMode} setIsOpenDetail={setIsOpenDetail} setSelectedArticle={setSelectedArticle} article={selectedArticle} />} /> */}
           <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
 
           {/* Route protégée */}
@@ -133,9 +131,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/compte"
+            element={
+              <ProtectedRoute>
+                {<UserSpace isDarkMode={isDarkMode} />}
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/interdit" element={<Page403 isDarkMode={isDarkMode} />} />
-          <Route path="*" element={<Page404 isDarkMode={isDarkMode} />} />
+          <Route path="/interdit" element={<Page403 />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
 
 
