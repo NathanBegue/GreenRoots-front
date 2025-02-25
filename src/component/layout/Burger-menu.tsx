@@ -7,14 +7,16 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
     const navigate = useNavigate();
     const { token } = useAuthStore();
 
-    const handleProtectedRoute = () => {
+    const handleProtectedRoute = (pageName: string) => {
         if (!token) {
-            setIsProtectedModal(true);
+            // Passe le nom de la page à la modale
+            setIsProtectedModal({ open: true, pageName });
+        } else {
+            // Redirige vers la page demandée
+            navigate(`/${pageName.toLowerCase()}`);
         }
-        else {
-            navigate("/historique");
-        }
-    }
+    };
+
 
     return (
         <>
@@ -35,8 +37,8 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
                 <ul className="flex flex-col gap-1 w-full">
                     <Link to="/" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Accueil</li></Link>
                     <Link to="/boutique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Boutique</li></Link>
-                    <li onClick={() => { setIsOpened(false); handleProtectedRoute() }} className="border-b pl-2 font-title font-bold text-3xl">Historique </li>
-                    <Link to="/suivis" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold text-3xl">Suivis </li></Link>
+                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("historique") }} className="border-b pl-2 font-title font-bold text-3xl">Historique </li>
+                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("suivis") }} className="border-b pl-2 font-title font-bold text-3xl">Suivis </li>
 
                 </ul>
                 <div className="flex flex-col gap-6 items-center">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -8,6 +8,15 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     const [isProcessing, setIsProcessing] = useState(false);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
+
+    const inputRef = useRef(null)
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -54,6 +63,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
 
             setTimeout(() => {
                 navigate("/");
+                window.location.reload();
             }, 2000);
         } catch (error) {
             showErrorToast("Erreur lors du paiement. Veuillez réessayer.");
@@ -75,6 +85,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                         <div className="flex flex-col">
                             <label className="text-white">Numéro de carte</label>
                             <input
+                                ref={inputRef}
                                 type="text"
                                 className="border p-3 rounded-lg bg-dark-primary text-white"
                                 placeholder="4242 4242 4242 4242"

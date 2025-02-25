@@ -45,12 +45,12 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
     }
 
     return (
-        <div className={`w-5/6 min-h-screen m-auto shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-40 md:w-md lg:w-lg 2xl:w-4xl`}>
+        <div className={`w-screeen min-h-screen m-auto shadow-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-40 pt-40 `}>
             <h1 className="text-2xl font-bold text-center mb-6 md:text-3xl">Bienvenue</h1>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full ">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full 2xl:w-auto mx-auto">
                 {/* Prénom */}
-                <div className="flex flex-col mx-auto">
+                <div className="flex flex-col mx-auto 2xl:w-2xl 2xl:text-2xl sm:w-sm lg:w-lg md:w-md ">
                     <label htmlFor="firstname" className="font-semibold mb-1 md:text-xl">Prénom</label>
                     <input
                         type="text"
@@ -65,7 +65,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
 
                 {/* Nom */}
-                <div className="flex flex-col mx-auto">
+                <div className="flex flex-col mx-auto 2xl:w-2xl 2xl:text-2xl sm:w-sm lg:w-lg md:w-md ">
                     <label htmlFor="lastname" className="font-semibold mb-1 md:text-xl">Nom</label>
                     <input
                         type="text"
@@ -80,7 +80,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
 
                 {/* Email */}
-                <div className="flex flex-col mx-auto">
+                <div className="flex flex-col mx-auto 2xl:w-2xl 2xl:text-2xl sm:w-sm lg:w-lg md:w-md ">
                     <label htmlFor="email" className="font-semibold mb-1 md:text-xl">Adresse e-mail</label>
                     <input
                         type="email"
@@ -95,7 +95,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
 
                 {/* Mot de passe */}
-                <div className="flex flex-col mx-auto">
+                <div className="flex flex-col mx-auto 2xl:w-2xl 2xl:text-2xl sm:w-sm lg:w-lg md:w-md ">
                     <label htmlFor="password" className="font-semibold mb-1 md:text-xl">Mot de passe</label>
                     <input
                         type="password"
@@ -110,8 +110,8 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
                 </div>
 
                 {/* Confirmation du mot de passe */}
-                <div className="flex flex-col mx-auto">
-                    <label htmlFor="confirmation" className="font-semibold mb-1 md:text-xl">Confirmer le mot de passe</label>
+                <div className="flex flex-col mx-auto 2xl:w-2xl 2xl:text-2xl sm:w-sm lg:w-lg md:w-md  ">
+                    <label htmlFor="confirmation" className="font-semibold mb-1 md:text-xl ">Confirmer le mot de passe</label>
                     <input
                         type="password"
                         id="confirmation"
@@ -127,7 +127,7 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
                 {/* Bouton d'inscription */}
                 <button
                     type="submit"
-                    className={`flex justify-center items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                    className={`sm:w-sm lg:w-lg md:w-md 2xl:w-2xl mx-auto flex justify-center items-center 2xl:text-2xl ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-10  p-2  rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110 mb-20`}
                 >
                     Inscription
                 </button>

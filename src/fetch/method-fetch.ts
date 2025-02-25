@@ -74,6 +74,7 @@ const fetchmethod = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          // "x-api-key": "123456789"
         },
       });
       const data = await response.json();

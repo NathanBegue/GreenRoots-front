@@ -38,7 +38,10 @@ function App() {
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
-  const [isprotectedModal, setIsProtectedModal] = useState<boolean>(false);
+  const [isprotectedModal, setIsProtectedModal] = useState<{ open: boolean, pageName: string }>({
+    open: false,
+    pageName: ""
+  });
 
   const { isLoading, showLoader, hideLoader } = useLoaderStore();
 
@@ -72,6 +75,7 @@ function App() {
           setIsModalOpened={setIsModalOpened}
           setIsDarkMode={setIsDarkMode}
           isDarkMode={isDarkMode}
+          setIsProtectedModal={setIsProtectedModal}
         />
         {/* Affichage du BurgerMenu */}
         {isOpened && <BurgerMenu setIsOpened={setIsOpened} isOpened={isOpened} isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} />}
@@ -87,7 +91,7 @@ function App() {
           isDarkMode={isDarkMode} />)}
 
         {/* Modale conditionelle pour les routes authentifiée */}
-        {isprotectedModal && <ProtectedModal isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} />}
+        {isprotectedModal.open && <ProtectedModal isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} pageName={isprotectedModal.pageName} />}
 
 
 
