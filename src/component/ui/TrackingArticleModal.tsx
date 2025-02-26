@@ -262,7 +262,7 @@ export default function TrackingArticleModal({
                     <div className="flex justify-between mt-4">
                         <button
                             type="button"
-                            className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                            className="bg-red-500/80 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
                             onClick={() => setTrackingModal(false)}
                         >
                             Annuler

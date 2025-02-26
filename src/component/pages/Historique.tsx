@@ -20,9 +20,13 @@ export default function Historique({
     isDarkMode,
 }: HistoriqueProps) {
 
+    // State d'ouverture de modale 
     const [isOpenedOrderModal, setIsOpenedOrdertModal] = useState<boolean>(false);
+    // State de récupération des commandes 
     const [orders, setOrders] = useState<Iorder[]>([]);
+    // State de séléction de la commande 
     const [selectedOrder, setSelectedOrder] = useState<Iorder | null>(null);
+    // Récupération du rôle de l'utilisateur
     const { isAdmin } = useAuthStore();
 
     // Fonction pour formater la date en heure de Paris
@@ -39,6 +43,7 @@ export default function Historique({
         });
     };
 
+    // Effet pour récupérer les commandes en tant qu'admin ou utilisateur
     useEffect(() => {
         const fetchOrders = async () => {
             const data: Iorder[] = isAdmin
@@ -49,6 +54,7 @@ export default function Historique({
         fetchOrders();
     }, [isAdmin]);
 
+    // Fonction pour stocker le numéro de la commande dans le local storage
     const openModal = (order: Iorder) => {
         setSelectedOrder(order);
         localStorage.setItem("orderId", order.id.toString());
@@ -56,7 +62,7 @@ export default function Historique({
     };
 
     return (
-        <div className={` min-h-screen min-w-screen ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"}`}>
+        <div className={` min-h-screen min-w-screen ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} lg:pt-20`}>
             <h3 className="text-xl font-bold text-center margin-auto pt-25">
                 🛒 Mes dernières commandes
             </h3>

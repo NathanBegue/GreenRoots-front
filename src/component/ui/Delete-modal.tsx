@@ -76,7 +76,7 @@ export default function DeleteModal({
                         Annuler
                     </button>
                     <button
-                        className="bg-red-500 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
+                        className="bg-red-500/80 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
                         onClick={() => {
                             // fetchmethod.deleteArticle(article.id);
                             handleDelete();

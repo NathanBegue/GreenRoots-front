@@ -24,8 +24,8 @@ export default function Panier({ isDarkMode }: { isDarkMode: boolean }) {
     };
 
     return (
-        <div className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} px-4 py-10 w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-32`}>
-            <h1 className="text-center text-xl font-bold">Votre panier</h1>
+        <div className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} px-4 py-10  w-full min-h-screen flex flex-col gap-6 pt-20 lg:pt-40 2xl:text-2xl`}>
+            <h1 className="text-center  font-bold ">Votre panier</h1>
 
             {/* Articles du panier */}
             <div className="w-full flex flex-col gap-4 lg:max-w-4xl lg:mx-auto ">

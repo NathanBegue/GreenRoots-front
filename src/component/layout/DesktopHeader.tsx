@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import useCartStore from "../../Auth/cartStore"; // Import du store du panier
 import DarkModeToggle from "../ui/DarkModeToggle";
+import { useEffect, useState } from "react";
+import fetchmethod from "../../fetch/method-fetch";
+import { IUserInfos } from "../../../type/type";
 
 interface DesktopHeaderProps {
   isDarkMode: boolean;
@@ -28,9 +31,25 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtecte
     }
   };
 
+  const [userInfos, setUserInfos] = useState<IUserInfos | null>(null);
+
+
+  useEffect(() => {
+    if (token) {
+      fetchmethod.getUserInfos()
+        .then((data: IUserInfos) => setUserInfos(data))
+        .catch((error) => console.error("Erreur lors de la récupération des infos utilisateur :", error));
+    }
+  }, [token]);
+
+
+
+
+
   return (
-    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-auto  w-full h-24 px-2 lg:h-lg 2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
-      <div className="pl-4">
+
+    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-auto  w-full h-24 px-2  2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
+      <div className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl `}>
         {/* Logo */}
         <Link to="/">
           <img className="h-16 rounded-lg 2xl:w-25 2xl:h-25" src="src/assets/images/logo.webp" alt="Logo" />
@@ -86,18 +105,22 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtecte
         {/* 🔥 Condition : Si l'utilisateur est connecté, afficher "Mon Compte" et "Déconnexion" */}
         {token ? (
           <div className="flex gap-4">
-            <Link to="/compte">
-              <button className={`px-4 py-1 rounded-lg bg-dark-primary  cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"} `}>
-                Mon Compte
+            <Link to="/compte" >
+
+              <button className={` flex gap-4 px-4 py-1 rounded-lg cursor-pointer hover:scale-110 text-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"}  `}>
+                <img className={`w-8 h-8 lg:w-6 lg:h-6 ${isDarkMode && "invert"} m-auto`} src="/images/icons/user.svg" alt="profil" />
+                <p>{userInfos?.firstname} {userInfos?.lastname} </p>
               </button>
+
             </Link>
             <button
-              className={`px-4 py-1 rounded-lg bg-red-600 cursor-pointer hover:scale-110 text-lg ${!isDarkMode && "bg-light-primary text-black"}`}
+              className={`flex px-4 py-1 rounded-lg bg-red-500/80 cursor-pointer hover:scale-110 text-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"}`}
               onClick={() => {
                 logout();
                 navigate("/");
               }}
             >
+              <img className={`w-8 h-8 lg:w-6 lg:h-6 ${isDarkMode && "invert"} m-auto`} src="./images/icons/logout.svg" alt="logo logout" />
               Déconnexion
             </button>
           </div>
