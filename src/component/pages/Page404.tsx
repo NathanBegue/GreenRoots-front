@@ -12,8 +12,8 @@ export default function Page404() {
                         <h1 className="text-white text-8xl font-bold font-title" > 404 </h1>
                         <p className="text-white text-4xl font-bold font-content"> Oups, vous vous êtes perdu(e) </p>
                     </div>
-                    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-dark-secondary p-4 text-center rounded-lg">
-                        <Link to="/" className="font-title">Retour à l'accueil</Link>                    </div>
+                    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 p-4 text-center rounded-lg cursor-pointer bg-dark-secondary ">
+                        <Link to="/" className="font-title ">Retour à l'accueil</Link>                    </div>
                 </div>
 
             </main >

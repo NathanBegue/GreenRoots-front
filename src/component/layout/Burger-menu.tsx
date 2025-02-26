@@ -5,8 +5,9 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
     isOpened: boolean, setIsOpened: React.Dispatch<React.SetStateAction<boolean>>, isDarkMode: boolean, setIsProtectedModal: React.Dispatch<React.SetStateAction<{ open: boolean, pageName: string | null }>>
 }) {
 
-
+    // Fonction pour gérer les routes protégées
     const navigate = useNavigate();
+    // Récupération du token
     const { token } = useAuthStore();
 
     const handleProtectedRoute = (pageName: string) => {

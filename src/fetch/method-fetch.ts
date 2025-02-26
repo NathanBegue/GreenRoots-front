@@ -1,8 +1,8 @@
-import { Itrees, Iorder, IUserInfos, Itracking } from "../../type/type";
+import { Itrees, Iorder, IUserInfos, ITracking } from "../../type/type";
 
 const fetchmethod = {
 
-  // fetch admin
+  // Fecth des articles de l'utilisateur 
   getArticlesByAdmin: async (): Promise<Itrees[]> => {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
@@ -40,10 +40,16 @@ const fetchmethod = {
     }
   },
 
-  // fetch page d'accueil
+  // Fetch des derniers articles (arbres, accueil )
   getNewArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:3000/");
+      const response = await fetch("https://vps-94669d32.vps.ovh.net/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "123456789"
+        },
+      });
       const data = await response.json();
 
       console.log("Données reçues :", data);
@@ -51,10 +57,12 @@ const fetchmethod = {
       if (data.articles) {
         const mergedArticles = data.articles.map((article: Itrees) => ({
           ...article,
-          Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" },
-
+          Picture: {
+            ...article.Picture,
+            url: article.Picture.url.replace("https://0.0.0.0:3000/", "https://vps-94669d32.vps.ovh.net/")
+          },
+          categories: article.categories || { name: "Catégorie par défaut" },
         }));
-
         return mergedArticles;
       } else {
         console.error("Format inattendu de l'API", data);
@@ -67,14 +75,14 @@ const fetchmethod = {
     }
   },
 
-  // fetch boutique 
+  // Fetch de tous les articles (arbres, boutique) 
   getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("http://localhost:3000/boutique", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/boutique`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          // "x-api-key": "123456789"
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
       });
       const data = await response.json();
@@ -83,11 +91,10 @@ const fetchmethod = {
       if (data.articles) {
         const mergedArticles = data.articles.map((article: Itrees) => ({
           ...article,
-          Picture: article.Picture || {
-            url: "/images/default.jpg",
-            description: "Image par défaut",
+          Picture: {
+            ...article.Picture,
+            url: article.Picture.url.replace("https://0.0.0.0:3000/", `${import.meta.env.VITE_BASE_URL}`)
           },
-          // Si article.category n'existe pas, on lui attribue une valeur par défaut.
           categories: article.categories || { name: "Catégorie par défaut" },
         }));
         return mergedArticles;
@@ -101,7 +108,7 @@ const fetchmethod = {
     }
   },
 
-  // fetch commandes utilisateur
+  // Fetch commandes utilisateur
   getHistoryByUser: async (): Promise<Iorder[]> => {
     try {
       const token = localStorage.getItem("token");
@@ -124,7 +131,7 @@ const fetchmethod = {
     }
   },
 
-  // fetch infos utilisateur
+  // Fetch infos utilisateur
   getUserInfos: async (): Promise<IUserInfos> => {
     try {
       const token = localStorage.getItem("token");
@@ -145,10 +152,12 @@ const fetchmethod = {
         firstname: "",
         lastname: "",
         email: "",
+        password: "",
+        repeat_password: "",
       };
     }
   },
-  // fetch de toutes les commandes (admin)
+  // Fetch de toutes les commandes (admin)
   getAllOrders: async (): Promise<Iorder[]> => {
     try {
       const token = localStorage.getItem("token");
@@ -171,8 +180,8 @@ const fetchmethod = {
     }
   },
 
-  // detail de la commande d'un utilisateur
-  getOrderDetailAdmin: async (id: number): Promise<Itracking[]> => {
+  // Fetch du detail de la commande d'un utilisateur
+  getOrderDetailAdmin: async (id: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3000/api/commandes/${id}`,
@@ -193,7 +202,8 @@ const fetchmethod = {
     }
   },
 
-  getTrackingByIdAdmin: async (orderId: number, trackinId: number): Promise<Itracking[]> => {
+  // Fetch du suivi d'un artcile d'une commande (admin)
+  getTrackingByIdAdmin: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3000/api/commandes/${orderId}/suivi/${trackinId}`,
@@ -214,7 +224,9 @@ const fetchmethod = {
     }
   },
 
-  getTrackingByIdUser: async (orderId: number, trackinId: number): Promise<Itracking[]> => {
+
+  // Fetch du suivi d'un artcile d'une commande (utilisateur)
+  getTrackingByIdUser: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi/${trackinId}`,
@@ -235,7 +247,8 @@ const fetchmethod = {
     }
   },
 
-  getOrderDetailUser: async (id: number): Promise<Itracking[]> => {
+  // Fetch du détail d'une commande d'un utilisateur
+  getOrderDetailUser: async (id: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3000/compte/commandes/${id}`,

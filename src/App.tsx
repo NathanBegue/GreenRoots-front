@@ -1,3 +1,4 @@
+// Imports 
 import Index from "./component/pages/Index";
 import Page404 from "./component/pages/Page404";
 import Boutique from "./component/pages/Boutique";
@@ -31,22 +32,23 @@ function App() {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   // State de la modale de connexion
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  // State de la modalde de détail d'un arbre
+  // State de la modalde de détail d'un article
   const [isOpenDetail, setIsOpenDetail] = useState<boolean>(false);
-
+  // state de l'article séléctionné
   const [selectedArticle, setSelectedArticle] = useState<Itrees | null>(null);
-
+  // state du thème 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-
+  // state de la modale de page protégée
   const [isprotectedModal, setIsProtectedModal] = useState<{ open: boolean, pageName: string | null }>({
     open: false,
     pageName: null,
   });
 
+  // initialisation du loader de l'app 
   const { isLoading, showLoader, hideLoader } = useLoaderStore();
 
 
-
+  // Fake loader pour simuler un chargement initial
   useEffect(() => {
     // Simule un chargement initial de l'app
     showLoader();
@@ -55,8 +57,7 @@ function App() {
     }, 1500); // 1.5 secondes de chargement initial
   }, [showLoader, hideLoader]);
 
-
-
+  // Affichage de l'app
   return (
 
 
@@ -94,7 +95,9 @@ function App() {
         {isprotectedModal.open && <ProtectedModal isDarkMode={isDarkMode} setIsProtectedModal={setIsProtectedModal} pageName={isprotectedModal.pageName} />}
 
 
+        {/* Routes de l'application */}
 
+        {/* Landing page */}
         <Routes>
           <Route path="/" element={<Index setIsOpenDetail={setIsOpenDetail}
             setSelectedArticle={setSelectedArticle}
@@ -105,6 +108,7 @@ function App() {
 
           />} />
 
+          {/* Page Shop */}
           <Route path="/boutique" element={<Boutique
             setIsOpenDetail={setIsOpenDetail}
             setSelectedArticle={setSelectedArticle}
@@ -119,7 +123,6 @@ function App() {
           <Route path="/connexion" element={<Connexion isDarkMode={isDarkMode} />} />
           <Route path="/inscription" element={<Inscription isDarkMode={isDarkMode} />} />
           <Route path="/cgu" element={<Cgu isDarkMode={isDarkMode} />} />
-          <Route path="/suivis" element={<SuivisArbresUser isDarkMode={isDarkMode} />} />
           <Route path="/paiement" element={<FakePayment isDarkMode={isDarkMode} />} />
 
           {/* Route protégée */}
@@ -140,6 +143,16 @@ function App() {
             }
           />
 
+          <Route
+            path="/suivis"
+            element={
+              <ProtectedRoute>
+                {<SuivisArbresUser isDarkMode={isDarkMode} />}
+              </ProtectedRoute>
+            }
+          />
+
+          {/* page d'erreur */}
           <Route path="/interdit" element={<Page403 />} />
           <Route path="*" element={<Page404 />} />
         </Routes>

@@ -19,7 +19,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
             {/* Overlay qui ferme la modale en cliquant à l'extérieur */}
             {isModalOpened && (
                 <div
-                    className="fixed inset-0 z-10"
+                    className="fixed inset-0 bg-black/50  z-10"
                     onClick={() => setIsModalOpened(false)}
                 />
             )}
@@ -54,7 +54,7 @@ export default function ConnexionModal({ isModalOpened, setIsModalOpened, isDark
                         <div className="flex flex-col gap-2 min-w-34">
                             <p className="font-content md:text-lg">Vous souhaitez quitter ?</p>
                             <button
-                                className={`${commonButtonClasses} bg-red-500 font-title font-bold`}
+                                className={`${commonButtonClasses} bg-red-500/80 font-title font-bold`}
                                 onClick={() => {
                                     logout();
                                     setIsModalOpened(false);

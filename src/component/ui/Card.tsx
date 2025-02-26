@@ -24,6 +24,7 @@ export default function Card({
 
 }) {
 
+  // Fonction pour ajouter un article au panier et le stocker dans le localStorage grace a zustand
   const addToCart = useCartStore((state) => state.addToCart);
 
   return (
@@ -52,6 +53,7 @@ export default function Card({
         <div className="flex justify-between items-center w-full p-4 sm:gap-4 ">
           {/* Supprime tous les boutons si isSmall est activé */}
           {!isSmall &&
+            // bouton modification et delete d'article en cas d'admin connecté
             (isAdmin ? (
               <div className="flex gap-2 p-2">
                 <button onClick={() => {
@@ -66,13 +68,15 @@ export default function Card({
                   setIsOpenedDeleteModal && setIsOpenedDeleteModal(true);
                   setSelectedArticle && setSelectedArticle(article);
                 }}
-                  className="p-2 bg-red-500 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
+                  className="p-2 bg-red-500/80 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
                   <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
                 </button>
               </div>
             ) : (
+              // si user connecté affiche le bouton d'ajout au panier
               <button
                 className={`flex items-center ${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} p-2 rounded-sm md:rounded-md lg:rounded-lg cursor-pointer hover:scale-110`}
+                // Ajoute l'article au panier
                 onClick={() =>
                   addToCart({
                     id: article.id.toString(), // Product.id est une chaîne de caractères
@@ -96,6 +100,7 @@ export default function Card({
       {/* Bouton détail */}
       <button className={`font - content border-2 ${isDarkMode ? "bg-dark-primary border-dark-primary" : "bg-light-primary border-light-primary"} rounded-sm md:rounded-md lg:rounded-lg drop-shadow-lg
   sm:p-1 sm:text-sm md:text-md  lg:tex-lg 2xl:text-2xl cursor-pointer hover`}
+        // Affiche le détail de l'article
         onClick={() => {
           if (setIsOpenDetail) setIsOpenDetail(true);
           setSelectedArticle && setSelectedArticle(article);

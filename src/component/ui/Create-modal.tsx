@@ -91,10 +91,12 @@ export default function CreateModal({
         console.log("🟢 Données envoyées à l'API :", dataToSend);
 
         try {
-            const response = await fetch("http://localhost:3000/api/articles", {
+            const response = await fetch("https://donovangrout-server.eddi.cloud/api/articles", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "x-api-key":
+                        "123456789",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(dataToSend),
@@ -232,7 +234,7 @@ export default function CreateModal({
                     <div className="flex justify-between mt-4">
                         <button
                             type="button"
-                            className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                            className="bg-red-500/80 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
                             onClick={() => setOpenCreateModal(false)}
                         >
                             Annuler

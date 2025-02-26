@@ -85,7 +85,7 @@ export default function EditModal({
         // que c'est l'URL existante (l'image n'a pas été modifiée)
         // Sinon, c'est une nouvelle image convertie en base64 par FileReader
         const pictureUrl =
-            typeof formData.image === "string" && formData.image.startsWith("http")
+            typeof formData.image === "string" && formData.image.startsWith("https")
                 ? formData.image
                 : formData.image;
 
@@ -110,11 +110,12 @@ export default function EditModal({
             // Construction des headers pour la requête
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
+                "x-api-key": "123456789",
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
             // Envoi de la requête PATCH à l'API pour mettre à jour l'article
-            const res = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
+            const res = await fetch(`https://donovangrout-server.eddi.cloud/api/articles/${article.id}`, {
                 method: "PATCH",
                 headers,
                 body: JSON.stringify(payload),
@@ -258,7 +259,7 @@ export default function EditModal({
                     <div className="flex justify-between mt-4">
                         <button
                             type="button"
-                            className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                            className="bg-red-500/80 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
                             onClick={() => setIsOpenedEditModal(false)}
                         >
                             Annuler
