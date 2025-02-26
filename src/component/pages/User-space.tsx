@@ -73,11 +73,12 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
         );
 
         try {
-            const response = await fetch('http://localhost:3000/compte', {
+            const response = await fetch('https://donovangrout-server.eddi.cloud/compte', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    "x-api-key": "123456789",
                 },
                 body: JSON.stringify(payload)
             });

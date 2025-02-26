@@ -30,13 +30,14 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
 
       // Requête API pour récupérer le suivi des commandes
       const response = await fetch(
-        `http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi?timestamp=${Date.now()}`,
+        `https://donovangrout-server.eddi.cloud/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi?timestamp=${Date.now()}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
             "Cache-Control": "no-cache",
+            "x-api-key": "123456789",
           },
         }
       );
@@ -123,20 +124,24 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
 
   return (
     <div className={`pt-40  w-full h-full pb-40  ${isDarkMode ? "bg-dark-primary" : "bg-light-primary text-black"}`}>
-      <div className={`flex flex-wrap gap-20 m-auto h-fit w-full justify-center max-w-7xl rounded-lg `}>
-        {/* Modal de suivi des articles */}
-        {trackingModal && (
-          <TrackingArticleModal
-            selectedTrackingId={selectedTrackingId}
-            ordersTracking={ordersTracking}
-            setTrackingModal={setTrackingModal}
-            setOrdersTracking={setOrdersTracking}
-            trackingModal={trackingModal}
-            refetchTracking={getOrderTracking}
-            isDarkMode={isDarkMode}
-          />
-        )}
+      {/* Modal de suivi des articles */}
+      {trackingModal && (
+        <TrackingArticleModal
+          selectedTrackingId={selectedTrackingId}
+          ordersTracking={ordersTracking}
+          setTrackingModal={setTrackingModal}
+          setOrdersTracking={setOrdersTracking}
+          trackingModal={trackingModal}
+          refetchTracking={getOrderTracking}
+          isDarkMode={isDarkMode}
+        />
+      )}
+      <h1 className={`text-4xl font-bold text-center mb-10 ${isDarkMode ? "text-white" : "text-black"}`}>
+        🌱 Suivi de vos arbres 🌿
+      </h1>
 
+
+      <div className={`flex flex-wrap gap-20 m-auto h-fit w-full justify-center max-w-7xl rounded-lg `}>
         {/* Affichage des commandes suivies */}
         {ordersTracking.map((order) => {
           if (!order.ArticleTrackings || !order.ArticleHasOrder) return null;

@@ -23,8 +23,9 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
       // Envoi des identifiants à l'API
       const response = await fetch("http://localhost:3000/connexion", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-api-key": "123456789", },
         body: JSON.stringify({ email, password }),
+
       });
 
       const data = await response.json();

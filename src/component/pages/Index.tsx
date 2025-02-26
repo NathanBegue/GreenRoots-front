@@ -42,7 +42,7 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
           <h1 className="text-lg font-bold p-4 pt-25 lg:text-2xl 2xl:text-3xl lg:m-8 ">
             🌳 GreenRoots, parce qu'un arbre planté aujourd'hui est une forêt pour demain. 🌳
           </h1>
-          <div className="w-5/6 mx-auto h-screen bg-cover bg-center pt-20 lg:p-30 2xl:p-80  md:py-50 2xl:py-45" style={{ backgroundImage: `url(${bgAccueil})` }}>
+          <div className="w-5/6 mx-auto h-screen bg-cover bg-center pt-35 lg:p-30 2xl:p-80 p-4 md:py-50  2xl:py-65" style={{ backgroundImage: `url(${bgAccueil})` }}>
             <div className={`flex flex-col gap-6 inset-0 ${isDarkMode ? " bg-dark-secondary/80 bg-white/text-white " : "bg-light-secondary/80 bg/black/text-black"} bg-black/90  items-center justify-center p-6 py-auto px-5 lg:py-15 2xl:py-40 rounded-sm md:rounded-md lg:rounded-lg 2xl:rounded-2xl`}>
               <h2 className="text-xl font-bold font-title lg:text-2xl 2xl:text-5xl">
                 La déforestation, un enjeu majeur pour la planète
@@ -51,7 +51,7 @@ export default function Index({ setIsOpenDetail, setSelectedArticle, isDarkMode,
                 Chaque année, 15 milliards d'arbres sont abattus, mais seulement 5 milliards sont replantés. La déforestation entraîne une perte de 10 milliards d’arbres par an, menaçant la biodiversité et accélérant la désertification.
               </p>
               <p className="font-content lg:text-2xl 2xl:text-3xl">
-                Notre Solution : Nous avons créé une application mobile qui permet de planter des arbres en un clic.
+                Notre Solution : Nous avons créé une application qui permet de planter des arbres en un clic.
               </p>
             </div>
           </div>

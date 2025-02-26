@@ -34,11 +34,12 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
             console.log("\ud83d\udce6 Données envoyées :", JSON.stringify(orderData, null, 2));
 
             // Envoie la commande au serveur
-            const response = await fetch("http://localhost:3000/commande", {
+            const response = await fetch("https://donovangrout-server.eddi.cloud/commande", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "x-api-key": "123456789",
                 },
                 body: JSON.stringify(orderData),
             });
