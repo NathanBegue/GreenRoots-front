@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind utilities;
+
+
 
 @theme{
   --color-dark-primary: #415D48;
@@ -13,4 +16,11 @@
 
   --font-title: Georgia;
   --font-content: Verdana;
+}
+
+body {
+  @apply font-content;
+}
+h1, h2, h3, h4, h5, h6 {
+  @apply font-title;
 }
