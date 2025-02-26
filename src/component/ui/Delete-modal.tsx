@@ -1,15 +1,18 @@
 import { Itrees } from "../../../type/type";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast";
 
 export default function DeleteModal({
     isOpenedDeleteModal,
     setIsOpenedDeleteModal,
     article,
-    setArticles
+    setArticles,
+    isDarkMode
 }: {
     isOpenedDeleteModal: boolean,
     setIsOpenedDeleteModal: React.Dispatch<React.SetStateAction<boolean>>
     article: Itrees;
     setArticles: React.Dispatch<React.SetStateAction<Itrees[]>>;
+    isDarkMode: boolean
 }) {
 
 
@@ -17,11 +20,12 @@ export default function DeleteModal({
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/articles/${article.id}`, {
+            const response = await fetch(`https://donovangrout-server.eddi.cloud/api/articles/${article.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "x-api-key": "123456789",
                 },
 
             });
@@ -29,10 +33,11 @@ export default function DeleteModal({
             const data = await response.json();
             console.log("Article supprimé avec succès :", data);
             setArticles((prev) => prev.filter((a) => a.id !== article.id));
+            showSuccessToast("Article supprimé avec succès !");
 
 
         } catch (error) {
-            console.error("Erreur lors de la suppression de l'article :", error)
+            showErrorToast("Erreur lors de la suppression de l'article");
         }
 
     };
@@ -49,30 +54,30 @@ export default function DeleteModal({
             )}
 
             {/* Modale */}
-            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-secondary w-80 p-6 rounded-lg shadow-lg text-white flex flex-col gap-6 z-20">
+            <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"}w-80 p-6 rounded-lg shadow-lg  flex flex-col gap-6 z-20`}>
 
                 {/* Bouton de fermeture */}
                 <img
                     onClick={() => setIsOpenedDeleteModal(false)}
                     src="/images/icons/close.svg"
                     alt="Fermer la modale"
-                    className="w-6 h-6 invert absolute top-4 right-4 cursor-pointer"
+                    className={`w-6 h-6  ${isDarkMode && "invert"} absolute top-4 right-4 cursor-pointer`}
                 />
 
                 {/* Texte de confirmation */}
-                <h2 className="text-xl font-bold text-center">Supprimer {article.name} ?</h2>
-                <p className="text-center text-gray-300">Cette action est irréversible.</p>
+                <h2 className={`${isDarkMode ? "text-white" : "text-black"} text-xl font-bold text-center pt-6`}>Supprimer {article.name} ?</h2>
+                <p className={`text-center ${isDarkMode ? "text-white" : "text-black"}`}>Cette action est irréversible.</p>
 
                 {/* Boutons d'action */}
-                <div className="flex justify-between">
+                <div className={`flex justify-between ${isDarkMode ? "text-white" : "text-black"} gap-4`}>
                     <button
-                        className="bg-gray-600 px-4 py-2 rounded-lg text-white hover:bg-gray-700 transition"
+                        className={`${isDarkMode ? "bg-dark-primary" : "bg-light-primary"} px-4 py-2 rounded-lg hover:bg-gray-700 transition`}
                         onClick={() => setIsOpenedDeleteModal(false)}
                     >
                         Annuler
                     </button>
                     <button
-                        className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600 transition"
+                        className="bg-red-500/8 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
                         onClick={() => {
                             // fetchmethod.deleteArticle(article.id);
                             handleDelete();

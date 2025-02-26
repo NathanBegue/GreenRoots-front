@@ -1,50 +1,40 @@
-# React + TypeScript + Vite
+# 🌱 GreenRoots - Frontend  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Description  
 
-Currently, two official plugins are available:
+**GreenRoots** est une plateforme de **vente d’arbres**, où chaque achat contribue à la reforestation.  
+Les utilisateurs peuvent acheter des arbres, suivre leurs commandes et explorer les différentes espèces disponibles.  
+L’objectif est de **faciliter l’engagement écologique** via une expérience utilisateur fluide et intuitive.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Besoins Fonctionnels (Minimum Viable Product - MVP)  
 
-## Expanding the ESLint configuration
+✅ **Landing Page** : Présentation de GreenRoots et mise en avant de certains arbres.  
+✅ **Système d’inscription et de connexion** (JWT).  
+✅ **Gestion des arbres** (Ajout, modification, suppression – côté admin).  
+✅ **Détails des arbres** accessibles avant achat.  
+✅ **Achat d’un arbre** (avec un **faux tunnel de paiement** pour le MVP).  
+✅ **Suivi des commandes** pour les utilisateurs.  
+✅ **Filtres** par catégories pour faciliter la recherche.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Technologies Utilisées  
 
-- Configure the top-level `parserOptions` property like this:
+| Technologie      | Rôle |
+|-----------------|------|
+| **React + Vite** | Développement rapide et performant |
+| **TypeScript**   | Sécurisation et typage du code |
+| **Tailwind CSS** | Stylisation rapide et responsive |
+| **Zustand**      | Gestion de l’état global |
+| **JWT-decode**   | Décodage des tokens d’authentification |
+| **Leaflet**      | Affichage interactif des plantations sur une carte |
+| **IziToast**     | Notifications et feedback utilisateur |
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+💡 Développé par :
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Ludovic Thibault 🚀
+Léo Khatchatourian 🚀
+💡 En collaboration avec l'équipe back-end du projet :
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Donovan Grout
+Nathan Begue
