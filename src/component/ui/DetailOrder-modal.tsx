@@ -71,7 +71,7 @@ export default function DetailOrderModal({
 
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary" : "bg-light-accent"
-                    } w-96 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 `}
+                    } w-5/6 p-6 rounded-lg shadow-lg text-white flex flex-col gap-4 z-20 mt-8 2xl:w-2xl 2xl:text-2xl md:w-md lg:w-lg`}
                 style={{ maxHeight: "80vh", overflowY: "auto", }}
             >
                 <img
@@ -115,7 +115,7 @@ export default function DetailOrderModal({
                         className={`mt-4 p-4 rounded ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"
                             }`}
                     >
-                        <h3 className="text-lg font-semibold mb-2">Client :</h3>
+                        <h3 className="font-semibold mb-2">Client :</h3>
                         <p>
                             {orderDetail.User.firstname} {orderDetail.User.lastname}
                         </p>
@@ -124,8 +124,8 @@ export default function DetailOrderModal({
                 )}
 
                 {/* Liste des articles */}
-                <div className={`mt-4 ${!isDarkMode && "text-black"}`}>
-                    <h3 className="text-lg font-semibold mb-2">Articles commandés :</h3>
+                <div className={`mt-4 mb-4 ${!isDarkMode && "text-black"}`}>
+                    <h3 className=" font-semibold mb-2">Articles commandés :</h3>
                     {orderDetail.articles.map((article) => (
                         <div
                             key={article.id}

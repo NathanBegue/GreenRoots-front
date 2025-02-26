@@ -132,15 +132,17 @@ export default function TrackingArticleModal({
             const token = localStorage.getItem("token");
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
+                "x-api-key": "123456789",
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
             const res = await fetch(
-                `http://localhost:3000/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi/${selectedTrackingId}`,
+                `https://donovangrout-server.eddi.cloud/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi/${selectedTrackingId}`,
                 {
                     method: "PATCH",
                     headers,
                     body: JSON.stringify(payload),
+
                 }
             );
 

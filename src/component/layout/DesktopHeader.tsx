@@ -5,6 +5,7 @@ import DarkModeToggle from "../ui/DarkModeToggle";
 import { useEffect, useState } from "react";
 import fetchmethod from "../../fetch/method-fetch";
 import { IUserInfos } from "../../../type/type";
+import { showSuccessToast } from "../../../utils/toast";
 
 interface DesktopHeaderProps {
   isDarkMode: boolean;
@@ -48,16 +49,16 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtecte
 
   return (
 
-    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} mx-auto  w-full h-24 px-2  2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
-      <div className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl `}>
+    <header className={`fixed z-30 ${isDarkMode ? "bg-dark-secondary" : "bg-light-secondary"} px-4  w-full h-24  2xl:h-30  flex items-center justify-between shadow-lg z-10000  `}>
+      <div className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl`}>
         {/* Logo */}
         <Link to="/">
           <img className="h-16 rounded-lg 2xl:w-25 2xl:h-25" src="src/assets/images/logo.webp" alt="Logo" />
         </Link >
       </div>
       {/* Navigation */}
-      <nav className="cursor-pointer">
-        <ul className={`flex items-center gap-10 text-white font-title text-xl 2xl:text-3xl `}>
+      <nav className="cursor-pointer 2xl:ml-60">
+        <ul className={`flex items-center lg:gap-8 xl:gap-14 text-white font-title text-xl 2xl:text-3xl `}>
           <li>
             <Link to="/" className={`group relative px-4 py-2  transition ${isDarkMode ? "text-white" : "text-black"}`}>
               Accueil
@@ -117,7 +118,10 @@ export default function DesktopHeader({ isDarkMode, setIsDarkMode, setIsProtecte
               className={`flex px-4 py-1 rounded-lg bg-red-500/80 cursor-pointer hover:scale-110 text-lg ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"}`}
               onClick={() => {
                 logout();
-                navigate("/");
+                showSuccessToast("Vous êtes déconnecté");
+                setTimeout(() => {
+                  navigate("/");
+                }, 100)
               }}
             >
               <img className={`w-8 h-8 lg:w-6 lg:h-6 ${isDarkMode && "invert"} m-auto`} src="./images/icons/logout.svg" alt="logo logout" />

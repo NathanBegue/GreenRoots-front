@@ -1,17 +1,19 @@
 import { Itrees, Iorder, IUserInfos, ITracking } from "../../type/type";
 
+
 const fetchmethod = {
 
   // Fecth des articles de l'utilisateur 
   getArticlesByAdmin: async (): Promise<Itrees[]> => {
     try {
       const token = localStorage.getItem("token"); // Récupération du token
-      const response = await fetch("http://localhost:3000/api/articles", {
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/articles`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 🔥 Ajout du toke
-          // n JWT
+          Authorization: `Bearer ${token}`, // 🔥 Ajout du token JWT
+
+          "x-api-key": "123456789",
         },
       });
 
@@ -25,9 +27,12 @@ const fetchmethod = {
       if (data.articles) {
         const mergedArticles = data.articles.map((article: Itrees) => ({
           ...article,
-          Picture: article.Picture || { url: "/images/default.jpg", description: "Image par défaut" }
+          Picture: {
+            ...article.Picture,
+            url: article.Picture.url.replace("https://localhost:3000/", "https://donovangrout-server.eddi.cloud/")
+          },
+          categories: article.categories || { name: "Catégorie par défaut" },
         }));
-
         return mergedArticles;
       } else {
         console.error("Format inattendu de l'API", data);
@@ -43,7 +48,7 @@ const fetchmethod = {
   // Fetch des derniers articles (arbres, accueil )
   getNewArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch("https://vps-94669d32.vps.ovh.net/", {
+      const response = await fetch("https://donovangrout-server.eddi.cloud/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +64,7 @@ const fetchmethod = {
           ...article,
           Picture: {
             ...article.Picture,
-            url: article.Picture.url.replace("https://0.0.0.0:3000/", "https://vps-94669d32.vps.ovh.net/")
+            url: article.Picture.url.replace("https://localhost:3000/", "https://donovangrout-server.eddi.cloud/")
           },
           categories: article.categories || { name: "Catégorie par défaut" },
         }));
@@ -78,11 +83,11 @@ const fetchmethod = {
   // Fetch de tous les articles (arbres, boutique) 
   getArticle: async (): Promise<Itrees[]> => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/boutique`, {
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/boutique`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_API_KEY,
+          "x-api-key": "123456789",
         },
       });
       const data = await response.json();
@@ -93,7 +98,7 @@ const fetchmethod = {
           ...article,
           Picture: {
             ...article.Picture,
-            url: article.Picture.url.replace("https://0.0.0.0:3000/", `${import.meta.env.VITE_BASE_URL}`)
+            url: article.Picture.url.replace("https://localhost:3000/", `https://donovangrout-server.eddi.cloud/`)
           },
           categories: article.categories || { name: "Catégorie par défaut" },
         }));
@@ -112,11 +117,12 @@ const fetchmethod = {
   getHistoryByUser: async (): Promise<Iorder[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/compte/commandes", {
+      const response = await fetch("https://donovangrout-server.eddi.cloud/compte/commandes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "x-api-key": "123456789",
         },
       });
       const data = await response.json();
@@ -135,11 +141,12 @@ const fetchmethod = {
   getUserInfos: async (): Promise<IUserInfos> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/compte", {
+      const response = await fetch("https://donovangrout-server.eddi.cloud/compte", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "x-api-key": "123456789",
         },
       });
       const data = await response.json();
@@ -161,11 +168,12 @@ const fetchmethod = {
   getAllOrders: async (): Promise<Iorder[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/api/commandes", {
+      const response = await fetch("https://donovangrout-server.eddi.cloud/api/commandes", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "x-api-key": "123456789",
         },
       });
       const data = await response.json();
@@ -184,12 +192,13 @@ const fetchmethod = {
   getOrderDetailAdmin: async (id: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/api/commandes/${id}`,
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/api/commandes/${id}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "x-api-key": "123456789",
           },
         });
       const data = await response.json();
@@ -206,12 +215,13 @@ const fetchmethod = {
   getTrackingByIdAdmin: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/api/commandes/${orderId}/suivi/${trackinId}`,
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/api/commandes/${orderId}/suivi/${trackinId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "x-api-key": "123456789",
           },
         });
       const data = await response.json();
@@ -229,12 +239,13 @@ const fetchmethod = {
   getTrackingByIdUser: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/compte/commandes/${orderId}/suivi/${trackinId}`,
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/compte/commandes/${orderId}/suivi/${trackinId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "x-api-key": "123456789",
           },
         });
       const data = await response.json();
@@ -251,12 +262,13 @@ const fetchmethod = {
   getOrderDetailUser: async (id: number): Promise<ITracking[]> => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3000/compte/commandes/${id}`,
+      const response = await fetch(`https://donovangrout-server.eddi.cloud/compte/commandes/${id}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "x-api-key": "123456789",
           },
         });
       const data = await response.json();

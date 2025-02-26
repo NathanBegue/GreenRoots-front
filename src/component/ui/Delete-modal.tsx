@@ -20,11 +20,12 @@ export default function DeleteModal({
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/articles/${article.id}`, {
+            const response = await fetch(`https://donovangrout-server.eddi.cloud/api/articles/${article.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "x-api-key": "123456789",
                 },
 
             });
@@ -76,7 +77,7 @@ export default function DeleteModal({
                         Annuler
                     </button>
                     <button
-                        className="bg-red-500/80 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
+                        className="bg-red-500/8 px-4 py-2 rounded-lg  hover:bg-red-600 transition"
                         onClick={() => {
                             // fetchmethod.deleteArticle(article.id);
                             handleDelete();

@@ -31,7 +31,8 @@ export default function DeleteAccountModal({
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // Utilisation du token
+                    "Authorization": `Bearer ${token}`, // Utilisation du token
+                    "x-api-key": "123456789",
                 }
             });
 

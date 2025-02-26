@@ -82,7 +82,7 @@ export default function Boutique({
         <DeleteModal setIsOpenedDeleteModal={setIsOpenedDeleteModal} isOpenedDeleteModal={isOpenedDeleteModal} article={selectedArticle} setArticles={setArticles} isDarkMode={isDarkMode} />
       )}
 
-      <div className="w-full min-h-screen max-w-screen overflow-hidden">
+      <div className={`w-full min-h-screen max-w-screen overflow-hidden ${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"}`}>
         <main className={`${isDarkMode ? "bg-dark-primary text-white" : "bg-light-primary text-black"} p-6 flex flex-col gap-6 text-center pt-24 lg:pt-32`}>
           <section className="flex flex-col gap-6">
             <h2 className={`text-3xl font-title font-bold text-center ${isDarkMode ? "text-light-primary" : "text-black"} mb-6 2xl:text-5xl 2xl:pb-10 2xl:pt-10`}>🌱  Nos arbres</h2>
@@ -121,7 +121,7 @@ export default function Boutique({
                     isDarkMode={isDarkMode} />
                 ))
               ) : (
-                <p className="text-white">Aucun article pour le moment</p>
+                <p className={`text-white text-6xl text-center ${isDarkMode ? "text-light-primary" : "text-black"}`}>Aucun article pour le moment</p>
               )}
             </div>
           </section>
