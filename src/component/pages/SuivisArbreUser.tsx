@@ -10,23 +10,15 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
     // State pour stocker les données de suivi des commandes
     const [ordersTracking, setOrdersTracking] = useState<ITracking[]>([]);
     const [trackingModal, setTrackingModal] = useState<boolean>(false);
-    const [selectedTrackingId, setSelectedTrackingId] = useState<number | null>(null);
+    const [selectedTrackingId] = useState<number | null>(null);
 
     // Récupération de l'ID de la commande depuis le localStorage
     const orderId = localStorage.getItem("orderId");
 
     // Fonction pour récupérer le suivi de la commande
     const getOrderTracking = async () => {
-        if (orderId) {
-            console.log("L'ID de la commande récupéré :", orderId);
-        } else {
-            console.log("Aucun ID de commande trouvé dans le localStorage");
-            return;
-        }
-
         try {
             const token = localStorage.getItem("token");
-            console.log("Tracking des commandes :", ordersTracking);
 
             // Requête API pour récupérer le suivi des commandes
             const response = await fetch(
@@ -43,7 +35,6 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
             );
 
             const data = await response.json();
-            console.log("Données reçues :", data);
 
             let transformedData;
             if (Array.isArray(data)) {
@@ -60,6 +51,7 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
                             return {
                                 ...tracking,
                                 status: "À définir",
+                                // eslint-disable-next-line camelcase
                                 plant_place: "À définir",
                             };
                         }
@@ -82,12 +74,7 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
     // Exécuter la récupération des données de suivi au montage du composant
     useEffect(() => {
         getOrderTracking();
-    }, []);
-
-    // Afficher les données de suivi à chaque mise à jour de ordersTracking
-    useEffect(() => {
-        console.log("⚙️ Données brutes reçues :", ordersTracking);
-    }, [ordersTracking]);
+    });
 
     // Fonction pour calculer l'âge d'un suivi (avec précision en heures)
     function calculerAgeAvecHeures(dateString: string) {

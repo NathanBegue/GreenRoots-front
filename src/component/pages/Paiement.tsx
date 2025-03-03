@@ -31,8 +31,6 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                 })),
             };
 
-            console.log("\ud83d\udce6 Données envoyées :", JSON.stringify(orderData, null, 2));
-
             // Envoie la commande au serveur
             const response = await fetch("https://donovangrout-server.eddi.cloud/commande", {
                 method: "POST",
@@ -49,8 +47,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                 throw new Error(`Erreur ${response.status}`);
             }
 
-            const data = await response.json();
-            console.log("\u2705 Commande créée :", data);
+            await response.json();
 
             localStorage.removeItem("cart"); // Vide le panier après un paiement réussi
             setPaymentSuccess(true); // Active l'état de succès du paiement
@@ -62,8 +59,12 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                 window.location.reload();
             }, 2000);
         } catch (error) {
-            showErrorToast("Erreur lors du paiement. Veuillez réessayer.");
-            setIsProcessing(false); // Désactive l'état de traitement en cas d'erreur
+            if (error instanceof Error) {
+                showErrorToast(error.message || "Erreur lors du paiement. Veuillez réessayer.");
+                setIsProcessing(false); // Désactive l'état de traitement en cas d'erreur
+            } else {
+                showErrorToast("Une erreur inconnue est survenu");
+            }
         }
     };
 

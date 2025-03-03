@@ -55,7 +55,6 @@ export default function DeleteAccountModal({
             setIsOpenedDeleteAccountModal(false);
             showSuccessToast("Compte supprimé avec succès !");
             navigate("/");
-            console.log("Compte supprimé avec succès !");
         } catch (error) {
             console.error("Erreur réseau :", error);
             showErrorToast("Erreur lors de la suppression du compte");

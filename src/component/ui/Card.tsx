@@ -9,8 +9,7 @@ export default function Card({
     setIsOpenDetail,
     setSelectedArticle,
     isDarkMode,
-    isAdmin,
-    newArticle
+    isAdmin
 }: {
   isAdmin?: boolean;
   isSmall?: boolean;
@@ -41,7 +40,7 @@ export default function Card({
                     alt={article.name}
                     onClick={() => {
                         if (setIsOpenDetail) setIsOpenDetail(true);
-                        setSelectedArticle && setSelectedArticle(article);
+                        if (setSelectedArticle) setSelectedArticle(article);
                     }}
                 />
 
@@ -57,16 +56,16 @@ export default function Card({
             (isAdmin ? (
                 <div className="flex gap-2 p-2">
                     <button onClick={() => {
-                        setIsOpenedEditModal && setIsOpenedEditModal(true);
-                        setSelectedArticle && setSelectedArticle(article);
+                        if (setIsOpenedEditModal) setIsOpenedEditModal(true);
+                        if (setSelectedArticle) setSelectedArticle(article);
                     }}
                     className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 transition md:w-8 lg:w-10 lg:h-12 cursor-pointer hover:scale-110">
                         <img src="/images/icons/edit.svg" alt="Modifier" className="w-6 h-6 invert" />
                     </button>
 
                     <button onClick={() => {
-                        setIsOpenedDeleteModal && setIsOpenedDeleteModal(true);
-                        setSelectedArticle && setSelectedArticle(article);
+                        if (setIsOpenedDeleteModal) setIsOpenedDeleteModal(true);
+                        if (setSelectedArticle) setSelectedArticle(article);
                     }}
                     className="p-2 bg-red-500/80 rounded-lg hover:bg-red-600 transition lg:w-10 lg:h-12 md:w-8 mr-2 cursor-pointer hover:scale-110">
                         <img src="/images/icons/trash.svg" alt="Supprimer" className="w-6 h-6 invert " />
@@ -103,7 +102,7 @@ export default function Card({
             // Affiche le détail de l'article
             onClick={() => {
                 if (setIsOpenDetail) setIsOpenDetail(true);
-                setSelectedArticle && setSelectedArticle(article);
+                if (setSelectedArticle) setSelectedArticle(article);
             }}>
         Détail de l'arbre
             </button>

@@ -22,15 +22,14 @@ const fetchmethod = {
             }
 
             const data = await response.json();
-            console.log("Données reçues :", data);
 
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    Picture: {
+                    Picture: article.Picture && article.Picture.url ?{
                         ...article.Picture,
                         url: article.Picture.url.replace("https://localhost:3000/", "https://donovangrout-server.eddi.cloud/")
-                    },
+                    } : undefined,
                     categories: article.categories || { name: "Catégorie par défaut" },
                 }));
                 return mergedArticles;
@@ -57,15 +56,13 @@ const fetchmethod = {
             });
             const data = await response.json();
 
-            console.log("Données reçues :", data);
-
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    Picture: {
+                    Picture: article.Picture && article.Picture.url ? {
                         ...article.Picture,
                         url: article.Picture.url.replace("https://localhost:3000/", "https://donovangrout-server.eddi.cloud/")
-                    },
+                    } : undefined,
                     categories: article.categories || { name: "Catégorie par défaut" },
                 }));
                 return mergedArticles;
@@ -91,15 +88,14 @@ const fetchmethod = {
                 },
             });
             const data = await response.json();
-            console.log("Données reçues :", data);
 
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    Picture: {
+                    Picture: article.Picture && article.Picture.url ? {
                         ...article.Picture,
                         url: article.Picture.url.replace("https://localhost:3000/", "https://donovangrout-server.eddi.cloud/")
-                    },
+                    } : undefined,
                     categories: article.categories || { name: "Catégorie par défaut" },
                 }));
                 return mergedArticles;
@@ -126,7 +122,6 @@ const fetchmethod = {
                 },
             });
             const data = await response.json();
-            console.log("Données reçues :", data);
 
             // Si data est un tableau, on le retourne directement,
             // sinon on tente de retourner data.orders ou un tableau vide
@@ -150,7 +145,6 @@ const fetchmethod = {
                 },
             });
             const data = await response.json();
-            console.log("Données reçues :", data);
             return data;
         } catch (error) {
             console.error("Erreur lors du fetch des infos utilisateur :", error);
@@ -160,6 +154,7 @@ const fetchmethod = {
                 lastname: "",
                 email: "",
                 password: "",
+                // eslint-disable-next-line camelcase
                 repeat_password: "",
             };
         }
@@ -177,7 +172,6 @@ const fetchmethod = {
                 },
             });
             const data = await response.json();
-            console.log("Données reçues :", data);
 
             // Si data est un tableau, on le retourne directement,
             // sinon on tente de retourner data.orders ou un tableau vide
@@ -202,7 +196,6 @@ const fetchmethod = {
                     },
                 });
             const data = await response.json();
-            console.log("Données reçues :", data);
             return data;
         }
         catch (error) {
@@ -225,7 +218,6 @@ const fetchmethod = {
                     },
                 });
             const data = await response.json();
-            console.log("Données reçues :", data);
             return data;
         }
         catch (error) {
@@ -249,7 +241,6 @@ const fetchmethod = {
                     },
                 });
             const data = await response.json();
-            console.log("Données reçues :", data);
             return data;
         }
         catch (error) {
@@ -272,7 +263,6 @@ const fetchmethod = {
                     },
                 });
             const data = await response.json();
-            console.log("Données reçues :", data);
             return data;
         }
         catch (error) {
