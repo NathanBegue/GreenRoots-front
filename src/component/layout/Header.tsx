@@ -12,25 +12,25 @@ interface HeaderProps {
 }
 
 export default function Header({ setIsOpened, setIsModalOpened, isDarkMode,
-  setIsDarkMode, setIsProtectedModal }: HeaderProps) {
+    setIsDarkMode, setIsProtectedModal }: HeaderProps) {
 
 
-  const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 1024);
+    const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth >= 1024);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            setIsDesktop(window.innerWidth >= 1024);
+        };
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
-  return isDesktop ? (
-    <DesktopHeader isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setIsProtectedModal={setIsProtectedModal} />
-  ) : (
-    <MobileHeader setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-  );
+    return isDesktop ? (
+        <DesktopHeader isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setIsProtectedModal={setIsProtectedModal} />
+    ) : (
+        <MobileHeader setIsOpened={setIsOpened} setIsModalOpened={setIsModalOpened} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+    );
 }

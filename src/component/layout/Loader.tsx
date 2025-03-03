@@ -1,5 +1,5 @@
 // Loader.tsx
-import React from 'react';
+import React from "react";
 
 const Loader: React.FC = () => {
     return (

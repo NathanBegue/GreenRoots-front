@@ -14,5 +14,5 @@ export default function Cgu({ isDarkMode }: { isDarkMode: boolean }) {
                 </p>
             </section>
         </div>
-    )
+    );
 }

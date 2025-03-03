@@ -74,7 +74,7 @@ export interface CartState {
     clearCart: () => void;
 }
 
-//Définition du type d'un suivis d'article d'une commande 
+//Définition du type d'un suivis d'article d'une commande
 export interface IArticleTracking {
     ArticleTrackings: any;
     id: number;

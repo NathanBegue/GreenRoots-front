@@ -122,9 +122,11 @@ export default function TrackingArticleModal({
             }
 
             const payload = {
+                // eslint-disable-next-line camelcase
                 plant_place: formData.location,
                 status: formData.status,
                 growth: formData.growth,
+                // eslint-disable-next-line camelcase
                 ...(pictureBase64 ? { picture_url: pictureBase64 } : {}),
             };
 
@@ -190,7 +192,7 @@ export default function TrackingArticleModal({
             {/* Modale */}
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"
-                    } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-1850 mt-8`}
+                } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-1850 mt-8`}
             >
                 {/* Bouton de fermeture */}
                 <img
@@ -281,4 +283,4 @@ export default function TrackingArticleModal({
         </>
     );
 
-} 
+}

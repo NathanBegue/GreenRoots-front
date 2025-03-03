@@ -20,11 +20,11 @@ export default function Historique({
     isDarkMode,
 }: HistoriqueProps) {
 
-    // State d'ouverture de modale 
+    // State d'ouverture de modale
     const [isOpenedOrderModal, setIsOpenedOrdertModal] = useState<boolean>(false);
-    // State de récupération des commandes 
+    // State de récupération des commandes
     const [orders, setOrders] = useState<Iorder[]>([]);
-    // State de séléction de la commande 
+    // State de séléction de la commande
     const [selectedOrder, setSelectedOrder] = useState<Iorder | null>(null);
     // Récupération du rôle de l'utilisateur
     const { isAdmin } = useAuthStore();
