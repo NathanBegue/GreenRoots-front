@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -14,7 +15,6 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
     // Fonction de gestion de la soumission du formulaire
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Inscription en cours...");
 
         // Vérification de la correspondance des mots de passe
         if (password !== repeat_password) {
@@ -31,7 +31,6 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
             });
 
             const data = await response.json();
-            console.log(data);
 
             // Gestion des erreurs si la réponse du serveur n'est pas ok
             if (!response.ok) {

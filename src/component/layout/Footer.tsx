@@ -12,9 +12,7 @@ export default function Footer({ isDarkMode }: { isDarkMode: boolean }) {
             </div>
             <div className={` ${isDarkMode ? "text-white" : "text-black"} `}>
 
-                <p className="font-content flex cursor-pointer"
-                    onClick={() => navigate("/")}> GreenRoots©
-                </p>
+                <p className="font-content flex cursor-pointer">GreenRoots©</p>
             </div>
 
             <p className={`hidden lg:block mr-4 cursor-pointer hover  ${isDarkMode ? "text-white" : "text-black"}`}

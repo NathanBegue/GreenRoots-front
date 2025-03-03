@@ -74,7 +74,11 @@ export default function CreateModal({
                 base64Image = await convertToBase64(formData.image);
                 base64Image = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
             } catch (error) {
-                showErrorToast("Erreur lors de la conversion de l'image");
+                if (error instanceof Error) {
+                    showErrorToast(error.message || "Erreur lors de la conversion de l'image");
+                } else {
+                    showErrorToast("Une erreur inconue est survenue");
+                }
                 return;
             }
         }
@@ -87,8 +91,6 @@ export default function CreateModal({
             available: formData.available,
             pictureUrl: base64Image, // Image nettoyée
         };
-
-        console.log("🟢 Données envoyées à l'API :", dataToSend);
 
         try {
             const response = await fetch("https://donovangrout-server.eddi.cloud/api/articles", {
@@ -103,7 +105,6 @@ export default function CreateModal({
             });
 
             const data = await response.json();
-            console.log("📡 Réponse API :", JSON.stringify(data, null, 2));
 
             if (!response.ok) {
                 console.error("❌ Erreur API :", data);
@@ -115,7 +116,11 @@ export default function CreateModal({
             setOpenCreateModal(false);
             showSuccessToast("Article ajouté avec succès !");
         } catch (error) {
-            showErrorToast("Erreur lors de l'ajout de l'article");
+            if (error instanceof Error) {
+                showErrorToast(error.message || "Erreur lors de l'ajout de l'article");
+            } else {
+                showErrorToast("Une erreur inconue est survenue");
+            }
         }
     };
 

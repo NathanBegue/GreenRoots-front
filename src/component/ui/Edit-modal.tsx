@@ -102,8 +102,6 @@ export default function EditModal({
             ...(pictureUrl ? { pictureUrl } : {}),
         };
 
-        console.log("Payload à envoyer :", payload);
-
         try {
             // Récupération du token d'authentification depuis le localStorage
             const token = localStorage.getItem("token");
@@ -142,10 +140,14 @@ export default function EditModal({
             setSelectedArticle(data.article);
             // Ferme la modale de modification
             setIsOpenedEditModal(false);
-        } catch (error: any) {
-            console.error("Erreur lors de la mise à jour :", error);
-            // Affiche une notification d'erreur en cas de problème
-            showErrorToast(error.message || "Une erreur est survenue");
+        } catch (error) {
+            if (error instanceof Error) {
+                // Affiche une notification d'erreur en cas de problème
+                showErrorToast(error.message || "Une erreur est survenue");
+            } else {
+                // Gestion d'erreur générique au cas où l'erreur n'est pas une instance de Error
+                showErrorToast("Une erreur inconnue est survenue");
+            }
         }
     };
 
