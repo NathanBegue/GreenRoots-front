@@ -29,7 +29,7 @@ export default function MobileHeader({
 
 
                 <div>
-                    <div className={`min-h-screen flex items-center justify-center dark:text-white `}>
+                    <div className={"min-h-screen flex items-center justify-center dark:text-white "}>
                         <DarkModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
                     </div>
                 </div>

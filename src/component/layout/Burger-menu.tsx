@@ -40,8 +40,8 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
                 <ul className="flex flex-col gap-1 w-full text-lg md:text-xl">
                     <Link to="/" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold ">Accueil</li></Link>
                     <Link to="/boutique" onClick={() => setIsOpened(false)}><li className="border-b pl-2 font-title font-bold ">Boutique</li></Link>
-                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("historique") }} className="border-b pl-2 font-title font-bold">Historique </li>
-                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("suivis") }} className="border-b pl-2 font-title font-bold">Suivis </li>
+                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("historique"); }} className="border-b pl-2 font-title font-bold">Historique </li>
+                    <li onClick={() => { setIsOpened(false); handleProtectedRoute("suivis"); }} className="border-b pl-2 font-title font-bold">Suivis </li>
 
                 </ul>
                 <div className="flex flex-col gap-6 items-center">
@@ -54,5 +54,5 @@ export default function BurgerMenu({ isOpened, setIsOpened, isDarkMode, setIsPro
                 </div>
             </nav>
         </>
-    )
+    );
 }

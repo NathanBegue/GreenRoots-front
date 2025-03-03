@@ -19,7 +19,7 @@ export default function DeleteAccountModal({
     const navigate = useNavigate();
 
     const handleDeleteAccount = async () => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
 
         if (!token) {
             console.error("Aucun token trouvé !");
@@ -48,12 +48,13 @@ export default function DeleteAccountModal({
                 lastname: "",
                 email: "",
                 password: "",
+                // eslint-disable-next-line camelcase
                 repeat_password: ""
             });
             logout();
             setIsOpenedDeleteAccountModal(false);
             showSuccessToast("Compte supprimé avec succès !");
-            navigate('/');
+            navigate("/");
             console.log("Compte supprimé avec succès !");
         } catch (error) {
             console.error("Erreur réseau :", error);

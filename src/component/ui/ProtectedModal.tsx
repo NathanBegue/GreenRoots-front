@@ -49,8 +49,8 @@ export default function ProtectedModal({ isDarkMode, setIsProtectedModal, pageNa
                             onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
                             className={`w-full py-2 rounded-md font-medium transition-colors duration-200 
                 ${isDarkMode
-                                    ? "bg-dark-primary hover:bg-dark-primary-hover text-white"
-                                    : "bg-light-primary hover:bg-light-primary-hover text-gray-900"}`}
+            ? "bg-dark-primary hover:bg-dark-primary-hover text-white"
+            : "bg-light-primary hover:bg-light-primary-hover text-gray-900"}`}
                         >
                             Se connecter
                         </button>
@@ -60,8 +60,8 @@ export default function ProtectedModal({ isDarkMode, setIsProtectedModal, pageNa
                             onClick={() => setIsProtectedModal({ open: false, pageName: "" })}
                             className={`w-full py-2 rounded-md font-medium border transition-colors duration-200 
                 ${isDarkMode
-                                    ? "border-dark-primary text-white hover:bg-dark-primary"
-                                    : "border-light-primary text-gray-900 hover:bg-light-primary"}`}
+            ? "border-dark-primary text-white hover:bg-dark-primary"
+            : "border-light-primary text-gray-900 hover:bg-light-primary"}`}
                         >
                             S'inscrire
                         </button>

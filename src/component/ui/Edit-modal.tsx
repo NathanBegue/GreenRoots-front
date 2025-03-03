@@ -165,7 +165,7 @@ export default function EditModal({
             {/* Modale */}
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"
-                    } w-80 p-4 rounded-lg shadow-lg flex flex-col gap-4 z-20 mt-11 md:w-96`}
+                } w-80 p-4 rounded-lg shadow-lg flex flex-col gap-4 z-20 mt-11 md:w-96`}
             >
                 {/* Bouton de fermeture */}
                 <img
