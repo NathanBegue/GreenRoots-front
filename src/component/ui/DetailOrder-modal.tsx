@@ -34,6 +34,7 @@ export default function DetailOrderModal({
                 setOrderDetail(data);
             } catch (error) {
                 console.error("Erreur lors de la récupération des détails :", error);
+                setOrderDetail(null);
             } finally {
                 setLoading(false);
             }

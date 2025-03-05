@@ -154,7 +154,7 @@ export default function TrackingArticleModal({
             setOrdersTracking((prevOrders) =>
                 prevOrders.map((order) => ({
                     ...order,
-                    ArticleTrackings: order.ArticleTrackings.map((tracking) =>
+                    ArticleTrackings: order.ArticleTrackings?.map((tracking) =>
                         tracking.id === selectedTrackingId ? { ...tracking, ...payload } : tracking
                     )
                 }))

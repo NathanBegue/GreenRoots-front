@@ -115,7 +115,6 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
             {trackingModal && (
                 <TrackingArticleModal
                     selectedTrackingId={selectedTrackingId}
-                    ordersTracking={ordersTracking}
                     setTrackingModal={setTrackingModal}
                     setOrdersTracking={setOrdersTracking}
                     trackingModal={trackingModal}
