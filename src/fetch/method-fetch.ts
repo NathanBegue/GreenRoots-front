@@ -1,4 +1,4 @@
-import { Itrees, Iorder, IUserInfos, ITracking } from "../../type/type";
+import { Itrees, Iorder, IUserInfos, ITracking, IOrderDetail } from "../../type/type";
 
 
 const fetchmethod = {
@@ -7,7 +7,7 @@ const fetchmethod = {
     getArticlesByAdmin: async (): Promise<Itrees[]> => {
         try {
             const token = localStorage.getItem("token"); // Récupération du token
-            const response = await fetch("https://donovangrout-server.eddi.cloud/articles", {
+            const response = await fetch("https://donovangrout-server.eddi.cloud/api/articles", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -183,7 +183,7 @@ const fetchmethod = {
     },
 
     // Fetch du detail de la commande d'un utilisateur
-    getOrderDetailAdmin: async (id: number): Promise<ITracking[]> => {
+    getOrderDetailAdmin: async (id: number): Promise<IOrderDetail> => {
         try {
             const token = localStorage.getItem("token");
             const response = await fetch(`https://donovangrout-server.eddi.cloud/api/commandes/${id}`,
@@ -195,20 +195,23 @@ const fetchmethod = {
                         "x-api-key": "123456789",
                     },
                 });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
-            return data;
+            return data as IOrderDetail;
         }
         catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
-            return [];
+            throw error;
         }
     },
 
     // Fetch du suivi d'un artcile d'une commande (admin)
-    getTrackingByIdAdmin: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
+    getTrackingByIdAdmin: async (orderId: number, trackingId: number): Promise<ITracking[]> => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`https://donovangrout-server.eddi.cloud/api/commandes/${orderId}/suivi/${trackinId}`,
+            const response = await fetch(`https://donovangrout-server.eddi.cloud/api/commandes/${orderId}/suivi/${trackingId}`,
                 {
                     method: "GET",
                     headers: {
@@ -228,10 +231,10 @@ const fetchmethod = {
 
 
     // Fetch du suivi d'un artcile d'une commande (utilisateur)
-    getTrackingByIdUser: async (orderId: number, trackinId: number): Promise<ITracking[]> => {
+    getTrackingByIdUser: async (orderId: number, trackingId: number): Promise<ITracking[]> => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`https://donovangrout-server.eddi.cloud/compte/commandes/${orderId}/suivi/${trackinId}`,
+            const response = await fetch(`https://donovangrout-server.eddi.cloud/compte/commandes/${orderId}/suivi/${trackingId}`,
                 {
                     method: "GET",
                     headers: {
@@ -250,7 +253,7 @@ const fetchmethod = {
     },
 
     // Fetch du détail d'une commande d'un utilisateur
-    getOrderDetailUser: async (id: number): Promise<ITracking[]> => {
+    getOrderDetailUser: async (id: number): Promise<IOrderDetail> => {
         try {
             const token = localStorage.getItem("token");
             const response = await fetch(`https://donovangrout-server.eddi.cloud/compte/commandes/${id}`,
@@ -262,12 +265,15 @@ const fetchmethod = {
                         "x-api-key": "123456789",
                     },
                 });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
-            return data;
+            return data as IOrderDetail;
         }
         catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
-            return [];
+            throw error;
         }
     },
 
