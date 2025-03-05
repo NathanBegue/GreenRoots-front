@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export interface Itrees {
     id: number;
     name: string;
@@ -74,9 +75,8 @@ export interface CartState {
     clearCart: () => void;
 }
 
-//Définition du type d'un suivis d'article d'une commande 
+//Définition du type d'un suivis d'article d'une commande
 export interface IArticleTracking {
-    ArticleTrackings: any;
     id: number;
     growth: string;
     status: string;

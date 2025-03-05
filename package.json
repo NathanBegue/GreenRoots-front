@@ -12,15 +12,17 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.6.0",
-    "@tailwindcss/vite": "^4.0.3",
+    "@tailwindcss/vite": "^4.0.9",
+    "autoprefixer": "^10.4.20",
     "izitoast": "^1.4.0",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
+    "postcss": "^8.5.3",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",
     "react-leaflet": "^5.0.0",
     "react-router": "^7.1.5",
-    "tailwindcss": "^4.0.3",
+    "tailwindcss": "^4.0.10",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -36,6 +38,6 @@
     "globals": "^15.14.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
-    "vite": "^6.1.0"
+    "vite": "^6.2.0"
   }
 }

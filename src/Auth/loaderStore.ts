@@ -1,5 +1,5 @@
 // src/store/useLoaderStore.ts
-import { create } from 'zustand';
+import { create } from "zustand";
 
 // Définition du type pour l'état du loader
 type LoaderState = {

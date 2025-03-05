@@ -29,7 +29,7 @@ export default tseslint.config(
       quotes: ["error", "double"],
       camelcase: ["error", { properties: "always" }],
       "no-trailing-spaces": "error",
-      indent: ["error", 2],
+      indent: ["error", 4],
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-alert": "error",
     },

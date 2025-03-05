@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IArticleTracking, Iorder, ITracking } from "../../../type/type";
+import { Iorder, ITracking } from "../../../type/type";
 import { useAuthStore } from "../../Auth/authStore";
 import fetchmethod from "../../fetch/method-fetch";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
@@ -9,14 +9,12 @@ interface TrackingArticleModalProps {
     setTrackingModal: React.Dispatch<React.SetStateAction<boolean>>;
     trackingModal: boolean;
     isDarkMode: boolean; // Ajout d'un ID pour le suivi
-    ordersTracking: IArticleTracking[];
     selectedTrackingId: number | null;
     refetchTracking: () => Promise<void>;
 }
 
 export default function TrackingArticleModal({
     setOrdersTracking,
-    ordersTracking,
     setTrackingModal,
     trackingModal,
     isDarkMode,
@@ -24,7 +22,7 @@ export default function TrackingArticleModal({
     refetchTracking
 }: TrackingArticleModalProps) {
     const { isAdmin } = useAuthStore();
-    const [getDetailOneTracking, setGetDetailOneTracking] = useState<Iorder[]>([]);
+    const [setGetDetailOneTracking] = useState<Iorder[]>([]);
     const [formData, setFormData] = useState({
         location: "",
         image: null as string | File | null,
@@ -57,12 +55,10 @@ export default function TrackingArticleModal({
             }
 
             try {
-                console.log(`Fetching tracking avec l'ID: ${selectedTrackingId}`);
                 const data = isAdmin
                     ? await fetchmethod.getTrackingByIdAdmin(orderId, selectedTrackingId)
                     : await fetchmethod.getTrackingByIdUser(orderId, selectedTrackingId);
 
-                console.log(`Données reçues pour le tracking ID ${selectedTrackingId}:`, data);
                 setGetDetailOneTracking([data]);
                 setFormData({
                     location: data.plant_place || "",
@@ -78,7 +74,7 @@ export default function TrackingArticleModal({
         if (trackingModal) {
             fetchTrackingDetails();
         }
-    }, [trackingModal, isAdmin, orderId, selectedTrackingId]);
+    }, [trackingModal, isAdmin, orderId, selectedTrackingId, setGetDetailOneTracking]);
 
     // Gestion des changements dans le formulaire
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -117,18 +113,19 @@ export default function TrackingArticleModal({
             let pictureBase64 = null;
             if (formData.image instanceof File) {
                 pictureBase64 = await convertToBase64(formData.image);
-            } else if (typeof formData.image === "string" && formData.image.startsWith("http")) {
+            } else if (typeof formData.image === "string" && formData.image.startsWith("https")) {
                 pictureBase64 = formData.image;
             }
 
             const payload = {
+                // eslint-disable-next-line camelcase
                 plant_place: formData.location,
                 status: formData.status,
                 growth: formData.growth,
+                // eslint-disable-next-line camelcase
                 ...(pictureBase64 ? { picture_url: pictureBase64 } : {}),
             };
 
-            console.log("Payload de la requête :", payload);
             const token = localStorage.getItem("token");
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
@@ -154,11 +151,10 @@ export default function TrackingArticleModal({
                 throw new Error(responseData.message || `Erreur HTTP: ${res.status}`);
             }
 
-            console.log("Réponse du serveur :", responseData);
             setOrdersTracking((prevOrders) =>
                 prevOrders.map((order) => ({
                     ...order,
-                    ArticleTrackings: order.ArticleTrackings.map((tracking) =>
+                    ArticleTrackings: order.ArticleTrackings?.map((tracking) =>
                         tracking.id === selectedTrackingId ? { ...tracking, ...payload } : tracking
                     )
                 }))
@@ -168,9 +164,12 @@ export default function TrackingArticleModal({
             showSuccessToast("Suivi mis à jour avec succès !");
             await refetchTracking();
             setTrackingModal(false);
-        } catch (error: any) {
-            console.error("Erreur lors de la mise à jour du suivi :", error);
-            showErrorToast(error.message || "Erreur lors de la mise à jour du suivi");
+        } catch (error) {
+            if (error instanceof Error) {
+                showErrorToast(error.message || "Erreur lors de la mise à jour du suivi");
+            } else {
+                showErrorToast("Une erreur inconnue est survenue");
+            }
         }
     };
 
@@ -190,7 +189,7 @@ export default function TrackingArticleModal({
             {/* Modale */}
             <div
                 className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${isDarkMode ? "bg-dark-secondary text-white" : "bg-light-secondary text-black"
-                    } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-1850 mt-8`}
+                } w-80 p-6 rounded-lg shadow-lg flex flex-col gap-4 z-1850 mt-8`}
             >
                 {/* Bouton de fermeture */}
                 <img
@@ -281,4 +280,4 @@ export default function TrackingArticleModal({
         </>
     );
 
-} 
+}

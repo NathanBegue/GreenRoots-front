@@ -21,6 +21,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
         lastname: "",
         email: "",
         password: "",
+        // eslint-disable-next-line camelcase
         repeat_password: ""
     });
 
@@ -32,6 +33,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
                 lastname: data.lastname || "",
                 email: data.email || "",
                 password: "",
+                // eslint-disable-next-line camelcase
                 repeat_password: ""
             });
         });
@@ -73,11 +75,11 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
         );
 
         try {
-            const response = await fetch('https://donovangrout-server.eddi.cloud/compte', {
-                method: 'PATCH',
+            const response = await fetch("https://donovangrout-server.eddi.cloud/compte", {
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                     "x-api-key": "123456789",
                 },
                 body: JSON.stringify(payload)
@@ -99,6 +101,7 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
                 lastname: updatedUser.lastname || "",
                 email: updatedUser.email || "",
                 password: "",
+                // eslint-disable-next-line camelcase
                 repeat_password: ""
             });
 

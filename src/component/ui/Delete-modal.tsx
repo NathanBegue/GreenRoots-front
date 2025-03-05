@@ -30,14 +30,17 @@ export default function DeleteModal({
 
             });
 
-            const data = await response.json();
-            console.log("Article supprimé avec succès :", data);
+            await response.json();
             setArticles((prev) => prev.filter((a) => a.id !== article.id));
             showSuccessToast("Article supprimé avec succès !");
 
 
         } catch (error) {
-            showErrorToast("Erreur lors de la suppression de l'article");
+            if (error instanceof Error) {
+                showErrorToast(error.message || "Erreur lors de la suppression de l'article");
+            } else {
+                showErrorToast("Une erreur inconnue est survenue");
+            }
         }
 
     };

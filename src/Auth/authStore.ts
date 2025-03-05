@@ -13,6 +13,7 @@ interface IAuthState {
     isAdmin: boolean; // Indique si l'utilisateur est administrateur
     isMember: boolean; // Indique si l'utilisateur est un membre
     userId: number | null; // Stocke l'identifiant de l'utilisateur
+    // eslint-disable-next-line no-unused-vars
     login: (token: string) => void; // Fonction pour connecter l'utilisateur avec un token JWT
     logout: () => void; // Fonction pour déconnecter l'utilisateur et supprimer son token
 }
