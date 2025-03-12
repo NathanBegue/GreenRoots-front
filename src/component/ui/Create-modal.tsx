@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Itrees } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 
 export default function CreateModal({
@@ -93,12 +94,12 @@ export default function CreateModal({
         };
 
         try {
-            const response = await fetch("https://donovangrout-server.eddi.cloud/api/articles", {
+            const response = await fetch(`${baseUrl}/api/articles`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "x-api-key":
-                        "123456789",
+                        apiKey,
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(dataToSend),

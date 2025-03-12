@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import { useState } from "react";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { apiKey, baseUrl } from "../../fetch/Variables";
+
 
 export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
     // États pour stocker les informations de connexion
@@ -20,9 +22,9 @@ export default function Connexion({ isDarkMode }: { isDarkMode: boolean }) {
 
         try {
             // Envoi des identifiants à l'API
-            const response = await fetch("http://localhost:3000/connexion", {
+            const response = await fetch(`${baseUrl}/connexion`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "x-api-key": "123456789", },
+                headers: { "Content-Type": "application/json", "x-api-key": apiKey, },
                 body: JSON.stringify({ email, password }),
 
             });

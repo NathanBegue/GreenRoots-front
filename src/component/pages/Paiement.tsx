@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
         setIsProcessing(true); // Active l'état de traitement du paiement
 
         try {
+            const token = localStorage.getItem("token");
             // Prépare les données de la commande à envoyer au serveur
             const orderData = {
                 articles: cart.map((item: Product) => ({
@@ -32,12 +34,12 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
             };
 
             // Envoie la commande au serveur
-            const response = await fetch("https://donovangrout-server.eddi.cloud/commande", {
+            const response = await fetch(`${baseUrl}/commande`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    "x-api-key": "123456789",
+                    Authorization: `Bearer ${token}`,
+                    "x-api-key": apiKey,
                 },
                 body: JSON.stringify(orderData),
             });

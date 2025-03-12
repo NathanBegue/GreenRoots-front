@@ -2,6 +2,7 @@ import { IUserInfos } from "../../../type/type";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../Auth/authStore";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function DeleteAccountModal({
     isOpenedDeleteAccountModal,
@@ -27,12 +28,12 @@ export default function DeleteAccountModal({
         }
 
         try {
-            const response = await fetch("http://localhost:3000/compte", {
+            const response = await fetch(`${baseUrl}/compte`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`, // Utilisation du token
-                    "x-api-key": "123456789",
+                    "x-api-key": apiKey,
                 }
             });
 

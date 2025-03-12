@@ -4,6 +4,8 @@ import { useAuthStore } from "../../Auth/authStore";
 import Map from "../ui/Map";
 import { ITracking, IArticleTracking } from "../../../type/type";
 import TrackingArticleModal from "../ui/TrackingArticleModal";
+import { apiKey, baseUrl } from "../../fetch/Variables";
+
 
 export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }) {
 
@@ -22,14 +24,14 @@ export default function SuivisArbresUser({ isDarkMode }: { isDarkMode: boolean }
 
             // Requête API pour récupérer le suivi des commandes
             const response = await fetch(
-                `https://donovangrout-server.eddi.cloud/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi?timestamp=${Date.now()}`,
+                `${baseUrl}/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi?timestamp=${Date.now()}`,
                 {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                         "Cache-Control": "no-cache",
-                        "x-api-key": "123456789",
+                        "x-api-key": apiKey,
                     },
                 }
             );

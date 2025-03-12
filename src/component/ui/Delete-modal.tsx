@@ -1,5 +1,6 @@
 import { Itrees } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function DeleteModal({
     isOpenedDeleteModal,
@@ -20,12 +21,12 @@ export default function DeleteModal({
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`https://donovangrout-server.eddi.cloud/api/articles/${article.id}`, {
+            const response = await fetch(`${baseUrl}/api/articles/${article.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    "x-api-key": "123456789",
+                    "x-api-key": apiKey,
                 },
 
             });

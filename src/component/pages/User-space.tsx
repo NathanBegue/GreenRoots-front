@@ -5,6 +5,7 @@ import DeleteAccountModal from "../ui/DeleteAccountModal";
 import { useAuthStore } from "../../Auth/authStore";
 import { useNavigate } from "react-router";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
     const navigate = useNavigate();
@@ -75,12 +76,12 @@ export default function UserSpace({ isDarkMode }: { isDarkMode: boolean }) {
         );
 
         try {
-            const response = await fetch("https://donovangrout-server.eddi.cloud/compte", {
+            const response = await fetch(`${baseUrl}/compte`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                    "x-api-key": "123456789",
+                    "x-api-key": apiKey,
                 },
                 body: JSON.stringify(payload)
             });

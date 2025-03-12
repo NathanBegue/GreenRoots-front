@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Itrees } from "../../../type/type";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function EditModal({
     setIsOpenedEditModal,
@@ -108,12 +109,12 @@ export default function EditModal({
             // Construction des headers pour la requête
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
-                "x-api-key": "123456789",
+                "x-api-key": apiKey,
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
             // Envoi de la requête PATCH à l'API pour mettre à jour l'article
-            const res = await fetch(`https://donovangrout-server.eddi.cloud/api/articles/${article.id}`, {
+            const res = await fetch(`${baseUrl}/api/articles/${article.id}`, {
                 method: "PATCH",
                 headers,
                 body: JSON.stringify(payload),

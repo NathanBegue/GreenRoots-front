@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
     // Déclaration des états pour stocker les valeurs des champs du formulaire
@@ -24,9 +25,9 @@ export default function Inscription({ isDarkMode }: { isDarkMode: boolean }) {
 
         try {
             // Envoi des données d'inscription au serveur
-            const response = await fetch("https://donovangrout-server.eddi.cloud/inscription", {
+            const response = await fetch(`${baseUrl}/inscription`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "x-api-key": "123456789", },
+                headers: { "Content-Type": "application/json", "x-api-key": apiKey, },
                 body: JSON.stringify({ firstname, lastname, email, password, repeat_password }),
             });
 

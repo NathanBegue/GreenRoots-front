@@ -3,6 +3,7 @@ import { Iorder, ITracking } from "../../../type/type";
 import { useAuthStore } from "../../Auth/authStore";
 import fetchmethod from "../../fetch/method-fetch";
 import { showErrorToast, showSuccessToast } from "../../../utils/toast";
+import { baseUrl, apiKey } from "../../fetch/Variables";
 
 interface TrackingArticleModalProps {
     setOrdersTracking: React.Dispatch<React.SetStateAction<ITracking[]>>;
@@ -129,12 +130,12 @@ export default function TrackingArticleModal({
             const token = localStorage.getItem("token");
             const headers: HeadersInit = {
                 "Content-Type": "application/json",
-                "x-api-key": "123456789",
+                "x-api-key": apiKey,
                 ...(token ? { Authorization: `Bearer ${token}` } : {}),
             };
 
             const res = await fetch(
-                `https://donovangrout-server.eddi.cloud/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi/${selectedTrackingId}`,
+                `${baseUrl}/${isAdmin ? "api" : "compte"}/commandes/${orderId}/suivi/${selectedTrackingId}`,
                 {
                     method: "PATCH",
                     headers,
