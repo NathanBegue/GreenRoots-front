@@ -1,3 +1,4 @@
+// Imports
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Product } from "../../../type/type";
