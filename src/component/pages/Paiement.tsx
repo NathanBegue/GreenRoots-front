@@ -79,7 +79,7 @@ export default function FakePayment({ isDarkMode }: { isDarkMode: boolean }) {
                 {paymentSuccess ? (
                     // Affichage d'un message de succès si le paiement a réussi
                     <div className="text-green-600 text-center 2xl:text-2xl">
-                        \ud83c\udf89 Paiement réussi ! Redirection en cours...
+                        Paiement réussi ! Redirection en cours...
                     </div>
                 ) : (
                     // Formulaire de paiement

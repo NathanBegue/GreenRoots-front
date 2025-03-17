@@ -1,13 +1,31 @@
 import { Itrees, Iorder, IUserInfos, ITracking, IOrderDetail } from "../../type/type";
 import { apiKey, baseUrl, host } from "./Variables";
 
+const cache = new Map();
+const CACHE_EXPIRATION_TIME = 15 * 60 * 1000; // 15 minutes
+
+const fetchWithCache = async (url: string, options = {}) => {
+    const cacheEntry = cache.get(url);
+
+    if (cacheEntry && (Date.now() - cacheEntry.timestamp < CACHE_EXPIRATION_TIME)) {
+        return cacheEntry.data;
+    }
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    cache.set(url, { data, timestamp: Date.now() });
+    return data;
+};
+
 const fetchmethod = {
 
-    // Fecth des articles de l'utilisateur
+    // Fetch des articles de l'utilisateur avec cache
     getArticlesByAdmin: async (): Promise<Itrees[]> => {
         try {
+            const url = `${baseUrl}/api/articles`;
             const token = localStorage.getItem("token"); // Récupération du token
-            const response = await fetch(`${baseUrl}/api/articles`, {
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -16,16 +34,10 @@ const fetchmethod = {
                 },
             });
 
-            if (!response.ok) {
-                throw new Error(`Erreur API : ${response.status} - ${await response.text()}`);
-            }
-
-            const data = await response.json();
-
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
                     ...article,
-                    Picture: article.Picture && article.Picture.url ?{
+                    Picture: article.Picture && article.Picture.url ? {
                         ...article.Picture,
                         url: article.Picture.url.replace(`${host}`, `${baseUrl}`)
                     } : undefined,
@@ -43,17 +55,17 @@ const fetchmethod = {
         }
     },
 
-    // Fetch des derniers articles (arbres, accueil )
+    // Fetch des derniers articles avec cache
     getNewArticle: async (): Promise<Itrees[]> => {
         try {
-            const response = await fetch(`${baseUrl}`, {
+            const url = `${baseUrl}`;
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "x-api-key": apiKey
                 },
             });
-            const data = await response.json();
 
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
@@ -76,17 +88,17 @@ const fetchmethod = {
         }
     },
 
-    // Fetch de tous les articles (arbres, boutique)
+    // Fetch de tous les articles avec cache
     getArticle: async (): Promise<Itrees[]> => {
         try {
-            const response = await fetch(`${baseUrl}/boutique`, {
+            const url = `${baseUrl}/boutique`;
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "x-api-key": apiKey,
                 },
             });
-            const data = await response.json();
 
             if (data.articles) {
                 const mergedArticles = data.articles.map((article: Itrees) => ({
@@ -108,11 +120,12 @@ const fetchmethod = {
         }
     },
 
-    // Fetch commandes utilisateur
+    // Fetch commandes utilisateur avec cache
     getHistoryByUser: async (): Promise<Iorder[]> => {
         try {
+            const url = `${baseUrl}/compte/commandes`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/compte/commandes`, {
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -120,10 +133,7 @@ const fetchmethod = {
                     "x-api-key": apiKey,
                 },
             });
-            const data = await response.json();
 
-            // Si data est un tableau, on le retourne directement,
-            // sinon on tente de retourner data.orders ou un tableau vide
             return data;
         } catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
@@ -131,11 +141,12 @@ const fetchmethod = {
         }
     },
 
-    // Fetch infos utilisateur
+    // Fetch infos utilisateur avec cache
     getUserInfos: async (): Promise<IUserInfos> => {
         try {
+            const url = `${baseUrl}/compte`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/compte`, {
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -143,7 +154,7 @@ const fetchmethod = {
                     "x-api-key": apiKey,
                 },
             });
-            const data = await response.json();
+
             return data;
         } catch (error) {
             console.error("Erreur lors du fetch des infos utilisateur :", error);
@@ -158,11 +169,13 @@ const fetchmethod = {
             };
         }
     },
-    // Fetch de toutes les commandes (admin)
+
+    // Fetch de toutes les commandes (admin) avec cache
     getAllOrders: async (): Promise<Iorder[]> => {
         try {
+            const url = `${baseUrl}/api/commandes`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/api/commandes`, {
+            const data = await fetchWithCache(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -170,10 +183,7 @@ const fetchmethod = {
                     "x-api-key": apiKey,
                 },
             });
-            const data = await response.json();
 
-            // Si data est un tableau, on le retourne directement,
-            // sinon on tente de retourner data.orders ou un tableau vide
             return data;
         } catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
@@ -181,102 +191,97 @@ const fetchmethod = {
         }
     },
 
-    // Fetch du detail de la commande d'un utilisateur
+    // Fetch du détail de la commande d'un utilisateur avec cache
     getOrderDetailAdmin: async (id: number): Promise<IOrderDetail> => {
         try {
+            const url = `${baseUrl}/api/commandes/${id}`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/api/commandes/${id}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        "x-api-key": apiKey,
-                    },
-                });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await fetchWithCache(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "x-api-key": apiKey,
+                },
+            });
+
+            if (!data) {
+                throw new Error(`HTTP error! status: ${data.status}`);
             }
-            const data = await response.json();
+
             return data as IOrderDetail;
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
             throw error;
         }
     },
 
-    // Fetch du suivi d'un artcile d'une commande (admin)
+    // Fetch du suivi d'un article d'une commande (admin) avec cache
     getTrackingByIdAdmin: async (orderId: number, trackingId: number): Promise<ITracking[]> => {
         try {
+            const url = `${baseUrl}/api/commandes/${orderId}/suivi/${trackingId}`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/api/commandes/${orderId}/suivi/${trackingId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        "x-api-key": apiKey,
-                    },
-                });
-            const data = await response.json();
+            const data = await fetchWithCache(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "x-api-key": apiKey,
+                },
+            });
+
             return data;
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Erreur lors du fetch du tracking :", error);
             return [];
         }
     },
 
-
-    // Fetch du suivi d'un artcile d'une commande (utilisateur)
+    // Fetch du suivi d'un article d'une commande (utilisateur) avec cache
     getTrackingByIdUser: async (orderId: number, trackingId: number): Promise<ITracking[]> => {
         try {
+            const url = `${baseUrl}/compte/commandes/${orderId}/suivi/${trackingId}`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/compte/commandes/${orderId}/suivi/${trackingId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        "x-api-key": apiKey,
-                    },
-                });
-            const data = await response.json();
+            const data = await fetchWithCache(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "x-api-key": apiKey,
+                },
+            });
+
             return data;
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Erreur lors du fetch du tracking :", error);
             return [];
         }
     },
 
-    // Fetch du détail d'une commande d'un utilisateur
+    // Fetch du détail d'une commande d'un utilisateur avec cache
     getOrderDetailUser: async (id: number): Promise<IOrderDetail> => {
         try {
+            const url = `${baseUrl}/compte/commandes/${id}`;
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}/compte/commandes/${id}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        "x-api-key": apiKey,
-                    },
-                });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await fetchWithCache(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "x-api-key": apiKey,
+                },
+            });
+
+            if (!data) {
+                throw new Error(`HTTP error! status: ${data.status}`);
             }
-            const data = await response.json();
+
             return data as IOrderDetail;
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Erreur lors du fetch des commandes :", error);
             throw error;
         }
     },
-
-
 };
 
 export default fetchmethod;
